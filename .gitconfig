@@ -1,0 +1,19 @@
+[user]
+	name = sadigu
+	email = menis@intentiq.com
+[personal]
+	name = menisadi
+	email = menisadi@gmail.com
+[credential]
+	helper = osxkeychain
+	useHttpPath = true
+[includeIf "gitdir:~/Code/work/**"]
+    path = ~/Code/work/.gitconfig	
+[includeIf "gitdir:~/Code/personal/**"]
+	path = ~/Code/personal/.gitconfig
+[includeIf "gitdir:~/Documents/clean-thesis/"]
+	path = ~/Documents/clean-thesis/.gitconfig
+[includeIf "gitdir:~/.config/nvim/"]
+	path = ~/.config/nvim/.gitconfig
+[core]
+	autocrlf = input
