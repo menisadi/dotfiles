@@ -195,6 +195,9 @@ alias love="/Applications/love.app/Contents/MacOS/love"
 # script to rename and move downloaed csv files
 alias movecsv="~/bin/move_csv.sh"
 
+# enable zoside
+eval "$(zoxide init --cmd cd zsh)"
+
 # echo "\e[92m"                    # Invoke a color
 # figlet -f standard "Hello Meni"
 # figlet -f standard "welcome back"  
