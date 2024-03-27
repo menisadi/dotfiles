@@ -109,6 +109,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cls='colorls -A --sd'
 alias avim='NVIM_APPNAME=astro-nvim nvim'
+# TODO: temporary alias until migration is finalized
+alias svim='NVIM_APPNAME=astronvim_v4 nvim'
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
