@@ -1,0 +1,15 @@
+live_config_reload = true
+import = [
+	"~/.config/alacritty/themes/themes/gruvbox_material_hard_dark.toml"
+]
+
+
+[window]
+decorations = "buttonless"
+dynamic_padding = true
+
+[cursor]
+style = "Beam"
+
+[font]
+size = 22.0
