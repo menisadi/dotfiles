@@ -108,7 +108,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias cls='colorls -A --sd'
-alias avim='NVIM_APPNAME=astronvim_v4 nvim'
+alias avim='NVIM_APPNAME=astronvim nvim'
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 

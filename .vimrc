@@ -12,7 +12,6 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'morhetz/gruvbox'
 Plugin 'tpope/vim-fugitive' 
 Plugin 'tpope/vim-surround'
-Plugin 'ycm-core/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'godlygeek/tabular'
 Plugin 'preservim/vim-markdown'
@@ -24,13 +23,13 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'lervag/vimtex'
 Plugin 'preservim/nerdcommenter'
-Plugin 'github/copilot.vim'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'taglist.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Valloric/ListToggle'
 Plugin 'dbeniamine/todo.txt-vim'
 Plugin 'jpalardy/vim-slime'
+Plugin 'dstein64/vim-startuptime'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
