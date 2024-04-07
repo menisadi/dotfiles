@@ -107,6 +107,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias frep='find . -type f -exec grep -l "$1" {} + | xargs eza -l --sort=created --icons=auto'
+
 alias cls='colorls --sd'
 alias cla='colorls -A --sd'
 alias ez='eza --sort=created --icons=auto --group-directories-first'

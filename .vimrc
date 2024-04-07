@@ -61,7 +61,7 @@ set ignorecase
 set smartcase
 set showmode
 set showmatch
-colorscheme gruvbox
+colorscheme default
 set bg=dark
 hi clear SpellBad
 hi SpellBad cterm=underline
@@ -69,6 +69,13 @@ hi SpellBad cterm=underline
 set foldmethod=indent
 set foldlevel=99
 set clipboard=unnamed
+
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
+set ttimeout
+set ttimeoutlen=1
+set ttyfast
+
 let g:indent_guides_enable_on_vim_startup = 1
 let g:ycm_always_populate_location_list = 1
 let g:slime_target = "tmux"
