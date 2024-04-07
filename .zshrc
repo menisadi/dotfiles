@@ -107,8 +107,14 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias cls='colorls -A --sd'
+alias cls='colorls --sd'
+alias cla='colorls -A --sd'
+alias ez='eza --sort=created --icons=auto --group-directories-first'
+alias ezl='eza -Xl --sort=created --icons=auto --group-directories-first --git --git-repos'
+
 alias avim='NVIM_APPNAME=astronvim nvim'
+alias kvim='NVIM_APPNAME=kickstart nvim'
+
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
