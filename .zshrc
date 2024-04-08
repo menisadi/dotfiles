@@ -107,18 +107,23 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias frep='find . -type f -exec grep -l "$1" {} + | xargs eza -l --sort=created --icons=auto'
 
 alias cls='colorls --sd'
 alias cla='colorls -A --sd'
 alias ez='eza --sort=created --icons=auto --group-directories-first'
 alias ezl='eza -Xl --sort=created --icons=auto --group-directories-first --git --git-repos'
+alias ezs='eza --sort=extension --icons=auto --group-directories-first'
 
 alias avim='NVIM_APPNAME=astronvim nvim'
 alias kvim='NVIM_APPNAME=kickstart nvim'
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# list files containing a given expression
+function fnep() {
+  find . -type f -exec grep -l $1 {} + | xargs eza -l --sort=created --icons=auto
+}
 
 # My weather commands
 function weather() {
