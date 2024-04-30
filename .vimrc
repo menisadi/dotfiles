@@ -13,8 +13,6 @@ Plugin 'morhetz/gruvbox'
 Plugin 'tpope/vim-fugitive' 
 Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
-Plugin 'godlygeek/tabular'
-Plugin 'preservim/vim-markdown'
 Plugin 'tmhedberg/simpylfold'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-syntastic/syntastic'
@@ -24,7 +22,6 @@ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'lervag/vimtex'
 Plugin 'preservim/nerdcommenter'
 Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'taglist.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Valloric/ListToggle'
 Plugin 'dbeniamine/todo.txt-vim'
@@ -55,6 +52,8 @@ set incsearch
 set hlsearch
 set encoding=utf-8
 set spell spelllang=en_us
+hi CursorLine cterm=None ctermbg=239 
+hi CursorColumn cterm=None ctermbg=239
 set cursorline
 set cursorcolumn
 set ignorecase
