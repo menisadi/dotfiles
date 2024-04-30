@@ -60,7 +60,7 @@ set ignorecase
 set smartcase
 set showmode
 set showmatch
-colorscheme default
+colorscheme gruvbox
 set bg=dark
 hi clear SpellBad
 hi SpellBad cterm=underline
