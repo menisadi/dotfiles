@@ -125,7 +125,8 @@ alias kvim='NVIM_APPNAME=kickstart nvim'
 alias nvide='neovide'
 alias avide='NVIM_APPNAME=astronvim neovide'
 
-alias pgplot='ping 8.8.8.8 | sed -u '\''s/^.*time=//g; s/ ms//g'\'' | ttyplot -t "ping 8.8.8.8" -u ms'
+alias pgplot='ping 8.8.8.8 | sed -u '\''/^.*time=/!d; s/^.*time=//g; s/ ms//g; /^\s*$/d'\'' | ttyplot -t "ping 8.8.8.8" -u ms'
+
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
