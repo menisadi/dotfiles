@@ -226,3 +226,19 @@ eval "$(zoxide init --cmd cd zsh)"
 # figlet -f standard "Hello Meni"
 # figlet -f standard "welcome back"  
 # echo "\e[0m" # reset terminal color 
+
+# check internet availability
+function check_internet() {
+    ping -c 1 -W 1 8.8.8.8 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo "%F{green}•%f"
+    else
+        echo "%F{red}•%f"
+    fi
+}
+
+function prompt_my_internet_status() {
+    p10k segment -b blue -f yellow -i "$(check_internet)"
+}
+
+unset ZSH_AUTOSUGGEST_USE_ASYNC
