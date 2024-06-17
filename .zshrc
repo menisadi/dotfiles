@@ -228,6 +228,24 @@ eval "$(zoxide init --cmd cd zsh)"
 # figlet -f standard "Hello Meni"
 # figlet -f standard "welcome back"  
 # echo "\e[0m" # reset terminal color 
+function record() {
+    local default_file="record.log"
+    
+    # Check if a command is provided
+    if [ -z "$1" ]; then
+        echo "No command provided. Usage: run_and_log 'command' [filename]"
+        return 1
+    fi
+
+    # Get the command to run
+    local command="$1"
+    
+    # Get the file name if provided, otherwise use the default
+    local filename="${2:-$default_file}"
+
+    # Run the command and use tee to write to the file and output to terminal
+    eval "$command" | tee "$filename"
+}
 
 # TODO: I'm not using this for now so maybe I should remove it
 # check internet availability
