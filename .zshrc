@@ -125,7 +125,8 @@ alias kvim='NVIM_APPNAME=kickstart nvim'
 alias nvide='neovide'
 alias avide='NVIM_APPNAME=astronvim neovide'
 
-alias pgplot='ping 8.8.8.8 | sed -u '\''/^.*time=/!d; s/^.*time=//g; s/ ms//g; /^\s*$/d'\'' | ttyplot -t "ping 8.8.8.8" -u ms'
+alias pgcolor='ping 8.8.8.8 | awk -F"time=" '\''/time=/ {split($2,a," "); if (a[1] < 70) print "\033[34mGood\033[0m"; else if (a[1] < 400) print "\033[32mFair\033[0m"; else if (a[1] < 2000) print "\033[33mBad\033[0m"; else print "\033[31mFail\033[0m";} !/time=/ {print "\033[31mFail\033[0m";}'\'
+# alias pgplot='ping 8.8.8.8 | sed -u '\''/^.*time=/!d; s/^.*time=//g; s/ ms//g; /^\s*$/d'\'' | ttyplot -t "ping 8.8.8.8" -u ms'
 
 
 eval "$(pyenv init -)"
@@ -228,17 +229,31 @@ eval "$(zoxide init --cmd cd zsh)"
 # echo "\e[0m" # reset terminal color 
 
 # check internet availability
-function check_internet() {
-    ping -c 1 -W 1 8.8.8.8 > /dev/null 2>&1
-    if [ $? -eq 0 ]; then
-        echo "%F{green}•%f"
-    else
-        echo "%F{red}•%f"
-    fi
+function start_monitor_internet() {
+  local script_path="$HOME/.ping_status_monitor.sh"
+  local pid=$(pgrep -f $script_path)
+
+  if [[ -z $pid ]]; then
+    echo "Starting internet monitoring script..."
+    $script_path &
+  else
+    echo "Internet monitoring script already running."
+  fi
 }
 
-function prompt_my_internet_status() {
-    p10k segment -b blue -f yellow -i "$(check_internet)"
-}
+# function check_internet() {
+#     ping -c 1 -W 1 8.8.8.8 > /dev/null 2>&1
+#     if [ $? -eq 0 ]; then
+#         echo "%F{green}•%f"
+#     else
+#         echo "%F{red}•%f"
+#     fi
+# }
+
+# function prompt_internet_status() {
+#   local sf=~/tmp/internet_status
+#   [[ -f $sf ]] && local wifi_status=$(<"$sf")
+#   [[ -n $wifi_status ]] && "$1_prompt_segment" "$0" "$2" "white" "black" "$wifi_status" 'NETWORK_ICON'
+# }
 
 unset ZSH_AUTOSUGGEST_USE_ASYNC
