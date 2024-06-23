@@ -247,33 +247,4 @@ function record() {
     eval "$command" | tee "$filename"
 }
 
-# TODO: I'm not using this for now so maybe I should remove it
-# check internet availability
-function start_monitor_internet() {
-  local script_path="$HOME/.ping_status_monitor.sh"
-  local pid=$(pgrep -f $script_path)
-
-  if [[ -z $pid ]]; then
-    echo "Starting internet monitoring script..."
-    $script_path &
-  else
-    echo "Internet monitoring script already running."
-  fi
-}
-
-# function check_internet() {
-#     ping -c 1 -W 1 8.8.8.8 > /dev/null 2>&1
-#     if [ $? -eq 0 ]; then
-#         echo "%F{green}•%f"
-#     else
-#         echo "%F{red}•%f"
-#     fi
-# }
-
-# function prompt_internet_status() {
-#   local sf=~/tmp/internet_status
-#   [[ -f $sf ]] && local wifi_status=$(<"$sf")
-#   [[ -n $wifi_status ]] && "$1_prompt_segment" "$0" "$2" "white" "black" "$wifi_status" 'NETWORK_ICON'
-# }
-
 unset ZSH_AUTOSUGGEST_USE_ASYNC
