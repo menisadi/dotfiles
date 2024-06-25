@@ -129,6 +129,7 @@ alias pgc="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, 
 # alias pgcolor='ping 8.8.8.8 | awk -F"time=" '\''/time=/ {split($2,a," "); if (a[1] < 70) print "\033[34mGood\033[0m"; else if (a[1] < 400) print "\033[32mFair\033[0m"; else if (a[1] < 2000) print "\033[33mBad\033[0m"; else print "\033[31mFail\033[0m";} !/time=/ {print "\033[31mFail\033[0m";}'\'
 # alias pgplot='ping 8.8.8.8 | sed -u '\''/^.*time=/!d; s/^.*time=//g; s/ ms//g; /^\s*$/d'\'' | ttyplot -t "ping 8.8.8.8" -u ms'
 
+alias pgtime="ping --apple-time -i 2 8.8.8.8"
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
@@ -224,10 +225,13 @@ alias movecsv="~/bin/move_csv.sh"
 # enable zoside
 eval "$(zoxide init --cmd cd zsh)"
 
+
 # echo "\e[92m"                    # Invoke a color
 # figlet -f standard "Hello Meni"
 # figlet -f standard "welcome back"  
 # echo "\e[0m" # reset terminal color 
+
+
 function record() {
     local default_file="record.log"
     
