@@ -27,6 +27,7 @@ Plugin 'Valloric/ListToggle'
 Plugin 'dbeniamine/todo.txt-vim'
 Plugin 'jpalardy/vim-slime'
 Plugin 'dstein64/vim-startuptime'
+Plugin 'machakann/vim-highlightedyank'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
