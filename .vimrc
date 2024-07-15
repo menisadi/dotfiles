@@ -19,12 +19,10 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plugin 'lervag/vimtex'
 Plugin 'preservim/nerdcommenter'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'Valloric/ListToggle'
-Plugin 'dbeniamine/todo.txt-vim'
 Plugin 'jpalardy/vim-slime'
 Plugin 'dstein64/vim-startuptime'
 Plugin 'machakann/vim-highlightedyank'
@@ -76,10 +74,13 @@ set ttimeout
 set ttimeoutlen=1
 set ttyfast
 
+" let g:ycm_always_populate_location_list = 1
 let g:indent_guides_enable_on_vim_startup = 1
-let g:ycm_always_populate_location_list = 1
-let g:slime_target = "tmux"
-let g:slime_cell_delimiter = "#%%"
+let g:indent_guides_guide_size = 1
+let g:highlightedyank_highlight_duration = 100
+highlight HighlightedyankRegion cterm=reverse gui=reverse
+let g:slime_target = "kitty"
+let g:slime_cell_delimiter = "# %%"
 nmap <leader>s <Plug>SlimeSendCell
 command -nargs=0 Today :r !date "+\%F"
 command -nargs=0 Todayheader :execute "normal i## " . strftime("%Y-%m-%d") . "\r"
