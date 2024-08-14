@@ -81,6 +81,7 @@ plugins=(git zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting vscode
 python aws)
 
 source $ZSH/oh-my-zsh.sh
+source <(fzf --zsh)
 
 # User configuration
 
@@ -107,6 +108,9 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+alias lzg='lazygit'
+alias lzd='lazydocker'
 
 alias cls='colorls --sd'
 alias cla='colorls -A --sd'
@@ -225,6 +229,15 @@ alias movecsv="~/bin/move_csv.sh"
 # enable zoside
 eval "$(zoxide init --cmd cd zsh)"
 
+# yazi shell wrapper
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
 
 # echo "\e[92m"                    # Invoke a color
 # figlet -f standard "Hello Meni"
