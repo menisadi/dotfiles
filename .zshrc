@@ -138,6 +138,11 @@ alias pgtime="ping --apple-time -i 2 8.8.8.8"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+# Simple mkdir-cd combo
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
 # list files containing a given expression
 function fnep() {
   find . -type f -exec grep -l $1 {} + | xargs eza -l --sort=created --icons=auto
