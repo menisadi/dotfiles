@@ -138,6 +138,23 @@ alias pgtime="ping --apple-time -i 2 8.8.8.8"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+# more versitle ls/eza version of the above aliases
+function e() {
+  if [ -n "$1" ]; then
+    eza --sort=modified -r --icons=always | head -"$1"
+  else
+    eza --sort=modified -r --icons=always
+  fi
+}
+
+function ez() {
+  if [ -n "$1" ]; then
+    eza -l --sort=modified -r --icons=always | head -"$1"
+  else
+    eza -l --sort=modified -r --icons=always
+  fi
+}
+
 # Simple mkdir-cd combo
 mkcd() {
     mkdir -p "$1" && cd "$1"
