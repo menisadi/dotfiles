@@ -9,11 +9,8 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'morhetz/gruvbox'
-Plugin 'tpope/vim-fugitive' 
 Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
-Plugin 'tmhedberg/simpylfold'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
@@ -22,10 +19,10 @@ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'preservim/nerdcommenter'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Valloric/ListToggle'
 Plugin 'jpalardy/vim-slime'
 Plugin 'dstein64/vim-startuptime'
 Plugin 'machakann/vim-highlightedyank'
+Plugin 'wakatime/vim-wakatime'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -42,6 +39,7 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+let mapleader = " "
 set number
 set hidden
 autocmd BufNewFile,BufRead *.sql set filetype=sql
@@ -59,7 +57,7 @@ set ignorecase
 set smartcase
 set showmode
 set showmatch
-colorscheme gruvbox
+colorscheme retrobox
 set bg=dark
 hi clear SpellBad
 hi SpellBad cterm=underline
@@ -74,6 +72,9 @@ set ttimeout
 set ttimeoutlen=1
 set ttyfast
 
+"This unsets the "last search pattern" register by hitting return
+nnoremap <CR> :noh<CR><CR>
+
 " let g:ycm_always_populate_location_list = 1
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
@@ -81,6 +82,7 @@ let g:highlightedyank_highlight_duration = 100
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 let g:slime_target = "kitty"
 let g:slime_cell_delimiter = "# %%"
+nmap <leader>z :echo "yay"<CR>
 nmap <leader>s <Plug>SlimeSendCell
 command -nargs=0 Today :r !date "+\%F"
 command -nargs=0 Todayheader :execute "normal i## " . strftime("%Y-%m-%d") . "\r"
