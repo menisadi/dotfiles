@@ -11,9 +11,8 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-airline/vim-airline'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'nvie/vim-flake8'
+Plugin 'dense-analysis/ale'
+Plugin 'sheerun/vim-polyglot'
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'preservim/nerdcommenter'
@@ -23,6 +22,7 @@ Plugin 'jpalardy/vim-slime'
 Plugin 'dstein64/vim-startuptime'
 Plugin 'machakann/vim-highlightedyank'
 Plugin 'wakatime/vim-wakatime'
+Plugin 'Vimjas/vim-python-pep8-indent'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -71,6 +71,11 @@ let &t_EI = "\e[2 q"
 set ttimeout
 set ttimeoutlen=1
 set ttyfast
+
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
