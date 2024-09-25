@@ -1,3 +1,6 @@
+touch .hushlogin
+echo -e " ╭╮╭╮\n ⎩⎭⎩⎭\n ('.')\n (()()\n *(_()() -- hello again"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -265,7 +268,6 @@ function yy() {
 # figlet -f standard "Hello Meni"
 # figlet -f standard "welcome back"  
 # echo "\e[0m" # reset terminal color 
-
 
 function record() {
     local default_file="record.log"
