@@ -138,6 +138,8 @@ alias pgc="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, 
 
 alias pgtime="ping --apple-time -i 2 8.8.8.8"
 
+alias spp='spotify_player'
+
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
