@@ -115,6 +115,9 @@ source <(fzf --zsh)
 alias lzg='lazygit'
 alias lzd='lazydocker'
 
+# Run protobuf3 instead of the newset version
+alias protoc3='/opt/homebrew/Cellar/protobuf@3/3.20.3/bin/protoc "$@"'
+
 alias cls='colorls --sd'
 alias cla='colorls -A --sd'
 alias ee='eza --sort=created --icons=auto --group-directories-first'
@@ -293,6 +296,53 @@ function record() {
 
     # Run the command and use tee to write to the file and output to terminal
     eval "$command" | tee "$filename"
+}
+
+# A function to use 'mods' to run shell commands
+runmods() {
+    generated_command=$(mods --role shell "$1")
+    echo "Generated command: $generated_command"
+    echo "Do you want to (r)un, (c)opy, or (q)uit?"
+    read -r action
+    
+    case $action in
+        r|R)
+            # Run the command
+            bash -c "$generated_command"
+            ;;
+        c|C)
+            # Copy the command to the clipboard (using pbcopy for MacOS)
+            echo "$generated_command" | pbcopy
+            echo "Command copied to clipboard."
+            ;;
+        q|Q)
+            echo "Canceled."
+            ;;
+        *)
+            echo "Invalid option. Please enter r, c, or q."
+            ;;
+    esac
+}
+
+modshell() {
+    command=$(mods --role shell "$1")
+    echo "Generated Command:"
+    echo "$command" | gum style --foreground 212 --padding "1 1" --italic
+
+    choice=$(gum choose "Run" "Copy" "Cancel")
+
+    case $choice in
+        "Run")
+            eval "$command"
+            ;;
+        "Copy")
+            echo "$command" | pbcopy  # 'pbcopy' is for macOS
+            echo "Command copied to clipboard."
+            ;;
+        "Cancel")
+            echo "Operation canceled."
+            ;;
+    esac
 }
 
 unset ZSH_AUTOSUGGEST_USE_ASYNC
