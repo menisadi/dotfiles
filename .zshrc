@@ -325,7 +325,7 @@ runmods() {
 }
 
 modshell() {
-    command=$(mods --role shell "$1")
+    command=$(mods --role shell "$@")
     echo "Generated Command:"
     echo "$command" | gum style --foreground 212 --padding "1 1" --italic
 

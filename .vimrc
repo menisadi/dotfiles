@@ -66,6 +66,9 @@ set foldmethod=indent
 set foldlevel=99
 set clipboard=unnamed
 
+nnoremap ]b :bN<CR>
+nnoremap [b :bp<CR>
+
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 set ttimeout
