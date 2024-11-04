@@ -114,6 +114,7 @@ source <(fzf --zsh)
 
 alias lzg='lazygit'
 alias lzd='lazydocker'
+alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && docker rmi \$(docker images -q)"
 
 # Run protobuf3 instead of the newset version
 alias protoc3='/opt/homebrew/Cellar/protobuf@3/3.20.3/bin/protoc "$@"'
