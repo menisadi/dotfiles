@@ -133,6 +133,7 @@ alias el10='eza -l --sort=modified -r --icons=always | head -10'
 
 alias avim='NVIM_APPNAME=astronvim nvim'
 alias kvim='NVIM_APPNAME=kickstart nvim'
+alias lvim='NVIM_APPNAME=lazyvim nvim'
 alias nvide='neovide'
 alias avide='NVIM_APPNAME=astronvim neovide'
 
