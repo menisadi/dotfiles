@@ -1,3 +1,6 @@
+###############################################################################################
+# THEME: DRACULA
+###############################################################################################
 [[themes]]
 name = "dracula"
 [themes.palette]
@@ -20,6 +23,10 @@ bright_magenta = "#ff79c6"
 bright_cyan = "#8be9fd"
 bright_white = "#ffffff"
 
+
+###############################################################################################
+# THEME: CATPUCCIN
+###############################################################################################
 [[themes]]
 name = "catppuccin"
 [themes.palette]
@@ -47,50 +54,6 @@ bright_white = "#ffffff"  # Bright white
 like = { fg = "Magenta", modifiers = ["Bold"] }
 selection = { bg = "#575268", fg = "White", modifiers = ["Bold"] }
 secondary_row = { bg = "#2a2a3c" }
-
-[[themes]]
-name = "gruvbox_dark"
-[themes.palette]
-background = "#282828"
-foreground = "#ebdbb2"
-black = "#282828"
-red = "#cc241d"
-green = "#98971a"
-yellow = "#d79921"
-blue = "#458588"
-magenta = "#b16286"
-cyan = "#689d6a"
-white = "#a89984"
-bright_black = "#928374"
-bright_red = "#fb4934"
-bright_green = "#b8bb26"
-bright_yellow = "#fabd2f"
-bright_blue = "#83a598"
-bright_magenta = "#d3869b"
-bright_cyan = "#8ec07c"
-bright_white = "#ebdbb2"
-
-[[themes]]
-name = "tokyonight"
-[themes.palette]
-background = "#1f2335"
-foreground = "#c0caf5"
-black = "#414868"
-red = "#f7768e"
-green = "#9ece6a"
-yellow = "#e0af68"
-blue = "#2ac3de"
-magenta = "#bb9af7"
-cyan = "#7dcfff"
-white = "#eee8d5"
-bright_black = "#24283b"
-bright_red = "#ff4499"
-bright_green = "#73daca"
-bright_yellow = "#657b83"
-bright_blue = "#839496"
-bright_magenta = "#ff007c"
-bright_cyan = "#93a1a1"
-bright_white = "#fdf6e3"
 
 [[themes]]
 name = "catppuccin_frappé"
@@ -200,3 +163,84 @@ like = { fg = "#f38ba8", modifiers = ["Bold"] }  # Red for likes
 selection = { bg = "#74c7ec", fg = "#ffffff", modifiers = ["Bold"] }  # Sapphire background with white text for selection
 secondary_row = { bg = "#313244", fg = "#cdd6f4" }  # Base background with text color
 
+###############################################################################################
+# THEME: GRUVBOX
+###############################################################################################
+[[themes]]
+name = "gruvbox_dark"
+[themes.palette]
+background = "#282828"
+foreground = "#ebdbb2"
+black = "#282828"
+red = "#cc241d"
+green = "#98971a"
+yellow = "#d79921"
+blue = "#458588"
+magenta = "#b16286"
+cyan = "#689d6a"
+white = "#a89984"
+bright_black = "#928374"
+bright_red = "#fb4934"
+bright_green = "#b8bb26"
+bright_yellow = "#fabd2f"
+bright_blue = "#83a598"
+bright_magenta = "#d3869b"
+bright_cyan = "#8ec07c"
+bright_white = "#ebdbb2"
+
+###############################################################################################
+# THEME: TOKYONIGHT
+###############################################################################################
+[[themes]]
+name = "tokyonight"
+[themes.palette]
+background = "#1f2335"
+foreground = "#c0caf5"
+black = "#414868"
+red = "#f7768e"
+green = "#9ece6a"
+yellow = "#e0af68"
+blue = "#2ac3de"
+magenta = "#bb9af7"
+cyan = "#7dcfff"
+white = "#eee8d5"
+bright_black = "#24283b"
+bright_red = "#ff4499"
+bright_green = "#73daca"
+bright_yellow = "#657b83"
+bright_blue = "#839496"
+bright_magenta = "#ff007c"
+bright_cyan = "#93a1a1"
+bright_white = "#fdf6e3"
+
+###############################################################################################
+# THEME: KANAGAWA
+###############################################################################################
+[[themes]]
+name = "kanagawa"
+[themes.palette]
+background = "#1F1F28"  # sumiInk1 (Default background)
+foreground = "#DCD7BA"  # fujiWhite (Default foreground)
+black = "#16161D"       # sumiInk0 (Dark background)
+red = "#E82424"         # samuraiRed (Diagnostic Error)
+green = "#98BB6C"       # springGreen (Strings)
+yellow = "#DCA561"      # autumnYellow (Git Change)
+blue = "#7E9CD8"        # crystalBlue (Functions and Titles)
+magenta = "#957FB8"     # oniViolet (Statements and Keywords)
+cyan = "#7AA89F"        # waveAqua2 (Types)
+white = "#C8C093"       # oldWhite (Dark foreground)
+
+bright_black = "#54546D"   # sumiInk4 (Darker foreground)
+bright_red = "#E46876"     # waveRed (Standout specials 1)
+bright_green = "#76946A"   # autumnGreen (Git Add)
+bright_yellow = "#FF9E3B"  # roninYellow (Diagnostic Warning)
+bright_blue = "#9CABCA"    # springViolet2 (Brackets and punctuation)
+bright_magenta = "#D27E99" # sakuraPink (Numbers)
+bright_cyan = "#A3D4D5"    # lightBlue (Not used but fits for bright cyan)
+bright_white = "#DCD7BA"   # fujiWhite (Default foreground)
+
+# Optional component styles
+[themes.component_style]
+like = { fg = "Red", modifiers = ["Bold"] }
+selection = { bg = "#363646", fg = "White", modifiers = ["Bold"] } # sumiInk3 for selection background
+secondary_row = { bg = "#223249" } # waveBlue1 for secondary rows
