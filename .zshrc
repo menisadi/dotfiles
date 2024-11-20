@@ -347,4 +347,6 @@ modshell() {
     esac
 }
 
+[ -f ~/.zsh_keys ] && source ~/.zsh_keys
+
 unset ZSH_AUTOSUGGEST_USE_ASYNC
