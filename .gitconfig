@@ -17,3 +17,6 @@
 	path = ~/.config/nvim/.gitconfig
 [core]
 	autocrlf = input
+[http]
+	sslVersion = tlsv1.2
+	sslVerify = true
