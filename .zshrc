@@ -137,6 +137,8 @@ alias lvim='NVIM_APPNAME=lazyvim nvim'
 alias nvide='neovide'
 alias avide='NVIM_APPNAME=astronvim neovide'
 
+alias nvims='NVIM_APPNAME=$(find ~/.config -maxdepth 2 -type f -name "init.lua" -exec dirname {} \; | xargs -I {} basename {} | gum choose) nvim'
+
 alias sysinfo='neofetch'
 alias systeminfo='neofetch'
 
