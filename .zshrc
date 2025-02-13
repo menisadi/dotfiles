@@ -352,3 +352,4 @@ modshell() {
 [ -f ~/.zsh_keys ] && source ~/.zsh_keys
 
 unset ZSH_AUTOSUGGEST_USE_ASYNC
+eval "$(uv generate-shell-completion zsh)"
