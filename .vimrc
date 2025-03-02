@@ -30,15 +30,7 @@ filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-
 let mapleader = " "
 set number
 set hidden
@@ -69,6 +61,7 @@ set clipboard=unnamed
 nnoremap ]b :bN<CR>
 nnoremap [b :bp<CR>
 
+"Change cursor shape properly between modes
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 set ttimeout
@@ -80,20 +73,14 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-"This unsets the "last search pattern" register by hitting return
+"This unsets the 'last search pattern' register by hitting return
 nnoremap <CR> :noh<CR><CR>
 
-" let g:ycm_always_populate_location_list = 1
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:highlightedyank_highlight_duration = 100
 highlight HighlightedyankRegion cterm=reverse gui=reverse
+
 let g:slime_target = "kitty"
 let g:slime_cell_delimiter = "# %%"
-nmap <leader>z :echo "yay"<CR>
 nmap <leader>s <Plug>SlimeSendCell
-command -nargs=0 Today :r !date "+\%F"
-command -nargs=0 Todayheader :execute "normal i## " . strftime("%Y-%m-%d") . "\r"
-ab :sadface: 😔 
-ab :happyface: 😊
-ab :thinkface: 🤔
