@@ -1,36 +1,26 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call plug#begin()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'vim-airline/vim-airline'
-Plugin 'dense-analysis/ale'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plugin 'preservim/nerdcommenter'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'jpalardy/vim-slime'
-Plugin 'dstein64/vim-startuptime'
-Plugin 'machakann/vim-highlightedyank'
-Plugin 'wakatime/vim-wakatime'
-Plugin 'Vimjas/vim-python-pep8-indent'
+Plug 'tpope/vim-surround'
+Plug 'vim-airline/vim-airline'
+Plug 'dense-analysis/ale'
+Plug 'sheerun/vim-polyglot'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'preservim/nerdcommenter'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'jpalardy/vim-slime'
+Plug 'dstein64/vim-startuptime'
+Plug 'machakann/vim-highlightedyank'
+Plug 'wakatime/vim-wakatime'
+Plug 'Vimjas/vim-python-pep8-indent'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Put your non-Plugin stuff after this line
+call plug#end()
+filetype plugin indent on
+
 let mapleader = " "
 set number
 set hidden
