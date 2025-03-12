@@ -258,13 +258,16 @@ export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
 # For tkinter 
 export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
 
+# Make Vim the default Man pager
+# export MANPAGER="vim +MANPAGER -"
+#
 # alias to love
 alias love="/Applications/love.app/Contents/MacOS/love"
 
 # script to rename and move downloaed csv files
 alias movecsv="~/bin/move_csv.sh"
 
-# enable zoside
+# enable zoxide
 eval "$(zoxide init --cmd cd zsh)"
 
 # yazi shell wrapper
