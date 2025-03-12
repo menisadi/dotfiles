@@ -67,7 +67,11 @@ au Syntax * RainbowParenthesesLoadBraces
 nnoremap <CR> :noh<CR><CR>
 
 let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_guide_size = 1
+let g:indent_guides_auto_colors = 0
+highlight IndentGuidesEven ctermbg=236
+highlight IndentGuidesOdd ctermbg=235
+
+
 let g:highlightedyank_highlight_duration = 100
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
