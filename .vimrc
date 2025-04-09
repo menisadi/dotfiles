@@ -17,6 +17,7 @@ Plug 'dstein64/vim-startuptime'
 Plug 'machakann/vim-highlightedyank'
 Plug 'wakatime/vim-wakatime'
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 filetype plugin indent on
@@ -39,7 +40,7 @@ set ignorecase
 set smartcase
 set showmode
 set showmatch
-colorscheme retrobox
+colorscheme wildcharm
 set bg=dark
 hi clear SpellBad
 hi SpellBad cterm=underline
