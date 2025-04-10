@@ -18,6 +18,8 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'wakatime/vim-wakatime'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'joshdick/onedark.vim'
+Plug 'menisadi/kanagawa.vim'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 filetype plugin indent on
@@ -40,7 +42,8 @@ set ignorecase
 set smartcase
 set showmode
 set showmatch
-colorscheme wildcharm
+" colorscheme wildcharm
+colorscheme kanagawa
 set bg=dark
 hi clear SpellBad
 hi SpellBad cterm=underline
