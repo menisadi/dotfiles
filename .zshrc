@@ -355,3 +355,5 @@ modshell() {
 
 unset ZSH_AUTOSUGGEST_USE_ASYNC
 eval "$(uv generate-shell-completion zsh)"
+
+. "$HOME/.local/bin/env"
