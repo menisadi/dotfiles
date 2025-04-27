@@ -18,8 +18,9 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'wakatime/vim-wakatime'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'joshdick/onedark.vim'
-Plug 'menisadi/kanagawa.vim'
+Plug 'myour-branch-nameenisadi/kanagawa.vim', { 'branch': 'refactor' }
 Plug 'joshdick/onedark.vim'
+Plug 'lifepillar/vim-colortemplate'
 
 call plug#end()
 filetype plugin indent on
