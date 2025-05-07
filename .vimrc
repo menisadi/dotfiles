@@ -17,10 +17,9 @@ Plug 'dstein64/vim-startuptime'
 Plug 'machakann/vim-highlightedyank'
 Plug 'wakatime/vim-wakatime'
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'joshdick/onedark.vim'
-Plug 'myour-branch-nameenisadi/kanagawa.vim', { 'branch': 'refactor' }
-Plug 'joshdick/onedark.vim'
 Plug 'lifepillar/vim-colortemplate'
+Plug 'menisadi/kanagawa.vim' 
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 filetype plugin indent on
@@ -35,10 +34,10 @@ set incsearch
 set hlsearch
 set encoding=utf-8
 set spell spelllang=en_us
-hi CursorLine cterm=None ctermbg=239 
-hi CursorColumn cterm=None ctermbg=239
+" hi CursorLine cterm=None ctermbg=239 
+" hi CursorColumn cterm=None ctermbg=239
 set cursorline
-set cursorcolumn
+" set cursorcolumn
 set ignorecase
 set smartcase
 set showmode
