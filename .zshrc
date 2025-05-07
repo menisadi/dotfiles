@@ -92,12 +92,7 @@ source <(fzf --zsh)
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+export EDITOR='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -106,10 +101,7 @@ source <(fzf --zsh)
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+
 
 alias lzg='lazygit'
 alias lzd='lazydocker'
@@ -176,9 +168,11 @@ mkcd() {
     mkdir -p "$1" && cd "$1"
 }
 
-# list files containing a given expression
-function fnep() {
-  find . -type f -exec grep -l $1 {} + | xargs eza -l --sort=created --icons=auto
+# create and open daily files
+todaymd() {
+  file="$(date +%Y-%m-%d).md"
+  [ ! -f "$file" ] && touch "$file"
+  ${EDITOR:-vim} "$file"
 }
 
 # My weather commands
@@ -266,6 +260,9 @@ alias love="/Applications/love.app/Contents/MacOS/love"
 
 # script to rename and move downloaed csv files
 alias movecsv="~/bin/move_csv.sh"
+
+# concise git branching graph
+alias gitfold="~/bin/graphfold.py"
 
 # enable zoxide
 eval "$(zoxide init --cmd cd zsh)"
