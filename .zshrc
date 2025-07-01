@@ -8,61 +8,19 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -72,81 +30,22 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting pip pyenv vscode you-should-use python aws)
+plugins=(git zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting pip pyenv python aws)
 
 source $ZSH/oh-my-zsh.sh
 source <(fzf --zsh)
 
-# User configuration
-
 # export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
 
 export EDITOR='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-
-
-alias lzg='lazygit'
-alias lzd='lazydocker'
-alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && docker rmi \$(docker images -q)"
-
-# Run protobuf3 instead of the newset version
-alias protoc3='/opt/homebrew/Cellar/protobuf@3/3.20.3/bin/protoc "$@"'
-
-alias cls='colorls --sd'
-alias cla='colorls -A --sd'
-alias ee='eza --sort=created --icons=auto --group-directories-first'
-alias el='eza -Xl --sort=created --icons=auto --group-directories-first --git --git-repos'
-alias es='eza --sort=extension --icons=auto --group-directories-first'
-alias esa='eza -Xa --sort=extension --icons=auto --group-directories-first'
-alias eea='eza -Xa --sort=created --icons=auto --group-directories-first'
-alias e5='eza --sort=modified -r --icons=always | head -5'
-alias el5='eza -l --sort=modified -r --icons=always | head -5'
-alias e10='eza --sort=modified -r --icons=always | head -10'
-alias el10='eza -l --sort=modified -r --icons=always | head -10'
-
-alias avim='NVIM_APPNAME=astronvim nvim'
-alias kvim='NVIM_APPNAME=kickstart nvim'
-alias lvim='NVIM_APPNAME=lazyvim nvim'
-alias nvide='neovide'
-alias avide='NVIM_APPNAME=astronvim neovide'
-
-alias nvims='NVIM_APPNAME=$(find ~/.config -maxdepth 2 -type f -name "init.lua" -exec dirname {} \; | xargs -I {} basename {} | gum choose) nvim'
-
-alias sysinfo='neofetch'
-alias systeminfo='neofetch'
-
-alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
-
-alias pgc="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32mGood \033[0m\"; else if (time < 100) printf \"\033[33mFair \033[0m\"; else if (time < 200) printf \"\033[38;5;208mBad \033[0m\"; else printf \"\033[31mFail \033[0m\"; } else printf \"\033[31mFail \033[0m\"; fflush(); }'"
-# alias pgcolor='ping 8.8.8.8 | awk -F"time=" '\''/time=/ {split($2,a," "); if (a[1] < 70) print "\033[34mGood\033[0m"; else if (a[1] < 400) print "\033[32mFair\033[0m"; else if (a[1] < 2000) print "\033[33mBad\033[0m"; else print "\033[31mFail\033[0m";} !/time=/ {print "\033[31mFail\033[0m";}'\'
-# alias pgplot='ping 8.8.8.8 | sed -u '\''/^.*time=/!d; s/^.*time=//g; s/ ms//g; /^\s*$/d'\'' | ttyplot -t "ping 8.8.8.8" -u ms'
-
-alias pgtime="ping --apple-time -i 2 8.8.8.8"
-
-alias spp='spotify_player'
-
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
-# more versitle ls/eza version of the above aliases
+# more versitle ls/eza version of the eza aliases
 function e() {
   if [ -n "$1" ]; then
     eza --sort=modified -r --icons=always | head -"$1"
@@ -253,16 +152,7 @@ export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
 export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
 
 # Make Vim the default Man pager
-# export MANPAGER="vim +MANPAGER -"
-#
-# alias to love
-alias love="/Applications/love.app/Contents/MacOS/love"
-
-# script to rename and move downloaed csv files
-alias movecsv="~/bin/move_csv.sh"
-
-# concise git branching graph
-alias gitfold="~/bin/graphfold.py"
+export MANPAGER="vim +MANPAGER -"
 
 # enable zoxide
 eval "$(zoxide init --cmd cd zsh)"
@@ -276,6 +166,19 @@ function yy() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# ---- WAV ➜ MP3 helper ----
+wav2mp3 () {
+  # convert one or many .wav files to VBR MP3 (≈ 192 kbps)
+  for file in "$@"; do
+    [ -f "$file" ] || { printf '✗ %s: not found\n' "$file"; continue; }
+    ffmpeg -i "$file" \
+           -codec:a libmp3lame \
+           -q:a 2 \
+           "${file%.*}.mp3"
+  done
+}
+
 
 # echo "\e[92m"                    # Invoke a color
 # figlet -f standard "Hello Meni"
