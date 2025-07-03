@@ -39,6 +39,8 @@ source <(fzf --zsh)
 
 export EDITOR='vim'
 
+export PATH=$(npm config get prefix)/bin:$PATH
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
