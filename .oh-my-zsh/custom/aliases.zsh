@@ -49,3 +49,6 @@ alias movecsv="~/bin/move_csv.sh"
 # concise git branching graph
 alias gitfold="~/bin/graphfold.py"
 
+alias please="gum input --password | sudo -nS"
+alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du -h {} | sort -rh | head -n 10"
+
