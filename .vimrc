@@ -17,7 +17,7 @@ Plug 'dstein64/vim-startuptime'
 Plug 'machakann/vim-highlightedyank'
 Plug 'wakatime/vim-wakatime'
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'lifepillar/vim-colortemplate'
+" Plug 'lifepillar/vim-colortemplate'
 Plug 'menisadi/kanagawa.vim' 
 Plug 'joshdick/onedark.vim'
 
