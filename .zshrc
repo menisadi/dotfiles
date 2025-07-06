@@ -30,7 +30,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(git zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting pip pyenv python aws)
+plugins=(git zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting pyenv python aws)
 
 source $ZSH/oh-my-zsh.sh
 source <(fzf --zsh)
