@@ -14,10 +14,10 @@ alias el='eza -Xl --sort=created --icons=auto --group-directories-first --git --
 alias es='eza --sort=extension --icons=auto --group-directories-first'
 alias esa='eza -Xa --sort=extension --icons=auto --group-directories-first'
 alias eea='eza -Xa --sort=created --icons=auto --group-directories-first'
-alias e5='eza --sort=modified -r --icons=always | head -5'
-alias el5='eza -l --sort=modified -r --icons=always | head -5'
-alias e10='eza --sort=modified -r --icons=always | head -10'
-alias el10='eza -l --sort=modified -r --icons=always | head -10'
+alias e5='eza --sort=modified -r --icons=always --color=always | head -5'
+alias el5='eza -l --sort=modified -r --icons=always --color=always | head -5'
+alias e10='eza --sort=modified -r --icons=always --color=always | head -10'
+alias el10='eza -l --sort=modified -r --icons=always --color=always | head -10'
 
 alias avim='NVIM_APPNAME=astronvim nvim'
 alias kvim='NVIM_APPNAME=kickstart nvim'
@@ -52,3 +52,4 @@ alias gitfold="~/bin/graphfold.py"
 alias please="gum input --password | sudo -nS"
 alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du -h {} | sort -rh | head -n 10"
 
+alias sso-prod='aws sso login --profile prod && export AWS_PROFILE='\''prod'\'''
