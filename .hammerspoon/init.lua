@@ -33,7 +33,10 @@ hk.bind({ "alt" }, "return", function()
 	app.launchOrFocusByBundleID("net.kovidgoyal.kitty")
 end)
 hk.bind({ "alt" }, "b", function()
-	app.launchOrFocusByBundleID("com.kagi.kagimacOS")
+	app.launchOrFocusByBundleID("org.mozilla.firefox")
+end)
+hk.bind({ "alt" }, "w", function()
+	app.launchOrFocusByBundleID("com.apple.Safari")
 end)
 hk.bind({ "alt" }, "s", function()
 	app.launchOrFocusByBundleID("com.tinyspeck.slackmacgap")
@@ -69,20 +72,6 @@ end
 
 hk.bind({ "ctrl", "alt", "cmd" }, "n", centerAlmostFullAll)
 hk.bind({ "ctrl", "alt", "cmd" }, "m", maximizeAll)
-
--- local function applyProfile()
--- 	local external = #screen.allScreens() > 1
--- 	hs.alert.show("External?" .. tostring(external))
--- 	for _, w in ipairs(win.visibleWindows()) do
--- 		if external then
--- 			centerAlmostFull(w, 48)
--- 		else
--- 			maximize(w)
--- 		end
--- 	end
--- end
--- hs.screen.watcher.new(applyProfile):start()
--- hk.bind({ "alt", "ctrl", "cmd" }, "m", applyProfile)
 
 -- Little utility to get app IDs
 hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "I", function()
