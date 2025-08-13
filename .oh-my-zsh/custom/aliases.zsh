@@ -34,6 +34,47 @@ alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
 
 alias pgc="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32mGood \033[0m\"; else if (time < 100) printf \"\033[33mFair \033[0m\"; else if (time < 200) printf \"\033[38;5;208mBad \033[0m\"; else printf \"\033[31mFail \033[0m\"; } else printf \"\033[31mFail \033[0m\"; fflush(); }'"
 alias pgb="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32m█\033[0m\"; else if (time < 100) printf \"\033[33m█\033[0m\"; else if (time < 200) printf \"\033[38;5;208m█\033[0m\"; else printf \"\033[31m█\033[0m\"; } else printf \"\033[31m█\033[0m\"; fflush(); }'"
+
+pgb2() {
+  local host="${1:-google.com}"         # usage: pgb [host] [interval_seconds]
+  local interval="${2:-1}"
+
+  # ANSI colors
+  local G="\033[32m"       # < 50 ms
+  local Y="\033[33m"       # < 100 ms
+  local O="\033[38;5;208m" # < 200 ms
+  local R="\033[31m"       # >= 200 ms
+  local L="\033[90m"       # loss / timeout (gray)
+  local RESET="\033[0m"
+
+  ping -i "$interval" "$host" 2>/dev/null | \
+  awk -v G="$G" -v Y="$Y" -v O="$O" -v R="$R" -v L="$L" -v RESET="$RESET" '
+    BEGIN { ok="█"; loss="░"; }
+    /bytes from/ {
+      # Match "time=12.3 ms" or "time<12.3 ms"
+      t=-1
+      if ($0 ~ /time=/ || $0 ~ /time</) {
+        n=split($0, parts, "time[=<]")
+        if (n > 1) {
+          sub(/ ms.*/, "", parts[2])
+          t = parts[2] + 0
+        }
+      }
+      if (t >= 0) {
+        if (t < 50)      printf G ok RESET;
+        else if (t < 100) printf Y ok RESET;
+        else if (t < 200) printf O ok RESET;
+        else               printf R ok RESET;
+        fflush();
+      }
+      next
+    }
+    /Request timeout|unreachable|Time to live exceeded|packet loss/ {
+      printf L loss RESET; fflush(); next
+    }
+  '
+}
+#
 # alias pgcolor='ping 8.8.8.8 | awk -F"time=" '\''/time=/ {split($2,a," "); if (a[1] < 70) print "\033[34mGood\033[0m"; else if (a[1] < 400) print "\033[32mFair\033[0m"; else if (a[1] < 2000) print "\033[33mBad\033[0m"; else print "\033[31mFail\033[0m";} !/time=/ {print "\033[31mFail\033[0m";}'\'
 # alias pgplot='ping 8.8.8.8 | sed -u '\''/^.*time=/!d; s/^.*time=//g; s/ ms//g; /^\s*$/d'\'' | ttyplot -t "ping 8.8.8.8" -u ms'
 
