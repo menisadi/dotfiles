@@ -89,12 +89,13 @@ local function centerAlmostFullAll()
 	end
 end
 
+hk.bind({ "ctrl", "alt", "cmd" }, "b", centerAlmostFull)
 hk.bind({ "ctrl", "alt", "cmd" }, "n", centerAlmostFullAll)
 hk.bind({ "ctrl", "alt", "cmd" }, "m", maximizeAll)
 
 -- Little utility to get app IDs
 hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "I", function()
 	local id = hs.application.frontmostApplication():bundleID()
-	hs.alert.show(id)            -- pops a toast on screen
+	hs.alert.show(id) -- pops a toast on screen
 	hs.pasteboard.setContents(id) -- also copies it to the clipboard
 end)
