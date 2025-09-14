@@ -12,14 +12,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'preservim/nerdcommenter'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'jpalardy/vim-slime'
-Plug 'dstein64/vim-startuptime'
 Plug 'machakann/vim-highlightedyank'
 Plug 'wakatime/vim-wakatime'
 Plug 'Vimjas/vim-python-pep8-indent'
-" Plug 'lifepillar/vim-colortemplate'
 Plug 'menisadi/kanagawa.vim' 
-Plug 'joshdick/onedark.vim'
 
 call plug#end()
 filetype plugin indent on
@@ -34,19 +30,20 @@ set incsearch
 set hlsearch
 set encoding=utf-8
 set spell spelllang=en_us
-" hi CursorLine cterm=None ctermbg=239 
-" hi CursorColumn cterm=None ctermbg=239
 set cursorline
-" set cursorcolumn
 set ignorecase
 set smartcase
 set showmode
 set showmatch
+" hi CursorLine cterm=None ctermbg=239 
+" hi CursorColumn cterm=None ctermbg=239
+" set cursorcolumn
 " colorscheme wildcharm
 colorscheme kanagawa
 set bg=dark
 hi clear SpellBad
 hi SpellBad cterm=underline
+"
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
@@ -54,13 +51,6 @@ set clipboard=unnamed
 
 nnoremap ]b :bN<CR>
 nnoremap [b :bp<CR>
-
-"Change cursor shape properly between modes
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
-set ttimeout
-set ttimeoutlen=1
-set ttyfast
 
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
@@ -79,6 +69,36 @@ highlight IndentGuidesOdd ctermbg=235
 let g:highlightedyank_highlight_duration = 100
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
-let g:slime_target = "kitty"
-let g:slime_cell_delimiter = "# %%"
-nmap <leader>s <Plug>SlimeSendCell
+"Change cursor shape properly between modes
+let g:ltr_cursor_si = "\e[6 q"   " steady bar for LTR insert
+let g:rtl_cursor_si = "\e[4 q"   " steady underline for RTL insert
+let g:cursor_ei     = "\e[2 q"   " steady block for Normal/Elsewhere
+
+" Default normal and insert modes
+let &t_EI = g:cursor_ei
+let &t_SI = g:ltr_cursor_si
+
+function! ToggleHebrewMode() abort
+  if get(b:, 'hebrew_mode_enabled', 0)
+    " --- Turn Hebrew mode OFF (LTR) ---
+    setlocal keymap=
+    setlocal iminsert=0 imsearch=0 norightleft
+    let b:hebrew_mode_enabled = 0
+    let &t_SI = g:ltr_cursor_si
+    echohl ModeMsg | echo 'Hebrew mode: OFF' | echohl None
+  else
+    " --- Turn Hebrew mode ON (RTL) ---
+    setlocal keymap=hebrew
+    setlocal iminsert=1 imsearch=1 rightleft
+    let b:hebrew_mode_enabled = 1
+    let &t_SI = g:rtl_cursor_si
+    echohl ModeMsg | echo 'Hebrew mode: ON' | echohl None
+  endif
+endfunction
+
+command! HebrewToggle call ToggleHebrewMode()
+nnoremap <leader>h :HebrewToggle<CR>
+
+set ttimeout
+set ttimeoutlen=1
+set ttyfast
