@@ -30,13 +30,17 @@ alias nvims='NVIM_APPNAME=$(find ~/.config -maxdepth 2 -type f -name "init.lua" 
 alias sysinfo='neofetch'
 alias systeminfo='neofetch'
 
+alias tw='timew'
+alias twc='timew continue'
+alias twc='timew stop'
+
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
 
 alias pgc="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32mGood \033[0m\"; else if (time < 100) printf \"\033[33mFair \033[0m\"; else if (time < 200) printf \"\033[38;5;208mBad \033[0m\"; else printf \"\033[31mFail \033[0m\"; } else printf \"\033[31mFail \033[0m\"; fflush(); }'"
 alias pgb="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32m█\033[0m\"; else if (time < 100) printf \"\033[33m█\033[0m\"; else if (time < 200) printf \"\033[38;5;208m█\033[0m\"; else printf \"\033[31m█\033[0m\"; } else printf \"\033[31m█\033[0m\"; fflush(); }'"
 
 pgb2() {
-  local host="${1:-google.com}"         # usage: pgb [host] [interval_seconds]
+  local host="${1:-google.com}" # usage: pgb [host] [interval_seconds]
   local interval="${2:-1}"
 
   # ANSI colors
@@ -47,8 +51,8 @@ pgb2() {
   local L="\033[90m"       # loss / timeout (gray)
   local RESET="\033[0m"
 
-  ping -i "$interval" "$host" 2>/dev/null | \
-  awk -v G="$G" -v Y="$Y" -v O="$O" -v R="$R" -v L="$L" -v RESET="$RESET" '
+  ping -i "$interval" "$host" 2>/dev/null |
+    awk -v G="$G" -v Y="$Y" -v O="$O" -v R="$R" -v L="$L" -v RESET="$RESET" '
     BEGIN { ok="█"; loss="░"; }
     /bytes from/ {
       # Match "time=12.3 ms" or "time<12.3 ms"
@@ -76,7 +80,7 @@ pgb2() {
 }
 
 pgb3() {
-  local host="${1:-google.com}"         # usage: pgb2 [host] [interval_seconds]
+  local host="${1:-google.com}" # usage: pgb2 [host] [interval_seconds]
   local interval="${2:-1}"
 
   # Thresholds (ms) — override via env vars if you want
@@ -96,8 +100,8 @@ pgb3() {
   trap 'printf "\n"' INT TERM
 
   # Note: -n avoids reverse DNS; LC_ALL=C ensures consistent ping messages
-  LC_ALL=C ping -n -i "$interval" "$host" 2>/dev/null | \
-  awk -v G="$G" -v Y="$Y" -v O="$O" -v R="$R" -v L="$L" -v RESET="$RESET" \
+  LC_ALL=C ping -n -i "$interval" "$host" 2>/dev/null |
+    awk -v G="$G" -v Y="$Y" -v O="$O" -v R="$R" -v L="$L" -v RESET="$RESET" \
       -v T1="$T1" -v T2="$T2" -v T3="$T3" '
     BEGIN { ok="█"; loss="░"; c=0 }
     /bytes from/ {
@@ -148,7 +152,6 @@ alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du 
 
 alias sso-prod='aws sso login --profile prod && export AWS_PROFILE='\''prod'\'''
 
-
 # more versitle ls/eza version of the eza aliases
 function e() {
   if [ -n "$1" ]; then
@@ -168,7 +171,7 @@ function ez() {
 
 # Simple mkdir-cd combo
 mkcd() {
-    mkdir -p "$1" && cd "$1"
+  mkdir -p "$1" && cd "$1"
 }
 
 # create and open daily files
@@ -193,32 +196,32 @@ function weather() {
   fi
 }
 
-# Check for too large files 
+# Check for too large files
 code2heavy() {
   local path threshold exclude
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      -path|--p)
-        shift
-        path="$1"
-        ;;
-      -threshold|--t)
-        shift
-        threshold="$1"
-        ;;
-      -exclude|--e)
-        shift
-        exclude="$1"
-        ;;
-      -help|--h)
-        echo "Usage: code2heavy [-path|--p <path>] [-threshold|--t <threshold>] [-exclude|--e <exclude>]"
-        return 0
-        ;;
-      *)
-        echo "Unknown option: $1"
-        return 1
-        ;;
+    -path | --p)
+      shift
+      path="$1"
+      ;;
+    -threshold | --t)
+      shift
+      threshold="$1"
+      ;;
+    -exclude | --e)
+      shift
+      exclude="$1"
+      ;;
+    -help | --h)
+      echo "Usage: code2heavy [-path|--p <path>] [-threshold|--t <threshold>] [-exclude|--e <exclude>]"
+      return 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      return 1
+      ;;
     esac
     shift
   done
@@ -233,7 +236,6 @@ code2heavy() {
     return 1
   fi
 
-
   if [[ -z "$exclude" ]]; then
     /usr/bin/find "$path" -type f -size +"$threshold"M
   else
@@ -242,67 +244,67 @@ code2heavy() {
 }
 
 function record() {
-    local default_file="record.log"
-    
-    # Check if a command is provided
-    if [ -z "$1" ]; then
-        echo "No command provided. Usage: run_and_log 'command' [filename]"
-        return 1
-    fi
+  local default_file="record.log"
 
-    # Get the command to run
-    local command="$1"
-    
-    # Get the file name if provided, otherwise use the default
-    local filename="${2:-$default_file}"
+  # Check if a command is provided
+  if [ -z "$1" ]; then
+    echo "No command provided. Usage: run_and_log 'command' [filename]"
+    return 1
+  fi
 
-    # Run the command and use tee to write to the file and output to terminal
-    eval "$command" | tee "$filename"
+  # Get the command to run
+  local command="$1"
+
+  # Get the file name if provided, otherwise use the default
+  local filename="${2:-$default_file}"
+
+  # Run the command and use tee to write to the file and output to terminal
+  eval "$command" | tee "$filename"
 }
 
 # A function to use 'mods' to run shell commands
 runmods() {
-    generated_command=$(mods --role shell "$1")
-    echo "Generated command: $generated_command"
-    echo "Do you want to (r)un, (c)opy, or (q)uit?"
-    read -r action
-    
-    case $action in
-        r|R)
-            # Run the command
-            bash -c "$generated_command"
-            ;;
-        c|C)
-            # Copy the command to the clipboard (using pbcopy for MacOS)
-            echo "$generated_command" | pbcopy
-            echo "Command copied to clipboard."
-            ;;
-        q|Q)
-            echo "Canceled."
-            ;;
-        *)
-            echo "Invalid option. Please enter r, c, or q."
-            ;;
-    esac
+  generated_command=$(mods --role shell "$1")
+  echo "Generated command: $generated_command"
+  echo "Do you want to (r)un, (c)opy, or (q)uit?"
+  read -r action
+
+  case $action in
+  r | R)
+    # Run the command
+    bash -c "$generated_command"
+    ;;
+  c | C)
+    # Copy the command to the clipboard (using pbcopy for MacOS)
+    echo "$generated_command" | pbcopy
+    echo "Command copied to clipboard."
+    ;;
+  q | Q)
+    echo "Canceled."
+    ;;
+  *)
+    echo "Invalid option. Please enter r, c, or q."
+    ;;
+  esac
 }
 
 modshell() {
-    command=$(mods --role shell "$@")
-    echo "Generated Command:"
-    echo "$command" | gum style --foreground 212 --padding "1 1" --italic
+  command=$(mods --role shell "$@")
+  echo "Generated Command:"
+  echo "$command" | gum style --foreground 212 --padding "1 1" --italic
 
-    choice=$(gum choose "Run" "Copy" "Cancel")
+  choice=$(gum choose "Run" "Copy" "Cancel")
 
-    case $choice in
-        "Run")
-            eval "$command"
-            ;;
-        "Copy")
-            echo "$command" | pbcopy  # 'pbcopy' is for macOS
-            echo "Command copied to clipboard."
-            ;;
-        "Cancel")
-            echo "Operation canceled."
-            ;;
-    esac
+  case $choice in
+  "Run")
+    eval "$command"
+    ;;
+  "Copy")
+    echo "$command" | pbcopy # 'pbcopy' is for macOS
+    echo "Command copied to clipboard."
+    ;;
+  "Cancel")
+    echo "Operation canceled."
+    ;;
+  esac
 }
