@@ -38,9 +38,8 @@ alias twm='timew summary sunday - eod'
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
 
 alias pgc="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32mGood \033[0m\"; else if (time < 100) printf \"\033[33mFair \033[0m\"; else if (time < 200) printf \"\033[38;5;208mBad \033[0m\"; else printf \"\033[31mFail \033[0m\"; } else printf \"\033[31mFail \033[0m\"; fflush(); }'"
-alias pgb="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32m█\033[0m\"; else if (time < 100) printf \"\033[33m█\033[0m\"; else if (time < 200) printf \"\033[38;5;208m█\033[0m\"; else printf \"\033[31m█\033[0m\"; } else printf \"\033[31m█\033[0m\"; fflush(); }'"
 
-pgb2() {
+pgb() {
   local host="${1:-google.com}" # usage: pgb [host] [interval_seconds]
   local interval="${2:-1}"
 
@@ -79,55 +78,6 @@ pgb2() {
     }
   '
 }
-
-pgb3() {
-  local host="${1:-google.com}" # usage: pgb2 [host] [interval_seconds]
-  local interval="${2:-1}"
-
-  # Thresholds (ms) — override via env vars if you want
-  local T1="${PGB_GREEN_MS:-50}"
-  local T2="${PGB_YELLOW_MS:-100}"
-  local T3="${PGB_ORANGE_MS:-200}"
-
-  # ANSI colors
-  local G="\033[32m"       # < T1
-  local Y="\033[33m"       # < T2
-  local O="\033[38;5;208m" # < T3
-  local R="\033[31m"       # >= T3
-  local L="\033[90m"       # loss / timeout (gray)
-  local RESET="\033[0m"
-
-  # Ensure we end on a newline even if user Ctrl-C's
-  trap 'printf "\n"' INT TERM
-
-  # Note: -n avoids reverse DNS; LC_ALL=C ensures consistent ping messages
-  LC_ALL=C ping -n -i "$interval" "$host" 2>/dev/null |
-    awk -v G="$G" -v Y="$Y" -v O="$O" -v R="$R" -v L="$L" -v RESET="$RESET" \
-      -v T1="$T1" -v T2="$T2" -v T3="$T3" '
-    BEGIN { ok="█"; loss="░"; c=0 }
-    /bytes from/ {
-      # Extract latency like time=12.3 ms or time<1.0 ms
-      if (match($0, /time[=<]([0-9.]+)/, m)) {
-        t = m[1] + 0
-        if (t < T1)      printf G ok RESET;
-        else if (t < T2) printf Y ok RESET;
-        else if (t < T3) printf O ok RESET;
-        else              printf R ok RESET;
-        fflush()
-        if (++c % 80 == 0) printf "\n"  # wrap every 80 chars
-      }
-      next
-    }
-    /Request timeout|unreachable|Time to live exceeded/ {
-      printf L loss RESET; fflush()
-      if (++c % 80 == 0) printf "\n"
-      next
-    }
-  '
-}
-
-# alias pgcolor='ping 8.8.8.8 | awk -F"time=" '\''/time=/ {split($2,a," "); if (a[1] < 70) print "\033[34mGood\033[0m"; else if (a[1] < 400) print "\033[32mFair\033[0m"; else if (a[1] < 2000) print "\033[33mBad\033[0m"; else print "\033[31mFail\033[0m";} !/time=/ {print "\033[31mFail\033[0m";}'\'
-# alias pgplot='ping 8.8.8.8 | sed -u '\''/^.*time=/!d; s/^.*time=//g; s/ ms//g; /^\s*$/d'\'' | ttyplot -t "ping 8.8.8.8" -u ms'
 
 alias pgtime="ping --apple-time -i 2 8.8.8.8"
 
