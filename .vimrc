@@ -23,7 +23,6 @@ filetype plugin indent on
 let mapleader = " "
 set number
 set hidden
-autocmd BufNewFile,BufRead *.sql set filetype=sql
 syntax on
 let python_highlight_all=1
 set incsearch
@@ -31,19 +30,18 @@ set hlsearch
 set encoding=utf-8
 set spell spelllang=en_us
 set cursorline
+" set cursorcolumn
 set ignorecase
 set smartcase
 set showmode
 set showmatch
-" hi CursorLine cterm=None ctermbg=239 
-" hi CursorColumn cterm=None ctermbg=239
-" set cursorcolumn
-" colorscheme wildcharm
+set laststatus=2
+set noshowmode
 colorscheme kanagawa
 set bg=dark
 hi clear SpellBad
 hi SpellBad cterm=underline
-"
+
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
@@ -65,6 +63,13 @@ let g:indent_guides_auto_colors = 0
 highlight IndentGuidesEven ctermbg=236
 highlight IndentGuidesOdd ctermbg=235
 
+let g:airline_theme = 'kanagawa'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1  
+let g:airline_section_z = '%l/%L : %c'
+let g:airline#extensions#ale#enabled = 1
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#whitespace#enabled = 0
 
 let g:highlightedyank_highlight_duration = 100
 highlight HighlightedyankRegion cterm=reverse gui=reverse
