@@ -154,26 +154,37 @@ code2heavy() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-    -path | --p)
-      shift
-      path="$1"
-      ;;
-    -threshold | --t)
-      shift
-      threshold="$1"
-      ;;
-    -exclude | --e)
-      shift
-      exclude="$1"
-      ;;
-    -help | --h)
-      echo "Usage: code2heavy [-path|--p <path>] [-threshold|--t <threshold>] [-exclude|--e <exclude>]"
-      return 0
-      ;;
-    *)
-      echo "Unknown option: $1"
-      return 1
-      ;;
+      -p|--path)
+        shift
+        path="$1"
+        ;;
+      -t|--threshold)
+        shift
+        threshold="$1"
+        ;;
+      -e|--exclude)
+        shift
+        exclude="$1"
+        ;;
+      -h|--help)
+        echo ""
+        echo "code2heavy - Find large files in a directory tree"
+        echo ""
+        echo "Usage:"
+        echo "  code2heavy -p <path> -t <size> [-e <dir>]"
+        echo ""
+        echo "Options:"
+        echo "  -p, --path <path>         Directory to search (required)"
+        echo "  -t, --threshold <size>    Minimum file size in megabytes (required)"
+        echo "  -e, --exclude <dir>       Exclude directory by name (optional)"
+        echo "  -h, --help                Show this help message and exit"
+        echo ""
+        return 0
+        ;;
+      *)
+        echo "Unknown option: $1"
+        return 1
+        ;;
     esac
     shift
   done
