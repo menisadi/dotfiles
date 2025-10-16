@@ -89,9 +89,7 @@ alias love="/Applications/love.app/Contents/MacOS/love"
 # script to rename and move downloaed csv files
 alias movecsv="~/bin/move_csv.sh"
 
-# concise git branching graph
 alias gitfold="~/bin/graphfold.py"
-
 alias list_errors="~/bin/list_erros.py"
 alias missdoc="~/bin/list_missing_docstrings.py"
 alias list_missing_docstrings="~/bin/list_missing_docstrings.py"
