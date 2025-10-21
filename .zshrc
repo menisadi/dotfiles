@@ -54,6 +54,7 @@ command -v npm >/dev/null && PATH="$(npm config get prefix)/bin:$PATH"
 # Make Vim the default Man pager
 export MANPAGER="vim +MANPAGER -"
 # ER="vim"
+export BAT_THEME="kanagawa"
 
 # enable zoxide
 eval "$(zoxide init --cmd cd zsh)"
