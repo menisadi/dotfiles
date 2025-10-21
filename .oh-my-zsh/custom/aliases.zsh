@@ -31,6 +31,7 @@ alias sysinfo='neofetch'
 alias systeminfo='neofetch'
 
 alias tw='timew'
+alias tww='timew start'
 alias twc='timew continue'
 alias tws='timew stop'
 alias twm='timew summary sunday - eod'
