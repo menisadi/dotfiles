@@ -272,3 +272,5 @@ modshell() {
     ;;
   esac
 }
+
+alias ai=modshell
