@@ -31,9 +31,9 @@ alias sysinfo='neofetch'
 alias systeminfo='neofetch'
 
 alias tw='timew'
-alias tww='timew start'
+alias twt='timew start'
 alias twc='timew continue'
-alias tws='timew stop'
+alias twp='timew stop'
 alias twm='timew summary sunday - eod'
 
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
