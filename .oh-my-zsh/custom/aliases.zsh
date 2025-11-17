@@ -7,8 +7,6 @@ alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && do
 # Run protobuf3 instead of the newset version
 alias protoc3='/opt/homebrew/Cellar/protobuf@3/3.20.3/bin/protoc "$@"'
 
-alias cls='colorls --sd'
-alias cla='colorls -A --sd'
 alias ee='eza --sort=created --icons=auto --group-directories-first'
 alias el='eza -Xl --sort=created --icons=auto --group-directories-first --git --git-repos'
 alias es='eza --sort=extension --icons=auto --group-directories-first'
