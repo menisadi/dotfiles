@@ -19,7 +19,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
-plugins=(git zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting pyenv python fzf)
+plugins=(git zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting python fzf)
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 # Skip OMZ's interactive compfix prompts and avoid extra overhead
@@ -53,47 +53,28 @@ command -v npm >/dev/null && PATH="$(npm config get prefix)/bin:$PATH"
 
 # Make Vim the default Man pager
 export MANPAGER="vim +MANPAGER -"
-# ER="vim"
+# export PAGER="vim"
 export BAT_THEME="kanagawa"
+
+export PATH="$HOME/.local/bin:$HOME/.atuin/bin:$PATH"
 
 # enable zoxide
 eval "$(zoxide init --cmd cd zsh)"
 
 eval "$(uv generate-shell-completion zsh)"
 
+eval "$(atuin init zsh)"
+
 . "$HOME/.local/bin/env"
 
 . "$HOME/.atuin/bin/env"
 
-eval "$(atuin init zsh)"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/meni/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/meni/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/meni/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/meni/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-# yazi shell wrapper
-function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
-
-# ---- WAV ➜ MP3 helper ----
-wav2mp3 () {
-  # convert one or many .wav files to VBR MP3 (≈ 192 kbps)
-  for file in "$@"; do
-    [ -f "$file" ] || { printf '✗ %s: not found\n' "$file"; continue; }
-    ffmpeg -i "$file" \
-           -codec:a libmp3lame \
-           -q:a 2 \
-           "${file%.*}.mp3"
-  done
-}
 
 [ -f ~/.zsh_keys ] && source ~/.zsh_keys
 
