@@ -285,4 +285,25 @@ modshell() {
   esac
 }
 
+# yazi shell wrapper
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+wav2mp3 () {
+  # convert one or many .wav files to VBR MP3 (≈ 192 kbps)
+  for file in "$@"; do
+    [ -f "$file" ] || { printf '✗ %s: not found\n' "$file"; continue; }
+    ffmpeg -i "$file" \
+           -codec:a libmp3lame \
+           -q:a 2 \
+           "${file%.*}.mp3"
+  done
+}
+
 alias ai=modshell
