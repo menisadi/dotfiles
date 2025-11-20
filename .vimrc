@@ -63,7 +63,8 @@ let g:indent_guides_auto_colors = 0
 highlight IndentGuidesEven ctermbg=236
 highlight IndentGuidesOdd ctermbg=235
 
-let g:airline_theme = 'kanagawa'
+" let g:airline_theme = 'kanagawa'
+let g:airline_theme = 'catppuccin_mocha'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1  
 let g:airline_section_z = '%l/%L : %c'
