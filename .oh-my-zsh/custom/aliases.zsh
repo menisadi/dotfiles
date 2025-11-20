@@ -105,6 +105,7 @@ alias ask="~/bin/ask.sh"
 alias since="~/bin/since.sh"
 
 alias gitfold="~/bin/graphfold.py"
+alias gitc="~/bin/git_compress.py"
 alias list_errors="~/bin/list_erros.py"
 alias missdoc="~/bin/list_missing_docstrings.py"
 alias list_missing_docstrings="~/bin/list_missing_docstrings.py"
