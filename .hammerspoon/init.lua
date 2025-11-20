@@ -64,6 +64,10 @@ hk.bind({ "ctrl", "shift" }, "8", function()
 	app.launchOrFocusByBundleID("com.spotify.client")
 end)
 
+hk.bind({ "ctrl", "shift" }, "-", function()
+	hs.alert.show("Oh dear, that's the wrong key!")
+end)
+
 -- Helpers for sizing
 local function centerAlmostFull(w, m)
 	w = w or win.focusedWindow()
