@@ -34,20 +34,6 @@ alias twc='timew continue'
 alias twp='timew stop'
 alias twm='timew summary sunday - eod'
 
-# Sets a description for a Timewarrior tag
-# Usage: tw_desc <tag_name> "<description text>"
-tw_desc() {
-  if [ -z "$1" ] || [ -z "$2" ]; then
-    echo "Usage: set_tag_desc <tag_name> \"<description text>\""
-    return 1
-  fi
-
-  local tag_name="$1"
-  local description="$2"
-
-  timew config :yes "tags.${tag_name}.description" "${description}"
-}
-
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
 
 alias pgc="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32mGood \033[0m\"; else if (time < 100) printf \"\033[33mFair \033[0m\"; else if (time < 200) printf \"\033[38;5;208mBad \033[0m\"; else printf \"\033[31mFail \033[0m\"; } else printf \"\033[31mFail \033[0m\"; fflush(); }'"
@@ -103,6 +89,10 @@ alias love="/Applications/love.app/Contents/MacOS/love"
 alias movecsv="~/bin/move_csv.sh"
 alias ask="~/bin/ask.sh"
 alias since="~/bin/since.sh"
+
+alias pom='~/bin/pomo.py'
+alias pomo='~/bin/pomo.py -w $(( $(tput cols) * 80 / 100 ))'
+alias twp='~/bin/tw_pom.sh'
 
 alias gitfold="~/bin/graphfold.py"
 alias gitc="~/bin/git_compress.py"
