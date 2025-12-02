@@ -128,5 +128,9 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Alt+Cmd+I: Show frontmost app bundle ID\n",
 		"Ctrl+Alt+Cmd+H: Show this help message",
 	}
-	hs.alert.show(table.concat(hotkeys, "\n"), 10) -- show for 10 seconds
+	-- hs.alert.show(table.concat(hotkeys, "\n"), 10) -- show for 10 seconds
+	hs.alert.show(table.concat(hotkeys, "\n"), {
+		atScreenEdge = 1,
+		padding = 35,
+	}, 5)
 end)
