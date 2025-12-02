@@ -92,7 +92,7 @@ alias since="~/bin/since.sh"
 
 alias pom='~/bin/pomo.py'
 alias pomo='~/bin/pomo.py -w $(( $(tput cols) * 80 / 100 ))'
-alias twp='~/bin/tw_pom.sh'
+alias tpm='~/bin/tw_pom.sh'
 
 alias gitfold="~/bin/graphfold.py"
 alias gitc="~/bin/git_compress.py"
