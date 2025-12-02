@@ -4,6 +4,7 @@ hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "W", function()
 	hs.alert.show("Hello World!")
 end)
 
+-- Move mouse to screen center / upper-left
 hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "C", function()
 	local screen = hs.screen.mainScreen()
 	local f = screen:fullFrame()
@@ -17,7 +18,7 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "U", function()
 end)
 
 -- Center all visible windows
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
+hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "M", function()
 	for _, win in ipairs(hs.window.visibleWindows()) do
 		local frame = win:frame()
 		local screenFrame = win:screen():frame()
@@ -28,22 +29,23 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 	hs.alert.show("Windows centered")
 end)
 
--- 1) App jumpers
-hk.bind({ "ctrl", "shift" }, "return", function()
-	app.launchOrFocusByBundleID("net.kovidgoyal.kitty")
-end)
-hk.bind({ "ctrl", "shift" }, "w", function()
-	app.launchOrFocusByBundleID("com.apple.Safari")
-end)
-hk.bind({ "ctrl", "shift" }, "s", function()
-	app.launchOrFocusByBundleID("com.tinyspeck.slackmacgap")
-end)
-hk.bind({ "ctrl", "shift" }, "b", function()
-	app.launchOrFocusByBundleID("org.mozilla.firefox")
-end)
-hk.bind({ "ctrl", "shift" }, "p", function()
-	app.launchOrFocusByBundleID("com.spotify.client")
-end)
+-- App jumpers
+-- NOTE: Old bindings, kept (for now) for reference
+-- hk.bind({ "ctrl", "shift" }, "return", function()
+-- 	app.launchOrFocusByBundleID("net.kovidgoyal.kitty")
+-- end)
+-- hk.bind({ "ctrl", "shift" }, "w", function()
+-- 	app.launchOrFocusByBundleID("com.apple.Safari")
+-- end)
+-- hk.bind({ "ctrl", "shift" }, "s", function()
+-- 	app.launchOrFocusByBundleID("com.tinyspeck.slackmacgap")
+-- end)
+-- hk.bind({ "ctrl", "shift" }, "b", function()
+-- 	app.launchOrFocusByBundleID("org.mozilla.firefox")
+-- end)
+-- hk.bind({ "ctrl", "shift" }, "p", function()
+-- 	app.launchOrFocusByBundleID("com.spotify.client")
+-- end)
 
 hk.bind({ "ctrl", "shift" }, "1", function()
 	app.launchOrFocusByBundleID("com.apple.Safari")
@@ -102,4 +104,29 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "I", function()
 	local id = hs.application.frontmostApplication():bundleID()
 	hs.alert.show(id) -- pops a toast on screen
 	hs.pasteboard.setContents(id) -- also copies it to the clipboard
+end)
+
+-- Add a keymap to show on screen all aveilable hammerspoon hotkeys
+hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
+	-- For now we will just show all hotkeys in an alert
+	-- We also, for now, will simply list the hotkeys defined in this init.lua file
+	-- We will improve this later
+	local hotkeys = {
+		"Cmd+Alt+Ctrl+W: Show Hello World alert",
+		"Ctrl+Alt+Cmd+C: Move mouse to screen center",
+		"Ctrl+Alt+Cmd+U: Move mouse to screen upper-left\n",
+		"Ctrl+Shift+1: Launch Safari",
+		"Ctrl+Shift+2: Launch Kitty",
+		"Ctrl+Shift+3: Launch Slack",
+		"Ctrl+Shift+0: Launch Firefox",
+		"Ctrl+Shift+9: Launch Todoist",
+		"Ctrl+Shift+8: Launch Spotify\n",
+		"Ctrl+Alt+Cmd+B: Center focused window almost full",
+		"Ctrl+Alt+Cmd+N: Center all visible windows almost full",
+		"Ctrl+Alt+Cmd+M: Center all visible windows",
+		"Ctrl+Alt+Cmd+M: Maximize all visible windows",
+		"Ctrl+Alt+Cmd+I: Show frontmost app bundle ID\n",
+		"Ctrl+Alt+Cmd+H: Show this help message",
+	}
+	hs.alert.show(table.concat(hotkeys, "\n"), 10) -- show for 10 seconds
 end)
