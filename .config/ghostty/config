@@ -1,0 +1,8 @@
+font-size = 22
+theme = Kanagawa Wave
+macos-titlebar-style = transparent
+macos-option-as-alt = left
+window-title-font-family = JetBrains Mono
+window-inherit-working-directory = false
+keybind = ctrl+shift+.=move_tab:1
+keybind = ctrl+shift+,=move_tab:-1
