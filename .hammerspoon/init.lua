@@ -60,9 +60,12 @@ hk.bind({ "ctrl", "shift" }, "0", function()
 	app.launchOrFocusByBundleID("org.mozilla.firefox")
 end)
 hk.bind({ "ctrl", "shift" }, "9", function()
-	app.launchOrFocusByBundleID("com.todoist.mac.Todoist")
+	app.launchOrFocusByBundleID("com.mitchellh.ghostty")
 end)
 hk.bind({ "ctrl", "shift" }, "8", function()
+	app.launchOrFocusByBundleID("com.todoist.mac.Todoist")
+end)
+hk.bind({ "ctrl", "shift" }, "7", function()
 	app.launchOrFocusByBundleID("com.spotify.client")
 end)
 
@@ -119,8 +122,9 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Shift+2: Launch Kitty",
 		"Ctrl+Shift+3: Launch Slack",
 		"Ctrl+Shift+0: Launch Firefox",
-		"Ctrl+Shift+9: Launch Todoist",
-		"Ctrl+Shift+8: Launch Spotify\n",
+		"Ctrl+Shift+9: Launch Ghostty",
+		"Ctrl+Shift+8: Launch Todoist",
+		"Ctrl+Shift+7: Launch Spotify\n",
 		"Ctrl+Alt+Cmd+B: Center focused window almost full",
 		"Ctrl+Alt+Cmd+N: Center all visible windows almost full",
 		"Ctrl+Alt+Cmd+M: Center all visible windows",
