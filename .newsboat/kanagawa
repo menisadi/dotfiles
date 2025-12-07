@@ -1,0 +1,40 @@
+# --- Kanagawa Newsboat Theme ---
+# Palette approximation:
+# Background (sumiInk1): default (or color235)
+# Foreground (fujiWhite): color187
+# Selection (waveBlue2):  color24
+# Unread (autumnGreen):   color108
+# Info/Status (sumiInk2): color236
+# Accents:                color110 (Blue), color215 (Yellow), color167 (Red)
+
+# General Interface
+color background          default   default
+color listnormal          color187  default
+color listnormal_unread   color108  default
+color listfocus           color187  color24   bold
+color listfocus_unread    color108  color24   bold
+color info                color110  color236
+color title               color215  color236  bold
+
+# Article View
+color article             color187  default
+color end-of-text-marker  color243  default
+
+# Hints / Help
+color hint-separator      color243  color236
+color hint-description    color187  color236
+
+# Syntax Highlighting for Article View
+# Headers (Feed, Title, Author, etc.) - Kanagawa CrystalBlue
+highlight article "^(Feed|Title|Author|Link|Date): .+" color110 default bold
+highlight article "^(Feed|Title|Author|Link|Date):"    color110 default bold
+
+# Links and URLs - Kanagawa BoatYellow / WaveAqua
+highlight article "https?://[^ ]+" color109 default underline
+highlight article "\\((link|image|video)\\)" color243 default
+
+# Feed Numbers / Quotes - Kanagawa SakuraPink / RoninYellow
+highlight article "\\[[0-9]+\\]" color175 default bold
+highlight article "^>.*" color243 default
+
+# --- End Theme ---
