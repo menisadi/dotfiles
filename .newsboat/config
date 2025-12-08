@@ -1,6 +1,10 @@
 include ~/.newsboat/kanagawa
 
+browser "w3m %u"
+# browser open %u
+
 text-width 50
+show-read-feeds no
 
 # unbind keys
 unbind-key ENTER
@@ -30,3 +34,6 @@ bind-key b open-in-browser-and-mark-read
 bind-key B open-in-browser
 bind-key i sort
 bind-key I rev-sort
+
+# Macro 'v': Scrape with trafilatura -> pipe to Neovim
+macro v set browser "trafilatura -u %u --markdown | nvim -c 'set filetype=markdown' -R -" ; open-in-browser ; set browser "w3m %u"
