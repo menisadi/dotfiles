@@ -34,7 +34,7 @@ alias twc='timew continue'
 alias twp='timew stop'
 alias twm='timew summary sunday - eod'
 
-alias nsb='newsboat'
+alias nwb='newsboat'
 
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
 
