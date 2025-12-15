@@ -299,4 +299,8 @@ wav2mp3 () {
   done
 }
 
+cheat() {
+    curl "https://cheat.sh/$1"
+}
+
 alias ai=modshell
