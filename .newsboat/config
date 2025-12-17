@@ -39,4 +39,5 @@ bind-key I rev-sort
 macro n set browser "trafilatura -u %u --markdown | nvim -c 'set filetype=markdown' -R -" ; open-in-browser ; set browser "w3m %u"
 # Macro 'g': Scrape to Markdown -> Render nicely in Glow
 macro g set browser "trafilatura -u %u --markdown | glow -p -" ; open-in-browser ; set browser "w3m %u"
+# This seems to work only some feeds, specifically HN
 macro s set browser "trafilatura -u %u --markdown | mods -q -R sneak | glow -p -" ; open-in-browser ; set browser "w3m %u"
