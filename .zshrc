@@ -5,7 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -19,64 +18,39 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
 
-plugins=(git zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting python fzf)
+ZVM_INIT_MODE=sourcing
+
+plugins=(git python zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting)
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 
-# Skip OMZ's interactive compfix prompts and avoid extra overhead
-ZSH_DISABLE_COMPFIX=true
-autoload -Uz compinit
-for dump in "${ZSH_COMPDUMP:-$HOME/.zcompdump}"(N.mh+24); do compinit; done
-compinit -C
-zstyle ':omz:plugins' use-compinit false
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
-# source <(fzf --zsh)
-
-# export MANPATH="/usr/local/man:$MANPATH"
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export EDITOR='vim'
 
-# For tkinter 
+export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.atuin/bin:$PATH"
 export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
-command -v npm >/dev/null && PATH="$(npm config get prefix)/bin:$PATH"
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+command -v npm >/dev/null && PATH="$(npm config get prefix 2>/dev/null)/bin:$PATH"
 
-# eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"
+command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"
+command -v uv >/dev/null && eval "$(uv generate-shell-completion zsh)"
+command -v atuin >/dev/null && eval "$(atuin init zsh)"
 
-# source ~/.oh-my-zsh/custom/themes/powerlevel10k/powerlevel10k.zsh-theme
+[[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
+[[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if command -v bat >/dev/null; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+else
+  export MANPAGER='less -R'
+fi
 
-# Make Vim the default Man pager
-export MANPAGER="vim +MANPAGER -"
-# export PAGER="vim"
 export BAT_THEME="Catppuccin Mocha"
 
-export PATH="$HOME/.local/bin:$HOME/.atuin/bin:$PATH"
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-
-# enable zoxide
-eval "$(zoxide init --cmd cd zsh)"
-
-eval "$(uv generate-shell-completion zsh)"
-
-eval "$(atuin init zsh)"
-
-. "$HOME/.local/bin/env"
-
-. "$HOME/.atuin/bin/env"
-
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/meni/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/meni/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/meni/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/meni/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
+# source <(fzf --zsh)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zsh_keys ] && source ~/.zsh_keys
 
 # unset ZSH_AUTOSUGGEST_USE_ASYNC
