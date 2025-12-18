@@ -138,3 +138,34 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		padding = 35,
 	}, 5)
 end)
+
+-- A better cheat sheet using hs.chooser
+local cheatSheetData = {
+	{ text = "Show Hello World alert", subText = "Cmd + Alt + Ctrl + W" },
+	{ text = "Move mouse to screen center", subText = "Ctrl + Alt + Cmd + C" },
+	{ text = "Move mouse to screen upper-left", subText = "Ctrl + Alt + Cmd + U" },
+	{ text = "Launch Safari", subText = "Ctrl + Shift + 1" },
+	{ text = "Launch Kitty", subText = "Ctrl + Shift + 2" },
+	{ text = "Launch Slack", subText = "Ctrl + Shift + 3" },
+	{ text = "Launch Firefox", subText = "Ctrl + Shift + 0" },
+	{ text = "Launch Ghostty", subText = "Ctrl + Shift + 9" },
+	{ text = "Launch Todoist", subText = "Ctrl + Shift + 8" },
+	{ text = "Launch Spotify", subText = "Ctrl + Shift + 7" },
+	{ text = "Center focused window almost full", subText = "Ctrl + Alt + Cmd + B" },
+	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + N" },
+	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + M" },
+	{ text = "Maximize all visible windows", subText = "Ctrl + Alt + Cmd + M" },
+	{ text = "Show frontmost app bundle ID", subText = "Ctrl + Alt + Cmd + I" },
+}
+
+-- Create the chooser object
+local cheatSheetChooser = hs.chooser.new(function(choice)
+	-- NOTE: We are not doing anything on selection for now
+	if not choice then
+		return
+	end
+end)
+cheatSheetChooser:choices(cheatSheetData)
+hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "C", function()
+	cheatSheetChooser:show()
+end)
