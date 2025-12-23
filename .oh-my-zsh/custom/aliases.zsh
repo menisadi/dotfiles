@@ -27,6 +27,7 @@ alias nvims='NVIM_APPNAME=$(find ~/.config -maxdepth 2 -type f -name "init.lua" 
 
 alias sysinfo='neofetch'
 alias systeminfo='neofetch'
+alias igrep="fzf --bind 'change:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true' --ansi --layout=reverse --header 'Search in files' --delimiter : --preview 'bat --color=always {1} --highlight-line {2}' --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'"
 
 alias tw='timew'
 alias twt='timew start'
@@ -107,6 +108,7 @@ alias nowp="~/bin/nowplaying.sh"
 
 alias please="gum input --password | sudo -nS"
 alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du -h {} | sort -rh | head -n 10"
+alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
 alias sso-prod='aws sso login --profile prod && export AWS_PROFILE='\''prod'\'''
 
@@ -301,6 +303,29 @@ wav2mp3 () {
 
 cheat() {
     curl "https://cheat.sh/$1"
+}
+
+fzfh() {
+  local selected
+
+  selected=$(
+    fc -rl 1 |
+      awk '{ $1=""; sub(/^ /,""); print }' |
+      fzf --height=70% --layout=default --border=rounded --info=inline-right \
+          --prompt='󰋚  history ❯ ' \
+          --pointer='▶ ' --marker='󰄬 ' \
+          --header='enter: paste • ctrl-/: preview • esc: cancel' \
+          --bind='ctrl-/:toggle-preview' \
+          --preview-window='up:35%:wrap:border-bottom' \
+          --preview='echo {} | bat --language=bash --style=plain --color=always --theme=ansi' \
+          --color='bg:#1f1f28,bg+:#2a2a37,fg:#dcd7ba,fg+:#c8c093'\
+',hl:#7e9cd8,hl+:#ffa066,header:#98bb6c'\
+',prompt:#7fb4ca,info:#957fb8,spinner:#e6c384'\
+',pointer:#e46876,marker:#98bb6c,border:#54546d'
+  ) || return 0
+
+  LBUFFER+="$selected"
+  zle redisplay
 }
 
 alias ai=modshell
