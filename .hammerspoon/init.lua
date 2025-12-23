@@ -98,9 +98,10 @@ local function centerAlmostFullAll()
 	end
 end
 
-hk.bind({ "ctrl", "alt", "cmd" }, "b", centerAlmostFull)
-hk.bind({ "ctrl", "alt", "cmd" }, "n", centerAlmostFullAll)
-hk.bind({ "ctrl", "alt", "cmd" }, "m", maximizeAll)
+hk.bind({ "ctrl", "alt", "cmd" }, "B", centerAlmostFull)
+hk.bind({ "ctrl", "alt", "cmd" }, "N", centerAlmostFullAll)
+hk.bind({ "ctrl", "alt", "cmd" }, "J", centerAlmostFullAll)
+hk.bind({ "ctrl", "alt", "cmd" }, "M", maximizeAll)
 
 -- Little utility to get app IDs
 hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "I", function()
@@ -127,10 +128,11 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Shift+7: Launch Spotify\n",
 		"Ctrl+Alt+Cmd+B: Center focused window almost full",
 		"Ctrl+Alt+Cmd+N: Center all visible windows almost full",
-		"Ctrl+Alt+Cmd+M: Center all visible windows",
+		"Ctrl+Alt+Cmd+J: Center all visible windows",
 		"Ctrl+Alt+Cmd+M: Maximize all visible windows",
 		"Ctrl+Alt+Cmd+I: Show frontmost app bundle ID\n",
 		"Ctrl+Alt+Cmd+H: Show this help message",
+		"Ctrl+Alt+Cmd+K: Show cheat sheet",
 	}
 	-- hs.alert.show(table.concat(hotkeys, "\n"), 10) -- show for 10 seconds
 	hs.alert.show(table.concat(hotkeys, "\n"), {
@@ -153,19 +155,21 @@ local cheatSheetData = {
 	{ text = "Launch Spotify", subText = "Ctrl + Shift + 7" },
 	{ text = "Center focused window almost full", subText = "Ctrl + Alt + Cmd + B" },
 	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + N" },
-	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + M" },
+	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + J" },
 	{ text = "Maximize all visible windows", subText = "Ctrl + Alt + Cmd + M" },
 	{ text = "Show frontmost app bundle ID", subText = "Ctrl + Alt + Cmd + I" },
 }
 
 -- Create the chooser object
 local cheatSheetChooser = hs.chooser.new(function(choice)
-	-- NOTE: We are not doing anything on selection for now
 	if not choice then
-		return
+		hs.alert.show("")
+	else
+		local choice_title_text = choice.text .. " (" .. choice.subText .. ")"
+		hs.alert.show(choice_title_text)
 	end
 end)
 cheatSheetChooser:choices(cheatSheetData)
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "C", function()
+hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "K", function()
 	cheatSheetChooser:show()
 end)
