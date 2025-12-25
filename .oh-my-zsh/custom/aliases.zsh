@@ -305,27 +305,20 @@ cheat() {
     curl "https://cheat.sh/$1"
 }
 
-fzfh() {
-  local selected
-
-  selected=$(
-    fc -rl 1 |
-      awk '{ $1=""; sub(/^ /,""); print }' |
-      fzf --height=70% --layout=default --border=rounded --info=inline-right \
-          --prompt='󰋚  history ❯ ' \
-          --pointer='▶ ' --marker='󰄬 ' \
-          --header='enter: paste • ctrl-/: preview • esc: cancel' \
-          --bind='ctrl-/:toggle-preview' \
-          --preview-window='up:35%:wrap:border-bottom' \
-          --preview='echo {} | bat --language=bash --style=plain --color=always --theme=ansi' \
-          --color='bg:#1f1f28,bg+:#2a2a37,fg:#dcd7ba,fg+:#c8c093'\
-',hl:#7e9cd8,hl+:#ffa066,header:#98bb6c'\
-',prompt:#7fb4ca,info:#957fb8,spinner:#e6c384'\
-',pointer:#e46876,marker:#98bb6c,border:#54546d'
-  ) || return 0
-
-  LBUFFER+="$selected"
-  zle redisplay
-}
+export FZF_CTRL_R_OPTS=$'
+  --no-multi-line
+  # only 5 lines height
+  --height=15
+  --layout=reverse
+  --border=rounded
+  --info=inline-right
+  --prompt="󰋚 history ❯ "
+  --pointer="▶ "
+  --marker="󰄬 "
+  --header="enter: paste • ctrl-/: preview • esc: cancel"
+  --bind=ctrl-/:toggle-preview,alt-/:toggle-wrap
+  --preview-window=down:80%:wrap:hidden
+  --preview=\'echo {} | bat --language=bash --style=plain --color=always\'
+'
 
 alias ai=modshell
