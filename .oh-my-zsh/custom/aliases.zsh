@@ -45,7 +45,7 @@ twg() {
 
   [[ -z "${tags//[[:space:]]/}" ]] && return 0
 
-  timew start $tags
+  timew start ${=tags}
 }
 
 alias nwb='newsboat'
