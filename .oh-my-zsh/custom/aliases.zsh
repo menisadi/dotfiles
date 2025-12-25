@@ -35,6 +35,19 @@ alias twc='timew continue'
 alias twp='timew stop'
 alias twm='timew summary sunday - eod'
 
+twg() {
+  local tags
+  tags=$(
+    timew tags | tail -n +4 | awk '{print $1}' |
+    gum filter --no-limit |
+    tr '\n' ' '
+  )
+
+  [[ -z "${tags//[[:space:]]/}" ]] && return 0
+
+  timew start $tags
+}
+
 alias nwb='newsboat'
 
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
