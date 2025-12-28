@@ -169,6 +169,38 @@ function weather() {
   fi
 }
 
+alias wt_cats="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
+
+wt_cats2() {
+  curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' \
+  | sed 's/.....$//' \
+  | while IFS= read -r line; do
+      loc="${line%%:*}"; loc="${loc//+/ }"
+      icon="$(awk '{print $2}' <<<"$line")"
+      temp="$(awk '{print $3}' <<<"$line")"
+      time="$(awk '{print $5}' <<<"$line")"
+
+      tnum="${temp%°C}"; tnum="${tnum#+}"
+      if   (( tnum <= 0 ));  then tcol=67
+      elif (( tnum <= 10 )); then tcol=109
+      elif (( tnum <= 20 )); then tcol=108
+      else                        tcol=179
+      fi
+
+      loc_p="$(printf '%-18s' "${loc}:")"
+      icon_p="$(printf '%-3s'  "$icon")"
+      temp_p="$(printf '%6s'   "$temp")"
+      time_p="$(printf '%8s'   "$time")"
+
+      printf "%s %s %s  %s %s\n" \
+        "$(gum style --foreground 147 "$loc_p")" \
+        "$(gum style --foreground 255 "$icon_p")" \
+        "$(gum style --foreground "$tcol" "$temp_p")" \
+        "$(gum style --faint --foreground 244 "⏰")" \
+        "$(gum style --faint --foreground 244 "$time_p")"
+    done
+}
+
 # Check for too large files
 code2heavy() {
   local path threshold exclude
