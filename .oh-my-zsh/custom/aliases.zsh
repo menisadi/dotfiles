@@ -169,9 +169,9 @@ function weather() {
   fi
 }
 
-alias wt_cats="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
+alias weathers="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
-wt_cats2() {
+weathers2() {
   curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' \
   | sed 's/.....$//' \
   | while IFS= read -r line; do
