@@ -18,7 +18,7 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "U", function()
 end)
 
 -- Center all visible windows
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "M", function()
+hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "G", function()
 	for _, win in ipairs(hs.window.visibleWindows()) do
 		local frame = win:frame()
 		local screenFrame = win:screen():frame()
@@ -100,7 +100,6 @@ end
 
 hk.bind({ "ctrl", "alt", "cmd" }, "B", centerAlmostFull)
 hk.bind({ "ctrl", "alt", "cmd" }, "N", centerAlmostFullAll)
-hk.bind({ "ctrl", "alt", "cmd" }, "J", centerAlmostFullAll)
 hk.bind({ "ctrl", "alt", "cmd" }, "M", maximizeAll)
 
 -- Little utility to get app IDs
@@ -128,7 +127,7 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Shift+7: Launch Spotify\n",
 		"Ctrl+Alt+Cmd+B: Center focused window almost full",
 		"Ctrl+Alt+Cmd+N: Center all visible windows almost full",
-		"Ctrl+Alt+Cmd+J: Center all visible windows",
+		"Ctrl+Alt+Cmd+G: Center all visible windows",
 		"Ctrl+Alt+Cmd+M: Maximize all visible windows",
 		"Ctrl+Alt+Cmd+I: Show frontmost app bundle ID\n",
 		"Ctrl+Alt+Cmd+H: Show this help message",
@@ -155,7 +154,8 @@ local cheatSheetData = {
 	{ text = "Launch Spotify", subText = "Ctrl + Shift + 7" },
 	{ text = "Center focused window almost full", subText = "Ctrl + Alt + Cmd + B" },
 	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + N" },
-	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + J" },
+	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + G" },
+	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + J" },
 	{ text = "Maximize all visible windows", subText = "Ctrl + Alt + Cmd + M" },
 	{ text = "Show frontmost app bundle ID", subText = "Ctrl + Alt + Cmd + I" },
 }
