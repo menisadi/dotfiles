@@ -124,6 +124,7 @@ alias please="gum input --password | sudo -nS"
 alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du -h {} | sort -rh | head -n 10"
 alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
+alias vm='vibemark'
 
 # more versitle ls/eza version of the eza aliases
 function e() {
