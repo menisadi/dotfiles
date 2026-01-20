@@ -125,6 +125,7 @@ alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du 
 alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
 alias vm='vibemark'
+alias graph='git-graph'
 
 # more versitle ls/eza version of the eza aliases
 function e() {
