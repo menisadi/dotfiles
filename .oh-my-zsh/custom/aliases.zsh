@@ -352,6 +352,31 @@ cheat() {
     curl "https://cheat.sh/$1"
 }
 
+pgnget () {
+  local n="$1"
+  local file="$2"
+
+  if [[ -z "$n" || -z "$file" ]]; then
+    print -u2 "Usage: pgnget <game_number> <pgn_file>"
+    return 2
+  fi
+  if [[ ! -f "$file" ]]; then
+    print -u2 "pgnget: file not found: $file"
+    return 2
+  fi
+  if [[ "$n" != <-> || "$n" -le 0 ]]; then
+    print -u2 "pgnget: game_number must be a positive integer"
+    return 2
+  fi
+
+  awk -v n="$n" '
+    /^\[Event / {g++}
+    g==n {print}
+    g>n {exit}
+  ' "$file"
+}
+
+
 export FZF_CTRL_R_OPTS=$'
   --no-multi-line
   # only 5 lines height
