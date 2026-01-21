@@ -377,6 +377,13 @@ pgnget () {
   ' "$file"
 }
 
+nvim-health() {
+  local section="${1:-}"
+  nvim --headless \
+    +"checkhealth ${section}" \
+    +"lua for _,b in ipairs(vim.api.nvim_list_bufs()) do local n=vim.api.nvim_buf_get_name(b); if n:match('^health://') then for _,l in ipairs(vim.api.nvim_buf_get_lines(b,0,-1,false)) do print(l) end; break end end" \
+    +qall 2>&1
+}
 
 export FZF_CTRL_R_OPTS=$'
   --no-multi-line
