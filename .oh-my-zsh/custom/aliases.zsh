@@ -50,6 +50,7 @@ twg() {
 }
 
 alias nwb='newsboat'
+alias qless='csvlens --color-columns'
 
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
 
