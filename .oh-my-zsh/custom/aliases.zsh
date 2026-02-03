@@ -386,6 +386,21 @@ nvim-health() {
     +qall 2>&1
 }
 
+topcmds () {
+  local n="${1:-20}"
+  fc -ln 1 \
+  | sed -E 's/^[[:space:]]*//' \
+  | awk 'NF{
+    cmd=$1
+    if (cmd=="sudo") cmd=$2
+    a[cmd]++
+  } END{
+    for (c in a) printf "%d\t%s\n", a[c], c
+  }' \
+  | sort -nr | head -n "$n" \
+  | gum table -p -s $'\t' -c Count -c Command \
+}
+
 export FZF_CTRL_R_OPTS=$'
   --no-multi-line
   # only 5 lines height
