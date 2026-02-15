@@ -52,6 +52,26 @@ twg() {
 alias nwb='newsboat'
 alias cless='csvlens --color-columns'
 
+bjc() {
+  local url
+  url=$(bejw list --format jsonl --no-header | jq -r '.url' | gum choose)
+  if [[ -n "$url" ]]; then
+    trafilatura --markdown -u "$url" | glow -p
+  else
+    echo "No URL selected."
+  fi
+}
+
+bj() {
+  local url
+  url=$(bejw list --format csv | gum table | awk -F',' '{print $NF}')
+  if [[ -n "$url" ]]; then
+    trafilatura --markdown -u "$url" | glow -p
+  else
+    echo "No URL selected."
+  fi
+}
+
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
 
 alias pgc="ping -i 1 google.com | awk -F'time=' '{ if (\$2 ~ /ms/) { split(\$2, a, \" ms\"); time=a[1]; if (time < 50) printf \"\033[32mGood \033[0m\"; else if (time < 100) printf \"\033[33mFair \033[0m\"; else if (time < 200) printf \"\033[38;5;208mBad \033[0m\"; else printf \"\033[31mFail \033[0m\"; } else printf \"\033[31mFail \033[0m\"; fflush(); }'"
