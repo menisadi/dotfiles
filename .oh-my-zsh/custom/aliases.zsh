@@ -1,11 +1,45 @@
-alias casprod='/Users/meni/code/work/datastax-studio-6.8.32/bin/server.sh &'
+# Used third-party tools:
+# - eza
+# - lazygit
+# - lazydocker
+# - neofetch
+# - glow
+# - trafilatura
+# - newsboat
+# - csvlens
+# - gping
+# - timewarrior
+# - spotify_player
+# - git-graph
+# - mods
+# - yazi
+# - ffmpeg
+# - bat
+# - gum
+# - jq
+
+# Used tools by me:
+# - bejw
+# - vibemark
+
+# Used scripts by me:
+# - move_csv.sh
+# - ask.sh
+# - since.sh
+# - pomo.py
+# - tw_pom.sh
+# - graphfold.py
+# - git_compress.py
+# - list_erros.py
+# - list_missing_docstrings.py
+# - logic_map.py
+# - search_unused_files.py
+# - nowplaying.sh
+# - pgn_analyze.py
 
 alias lzg='lazygit'
 alias lzd='lazydocker'
 alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && docker rmi \$(docker images -q)"
-
-# Run protobuf3 instead of the newset version
-alias protoc3='/opt/homebrew/Cellar/protobuf@3/3.20.3/bin/protoc "$@"'
 
 alias ee='eza --sort=created --icons=auto --group-directories-first'
 alias el='eza -Xl --sort=created --icons=auto --group-directories-first --git --git-repos'
