@@ -86,6 +86,8 @@ twg() {
 alias nwb='newsboat'
 alias cless='csvlens --color-columns'
 
+wcurl () { trafilatura -u "$1" --output-format txt 2>/dev/null | wc -w; }
+
 bjc() {
   local url
   url=$(bejw list --format jsonl --no-header | jq -r '.url' | gum choose)
