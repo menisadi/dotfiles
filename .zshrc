@@ -1,29 +1,10 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH="$HOME/.oh-my-zsh"
-
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-ZVM_INIT_MODE=sourcing
-
-plugins=(git python zsh-vi-mode zsh-autosuggestions zsh-syntax-highlighting)
-ZSH_AUTOSUGGEST_USE_ASYNC=1
-
-source "$ZSH/oh-my-zsh.sh"
+source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
+antidote load
+autoload -Uz promptinit && promptinit && prompt powerlevel10k 
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -37,6 +18,7 @@ command -v npm >/dev/null && PATH="$(npm config get prefix 2>/dev/null)/bin:$PAT
 command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"
 command -v uv >/dev/null && eval "$(uv generate-shell-completion zsh)"
 command -v atuin >/dev/null && eval "$(atuin init zsh)"
+command -v rbenv >/dev/null && eval "$(rbenv init - zsh)"
 
 [[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
 [[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
@@ -52,5 +34,4 @@ export BAT_THEME="Catppuccin Mocha"
 # source <(fzf --zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zsh_keys ] && source ~/.zsh_keys
-
-# unset ZSH_AUTOSUGGEST_USE_ASYNC
+[[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
