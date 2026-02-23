@@ -37,7 +37,7 @@ else
   export MANPAGER="$PAGER"
 fi
 
-export BAT_THEME="Catppuccin Mocha"
+# export BAT_THEME="Catppuccin Mocha"
 
 # source <(fzf --zsh)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
