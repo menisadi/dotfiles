@@ -9,6 +9,11 @@ autoload -Uz promptinit && promptinit && prompt powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export EDITOR='vim'
+export HISTSIZE=100000
+export SAVEHIST=100000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt EXTENDED_HISTORY
 
 export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.atuin/bin:$PATH"
 export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
