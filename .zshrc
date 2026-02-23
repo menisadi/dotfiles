@@ -28,10 +28,13 @@ command -v rbenv >/dev/null && eval "$(rbenv init - zsh)"
 [[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
 [[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
 
+export PAGER='less'
+export LESS='-R -F -X -i'
+
 if command -v bat >/dev/null; then
-  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  export MANPAGER="sh -c 'col -bx | bat -l man -p --paging=always'"
 else
-  export MANPAGER='less -R'
+  export MANPAGER="$PAGER"
 fi
 
 export BAT_THEME="Catppuccin Mocha"
