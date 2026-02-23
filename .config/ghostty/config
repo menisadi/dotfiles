@@ -1,5 +1,5 @@
 font-size = 22
-theme = Kanagawa Wave
+theme = dark:Kanagawa Wave,light:Catppuccin Latte
 macos-titlebar-style = transparent
 macos-option-as-alt = left
 window-title-font-family = JetBrains Mono
