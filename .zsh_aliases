@@ -183,7 +183,18 @@ alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du 
 alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
 alias vm='vibemark'
-alias graph="git-graph --no-pager --color=always --wrap $(tput cols | awk '{print $1-10}') | $PAGER"
+graph() {
+  local wrap_cols pager_cmd
+  wrap_cols=$(( COLUMNS > 10 ? COLUMNS - 10 : 70 ))
+
+  if [[ -n "${PAGER:-}" ]]; then
+    pager_cmd="${PAGER}"
+  else
+    pager_cmd="less -R"
+  fi
+
+  git-graph --no-pager --color=always --wrap "$wrap_cols" | eval "$pager_cmd"
+}
 
 # more versitle ls/eza version of the eza aliases
 function e() {
