@@ -18,12 +18,48 @@ setopt EXTENDED_HISTORY
 export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.atuin/bin:$PATH"
 export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
 
-command -v npm >/dev/null && PATH="$(npm config get prefix 2>/dev/null)/bin:$PATH"
+_zsh_cache_eval() {
+  local key="$1"
+  local generator="$2"
+  local bin_path="$3"
+  local cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+  local cache_file="$cache_dir/${key}.zsh"
 
-command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"
-command -v uv >/dev/null && eval "$(uv generate-shell-completion zsh)"
-command -v atuin >/dev/null && eval "$(atuin init zsh)"
-command -v rbenv >/dev/null && eval "$(rbenv init - zsh)"
+  mkdir -p "$cache_dir"
+  if [[ ! -s "$cache_file" ]] || [[ -n "$bin_path" && -x "$bin_path" && "$bin_path" -nt "$cache_file" ]]; then
+    eval "$generator" >| "$cache_file" 2>/dev/null
+  fi
+
+  [[ -s "$cache_file" ]] && source "$cache_file"
+}
+
+if npm_bin="$(command -v npm 2>/dev/null)"; then
+  npm_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+  npm_prefix_cache="$npm_cache_dir/npm-prefix"
+  mkdir -p "$npm_cache_dir"
+
+  if [[ ! -s "$npm_prefix_cache" ]] || [[ "$npm_bin" -nt "$npm_prefix_cache" ]]; then
+    npm config get prefix 2>/dev/null >| "$npm_prefix_cache"
+  fi
+
+  if [[ -s "$npm_prefix_cache" ]]; then
+    npm_prefix="$(<"$npm_prefix_cache")"
+    [[ -n "$npm_prefix" ]] && export PATH="$npm_prefix/bin:$PATH"
+  fi
+fi
+
+if zoxide_bin="$(command -v zoxide 2>/dev/null)"; then
+  _zsh_cache_eval "zoxide-init" "zoxide init --cmd cd zsh" "$zoxide_bin"
+fi
+if uv_bin="$(command -v uv 2>/dev/null)"; then
+  _zsh_cache_eval "uv-completion" "uv generate-shell-completion zsh" "$uv_bin"
+fi
+if atuin_bin="$(command -v atuin 2>/dev/null)"; then
+  _zsh_cache_eval "atuin-init" "atuin init zsh" "$atuin_bin"
+fi
+if rbenv_bin="$(command -v rbenv 2>/dev/null)"; then
+  _zsh_cache_eval "rbenv-init" "rbenv init - zsh" "$rbenv_bin"
+fi
 
 [[ -f "$HOME/.local/bin/env" ]] && source "$HOME/.local/bin/env"
 [[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
