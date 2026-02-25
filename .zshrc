@@ -2,6 +2,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Preventing vi-mode from overriding fzf's keybindings
+zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
+
 source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
 antidote load
 autoload -Uz promptinit && promptinit && prompt powerlevel10k 
