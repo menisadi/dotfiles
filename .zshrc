@@ -68,7 +68,7 @@ fi
 [[ -f "$HOME/.atuin/bin/env" ]] && source "$HOME/.atuin/bin/env"
 
 export PAGER='less'
-export LESS='-R -F -X -i'
+export LESS='-R -i'
 
 if command -v bat >/dev/null; then
   export MANPAGER="sh -c 'col -bx | bat -l man -p --paging=always'"
