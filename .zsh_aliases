@@ -42,10 +42,10 @@ alias lzd='lazydocker'
 alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && docker rmi \$(docker images -q)"
 
 alias ee='eza --sort=created --icons=auto --group-directories-first'
-alias el='eza -Xl --sort=created --icons=auto --group-directories-first --git --git-repos'
+alias el='eza -l --sort=created --icons=auto --group-directories-first --git --git-repos'
 alias es='eza --sort=extension --icons=auto --group-directories-first'
-alias esa='eza -Xa --sort=extension --icons=auto --group-directories-first'
-alias eea='eza -Xa --sort=created --icons=auto --group-directories-first'
+alias esa='eza -a --sort=extension --icons=auto --group-directories-first'
+alias eea='eza -a --sort=created --icons=auto --group-directories-first'
 
 alias avim='NVIM_APPNAME=astronvim nvim'
 alias kvim='NVIM_APPNAME=kickstart nvim'
