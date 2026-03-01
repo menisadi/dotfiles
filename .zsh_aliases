@@ -46,10 +46,6 @@ alias el='eza -Xl --sort=created --icons=auto --group-directories-first --git --
 alias es='eza --sort=extension --icons=auto --group-directories-first'
 alias esa='eza -Xa --sort=extension --icons=auto --group-directories-first'
 alias eea='eza -Xa --sort=created --icons=auto --group-directories-first'
-alias e5='eza --sort=modified -r --icons=always --color=always | head -5'
-alias el5='eza -l --sort=modified -r --icons=always --color=always | head -5'
-alias e10='eza --sort=modified -r --icons=always --color=always | head -10'
-alias el10='eza -l --sort=modified -r --icons=always --color=always | head -10'
 
 alias avim='NVIM_APPNAME=astronvim nvim'
 alias kvim='NVIM_APPNAME=kickstart nvim'
@@ -86,8 +82,8 @@ twg() {
 alias nwb='newsboat'
 alias cless='csvlens --color-columns'
 
-alias mod='mods --role short --no-cache'
-alias modn='mods --no-cache'
+alias mod='mods --role short --no-cache -q'
+alias modn='mods --no-cache -q'
 wcurl () { trafilatura -u "$1" --output-format txt 2>/dev/null | wc -w; }
 
 bjc() {
@@ -201,17 +197,17 @@ graph() {
 # more versitle ls/eza version of the eza aliases
 function e() {
   if [ -n "$1" ]; then
-    eza --sort=modified -r --icons=always | head -"$1"
+    eza --sort=modified -r --icons=always --color=always | head -"$1"
   else
-    eza --sort=modified -r --icons=always
+    eza --sort=modified -r --icons=always --color=always
   fi
 }
 
 function ez() {
   if [ -n "$1" ]; then
-    eza -l --sort=modified -r --icons=always | head -"$1"
+    eza -l --sort=modified -r --icons=always --color=always | head -"$1"
   else
-    eza -l --sort=modified -r --icons=always
+    eza -l --sort=modified -r --icons=always --color=always
   fi
 }
 
