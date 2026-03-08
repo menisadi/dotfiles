@@ -68,6 +68,9 @@ end)
 hk.bind({ "ctrl", "shift" }, "7", function()
 	app.launchOrFocusByBundleID("com.spotify.client")
 end)
+hk.bind({ "ctrl", "shift" }, "6", function()
+	app.launchOrFocusByBundleID("net.whatsapp.Whatsapp")
+end)
 
 hk.bind({ "ctrl", "shift" }, "-", function()
 	hs.alert.show("Oh dear, that's the wrong key!")
@@ -124,7 +127,8 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Shift+0: Launch Firefox",
 		"Ctrl+Shift+9: Launch Ghostty",
 		"Ctrl+Shift+8: Launch Todoist",
-		"Ctrl+Shift+7: Launch Spotify\n",
+		"Ctrl+Shift+7: Launch Spotify",
+		"Ctrl+Shift+6: Launch Whatsapp\n",
 		"Ctrl+Alt+Cmd+B: Center focused window almost full",
 		"Ctrl+Alt+Cmd+N: Center all visible windows almost full",
 		"Ctrl+Alt+Cmd+G: Center all visible windows",
@@ -152,6 +156,7 @@ local cheatSheetData = {
 	{ text = "Launch Ghostty", subText = "Ctrl + Shift + 9" },
 	{ text = "Launch Todoist", subText = "Ctrl + Shift + 8" },
 	{ text = "Launch Spotify", subText = "Ctrl + Shift + 7" },
+	{ text = "Launch Whatsapp", subText = "Ctrl + Shift + 6" },
 	{ text = "Center focused window almost full", subText = "Ctrl + Alt + Cmd + B" },
 	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + N" },
 	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + G" },
