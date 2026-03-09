@@ -23,19 +23,18 @@
 # - vibemark
 
 # Used scripts by me:
-# - move_csv.sh
-# - ask.sh
-# - since.sh
-# - pomo.py
-# - tw_pom.sh
-# - graphfold.py
-# - git_compress.py
-# - list_erros.py
-# - list_missing_docstrings.py
-# - logic_map.py
-# - search_unused_files.py
-# - nowplaying.sh
-# - pgn_analyze.py
+# - move_csv
+# - since
+# - pomo
+# - timew_pom
+# - graphfold
+# - git_compress
+# - list_errors
+# - missing_docstrings
+# - logic_map
+# - unused_files
+# - nowplaying
+# - pgn_analyze
 
 alias lzg='lazygit'
 alias lzd='lazydocker'
