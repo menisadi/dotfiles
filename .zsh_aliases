@@ -454,12 +454,12 @@ llmsh() {
     -x \
     "$@")
   echo "$ $cmd"
-  echo "[e]xecute  [y]ank  [q]uit"
+  print -n "[e]xecute  [y]ank  [q]uit: "
   read -rk 1 choice
   echo
 
   case $choice in
-  e) eval "$cmd" ;;
+  e) echo && eval "$cmd" ;;
   y) echo "$cmd" | pbcopy && echo "Copied." ;;
   *) echo "Canceled." ;;
   esac
