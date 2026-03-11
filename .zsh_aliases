@@ -177,7 +177,7 @@ graph() {
     pager_cmd="less -R"
   fi
 
-  git-graph --no-pager --color=always --wrap "$wrap_cols" | eval "$pager_cmd"
+  git-graph --no-pager --color=always --wrap "$wrap_cols" 2>/dev/null | eval "$pager_cmd"
 }
 
 # more versitle ls/eza version of the eza aliases
