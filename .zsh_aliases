@@ -11,7 +11,6 @@
 # - timewarrior
 # - spotify_player
 # - git-graph
-# - mods
 # - yazi
 # - ffmpeg
 # - bat
@@ -81,8 +80,6 @@ twg() {
 alias nwb='newsboat'
 alias cless='csvlens --color-columns'
 
-alias mod='mods --role short --no-cache -q'
-alias modn='mods --no-cache -q'
 wcurl () { trafilatura -u "$1" --output-format txt 2>/dev/null | wc -w; }
 
 bjc() {
@@ -336,53 +333,6 @@ function record() {
   eval "$command" | tee "$filename"
 }
 
-# A function to use 'mods' to run shell commands
-runmods() {
-  generated_command=$(mods --role shell "$1")
-  echo "Generated command: $generated_command"
-  echo "Do you want to (r)un, (c)opy, or (q)uit?"
-  read -r action
-
-  case $action in
-  r | R)
-    # Run the command
-    bash -c "$generated_command"
-    ;;
-  c | C)
-    # Copy the command to the clipboard (using pbcopy for MacOS)
-    echo "$generated_command" | pbcopy
-    echo "Command copied to clipboard."
-    ;;
-  q | Q)
-    echo "Canceled."
-    ;;
-  *)
-    echo "Invalid option. Please enter r, c, or q."
-    ;;
-  esac
-}
-
-modshell() {
-  command=$(mods -q --no-cache --role shell "$@")
-  echo "Generated Command:"
-  echo "$command" | gum style --foreground 212 --padding "1 1" --italic
-
-  choice=$(gum choose "Run" "Copy" "Cancel")
-
-  case $choice in
-  "Run")
-    eval "$command"
-    ;;
-  "Copy")
-    echo "$command" | pbcopy # 'pbcopy' is for macOS
-    echo "Command copied to clipboard."
-    ;;
-  "Cancel")
-    echo "Operation canceled."
-    ;;
-  esac
-}
-
 # yazi shell wrapper
 function yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -471,4 +421,48 @@ export FZF_CTRL_R_OPTS=$'
   --preview=\'echo {} | bat --language=bash --style=plain --color=always\'
 '
 
-alias ai=modshell
+llmshell() {
+  local cmd
+  cmd=$(llm -m gemini-2.5-flash-lite \
+    -s "Reply with the raw shell command only. No explanation, no commentary, no code fences." \
+    -x \
+    "$@")
+  echo "Generated Command:"
+  echo "$cmd" | gum style --foreground 212 --padding "1 1" --italic
+
+  local choice
+  choice=$(gum choose "Run" "Copy" "Cancel")
+
+  case $choice in
+  "Run")
+    eval "$cmd"
+    ;;
+  "Copy")
+    echo "$cmd" | pbcopy
+    echo "Command copied to clipboard."
+    ;;
+  "Cancel")
+    echo "Operation canceled."
+    ;;
+  esac
+}
+
+llmsh() {
+  local cmd
+  cmd=$(llm -m gemini-2.5-flash-lite \
+    -s "Reply with the raw shell command only. No explanation, no commentary, no code fences." \
+    -x \
+    "$@")
+  echo "$ $cmd"
+  echo "[e]xecute  [y]ank  [q]uit"
+  read -rk 1 choice
+  echo
+
+  case $choice in
+  e) eval "$cmd" ;;
+  y) echo "$cmd" | pbcopy && echo "Copied." ;;
+  *) echo "Canceled." ;;
+  esac
+}
+
+alias ai=llmsh
