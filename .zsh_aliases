@@ -465,4 +465,5 @@ llmsh() {
   esac
 }
 
+ask() { llm -t terse "$@"; }
 alias ai=llmsh
