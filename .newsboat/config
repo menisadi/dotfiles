@@ -40,4 +40,4 @@ macro n set browser "trafilatura -u %u --markdown | nvim -c 'set filetype=markdo
 # Macro 'g': Scrape to Markdown -> Render nicely in Glow
 macro g set browser "trafilatura -u %u --markdown | glow -p -" ; open-in-browser ; set browser "w3m %u"
 # This seems to work only some feeds, specifically HN
-macro s set browser "trafilatura -u %u --markdown | mods -q -R sneak | glow -p -" ; open-in-browser ; set browser "w3m %u"
+macro s set browser "trafilatura -u %u --markdown | llm -t tldr | glow -p -" ; open-in-browser ; set browser "w3m %u"
