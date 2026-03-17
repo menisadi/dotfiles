@@ -40,7 +40,7 @@ alias lzd='lazydocker'
 alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && docker rmi \$(docker images -q)"
 
 alias ee='eza --sort=created --icons=auto --group-directories-first'
-alias el='eza -l --sort=created --icons=auto --group-directories-first --git --git-repos'
+alias ell='eza -l --sort=created --icons=auto --group-directories-first --git --git-repos'
 alias es='eza --sort=extension --icons=auto --group-directories-first'
 alias esa='eza -a --sort=extension --icons=auto --group-directories-first'
 alias eea='eza -a --sort=created --icons=auto --group-directories-first'
@@ -189,7 +189,7 @@ function e() {
   fi
 }
 
-function ez() {
+function el() {
   if [ -n "$1" ]; then
     eza -l --sort=modified -r --icons=always --color=always | head -"$1"
   else
