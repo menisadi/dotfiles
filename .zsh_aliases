@@ -85,21 +85,13 @@ wcurl () { trafilatura -u "$1" --output-format txt 2>/dev/null | wc -w; }
 bjc() {
   local url
   url=$(bejw list --format jsonl --no-header | jq -r '.url' | gum choose)
-  if [[ -n "$url" ]]; then
-    trafilatura --markdown -u "$url" | glow -p
-  else
-    echo "No URL selected."
-  fi
+  [[ -n "$url" ]] && webread "$url" | glow -p || echo "No URL selected."
 }
 
 bj() {
   local url
   url=$(bejw list --format csv | gum table | awk -F',' '{print $NF}')
-  if [[ -n "$url" ]]; then
-    trafilatura --markdown -u "$url" | glow -p
-  else
-    echo "No URL selected."
-  fi
+  [[ -n "$url" ]] && webread "$url" | glow -p || echo "No URL selected."
 }
 
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
@@ -167,6 +159,7 @@ alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du 
 alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
 alias vm='vibemark'
+
 graph() {
   local wrap_cols pager_cmd
   wrap_cols=$(( COLUMNS > 10 ? COLUMNS - 10 : 70 ))
