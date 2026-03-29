@@ -48,7 +48,7 @@ alias eea='eza -a --sort=created --icons=auto --group-directories-first'
 alias avim='NVIM_APPNAME=astronvim nvim'
 alias kvim='NVIM_APPNAME=nvim-legacy nvim'
 alias lvim='NVIM_APPNAME=lazyvim nvim'
-alias mvim='NVIM_APPNAME=minvim bob run nightly'
+alias mvim='NVIM_APPNAME=minvim nvim'
 alias nvide='neovide'
 alias avide='NVIM_APPNAME=astronvim neovide'
 
