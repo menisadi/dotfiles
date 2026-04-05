@@ -297,3 +297,12 @@ llmsh() {
 
 ask() { llm -t terse "$@"; }
 alias ai=llmsh
+
+jv() {
+  jira issue view "$@" --plain 2>&1 | awk '
+    { gsub(/\033\[[0-9;]*m/, ""); sub(/[[:space:]]+$/, ""); sub(/^ +/, "") }
+    /^$/ { if (line) { print line; line="" }; if (!blank) print; blank=1; next }
+    { blank=0; line = (line ? line " " $0 : $0) }
+    END { if (line) print line }
+  '
+}
