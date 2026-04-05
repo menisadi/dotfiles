@@ -1,5 +1,13 @@
 local hk, app, win, screen = hs.hotkey, hs.application, hs.window, hs.screen
 
+local excludedBundleIDs = {
+	["com.martinfekete.tuneful"] = true,
+}
+local function isExcluded(w)
+	local a = w:application()
+	return a and excludedBundleIDs[a:bundleID()]
+end
+
 hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "W", function()
 	hs.alert.show("Hello World!")
 end)
@@ -20,11 +28,13 @@ end)
 -- Center all visible windows
 hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "G", function()
 	for _, win in ipairs(hs.window.visibleWindows()) do
-		local frame = win:frame()
-		local screenFrame = win:screen():frame()
-		frame.x = screenFrame.x + (screenFrame.w - frame.w) / 2
-		frame.y = screenFrame.y + (screenFrame.h - frame.h) / 2
-		win:setFrame(frame)
+		if not isExcluded(win) then
+			local frame = win:frame()
+			local screenFrame = win:screen():frame()
+			frame.x = screenFrame.x + (screenFrame.w - frame.w) / 2
+			frame.y = screenFrame.y + (screenFrame.h - frame.h) / 2
+			win:setFrame(frame)
+		end
 	end
 	hs.alert.show("Windows centered")
 end)
@@ -79,12 +89,15 @@ end)
 -- Helpers for sizing
 local function centerAlmostFull(w, m)
 	w = w or win.focusedWindow()
+	if isExcluded(w) then return end
 	m = m or 48
 	local f = w:screen():frame()
 	w:setFrame({ x = f.x + m, y = f.y + m, w = f.w - 2 * m, h = f.h - 2 * m })
 end
 local function maximize(w)
-	(w or win.focusedWindow()):maximize()
+	w = w or win.focusedWindow()
+	if isExcluded(w) then return end
+	w:maximize()
 end
 
 -- 2) Apply profile on display changes: external -> center w/ gaps; laptop -> maximize
