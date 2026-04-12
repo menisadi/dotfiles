@@ -3,8 +3,3 @@
 
 # ignore everything in .vim
 /.vim/*
-
-# …but allow traversing these dirs + track plug.vim
-!/.vim/
-!/.vim/autoload/
-!/.vim/autoload/plug.vim
