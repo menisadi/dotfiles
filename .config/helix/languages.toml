@@ -1,6 +1,29 @@
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
 [[language]]
 name = "python"
+language-servers = ["basedpyright", "ruff"]
+auto-format = true
 
-[language.formatter]
-command = "black"
-args = ["--line-length", "88", "--quiet", "-"]
+[[language]]
+name = "lua"
+language-servers = ["lua-language-server"]
+formatter = { command = "stylua", args = ["-"] }
+auto-format = true
+
+[language-server.harper-ls]
+command = "harper-ls"
+args = ["--stdio"]
+
+[language-server.rumdl]
+command = "rumdl"
+args = ["server"]
+
+[[language]]
+name = "markdown"
+language-servers = ["marksman", "harper-ls", "rumdl"]
+soft-wrap.enable = true
+text-width = 80
+soft-wrap.wrap-at-text-width = true
