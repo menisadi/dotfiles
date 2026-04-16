@@ -11,7 +11,7 @@ autoload -Uz promptinit && promptinit && prompt powerlevel10k
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export EDITOR='vim'
+export EDITOR='nvim'
 export HISTSIZE=100000
 export SAVEHIST=100000
 setopt HIST_IGNORE_ALL_DUPS
