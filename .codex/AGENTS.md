@@ -4,7 +4,7 @@
 - Keep changes minimal and tightly scoped to what I asked for.
 - Do not add extra features, examples, or embellishments unless requested.
 - Avoid over-investigating code or running unnecessary commands when I am asking a narrow question.
-- Before substantial edits, explain the approach briefly before proceeding.
+- Before making any code or config change, explain what you plan to change, why you are making that change, and any important tradeoffs or alternatives if relevant, then wait for my explicit approval before editing files, running mutating commands, or committing.
 - When debugging or trying unfamiliar tools, read `--help` or documentation before repeated guesses.
 - Prefer `rg` for text search instead of `grep`.
 - Prefer `fd` for file discovery instead of `find` when available.
