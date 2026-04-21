@@ -10,4 +10,20 @@
 - Prefer `fd` for file discovery instead of `find` when available.
 - In `uv`-managed Python projects, use `uv run` for Python commands.
 - Prefer running scripts as modules with `-m` when appropriate.
-- For inline Python snippets in `uv` projects, use `uv run python ...` instead of bare `python`.
+- For inline Python snippets in `uv` projects, use `uv run python - <<'PY' ...` instead of bare `python`.
+- Install dependencies (including dev tools like `pytest`, `ruff`, or `ty`) with `uv sync`.
+
+## Quality Checks (run via CLI)
+- Format code with Ruff: `uv run ruff format .`
+- Lint (and auto-fix safe issues) with Ruff: `uv run ruff check . --fix`
+- Type-check with ty: `uv run ty check`
+- Run tests with pytest: `uv run -m pytest` (add `-k` or `-s` for targeted/debug runs)
+
+## Edit Loop (required after code changes)
+Run in order, fix failures, and repeat until clean:
+1. `uv run ruff format .`
+2. `uv run ruff check . --fix`
+3. `uv run -m pytest`
+
+## Security
+- Never commit secrets or large proprietary data. Keep credentials in env vars or a private `.env` (add `.env.example` when needed) and extend `.gitignore` if new sensitive patterns appear.
