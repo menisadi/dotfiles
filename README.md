@@ -55,6 +55,15 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 Then open Tmux and press `prefix + I` to install plugins.
 
+## AI Agents Configuration
+
+The `.agents/` directory is managed by Stow and contains shared configuration for AI coding agents:
+
+- `.agents/AGENTS.md` — shared instructions loaded by all agents that support this standard
+- `.agents/skills/` — agent skills following the [Agent Skills](https://agentskills.io) open standard
+
+All agent tooling (`.codex/`, `.claude/`) is wired up via Stow — no manual steps needed beyond `stow .`.
+
 ## Dependencies
 
 Most of these can be installed via Homebrew.
