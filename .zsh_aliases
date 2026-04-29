@@ -279,7 +279,7 @@ llmshell() {
 
 llmsh() {
   local cmd
-  cmd=$(llm -m gemini-2.5-flash-lite \
+  cmd=$(llm -m gemini-2.5-flash \
     -s "Reply with the raw shell command only. No explanation, no commentary, no code fences, no backticks." \
     -x \
     "$@")
@@ -297,6 +297,28 @@ llmsh() {
 
 ask() { llm -t terse "$@"; }
 alias ai=llmsh
+
+jel() {
+  local parent="$1"
+  shift
+  local mode="open"
+
+  [[ "${1:-}" == "--all" ]] && mode="all"
+
+  local status_flags=()
+  [[ "$mode" == "open" ]] && status_flags=(--status "To Do" --status "In Progress")
+
+  local selected
+  selected=$(jira issue list -P "$parent" "${status_flags[@]}" \
+    --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1 \
+  | gum table -s ',')
+
+  [[ -z "$selected" ]] && return 0
+
+  local key
+  key=$(echo "$selected" | cut -d',' -f1)
+  jv "$key"
+}
 
 jv() {
   jira issue view "$@" --plain 2>&1 | awk '
