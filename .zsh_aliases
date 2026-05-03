@@ -323,8 +323,16 @@ jel() {
 jv() {
   jira issue view "$@" --plain 2>&1 | awk '
     { gsub(/\033\[[0-9;]*m/, ""); sub(/[[:space:]]+$/, ""); sub(/^ +/, "") }
+    /^-+.*Subtasks/ { if (line) print line; exit }
     /^$/ { if (line) { print line; line="" }; if (!blank) print; blank=1; next }
     { blank=0; line = (line ? line " " $0 : $0) }
     END { if (line) print line }
   '
+
+  local subtasks
+  subtasks=$(jira issue view "$@" --raw 2>&1 | jq -r '
+    .fields.subtasks[] |
+    "\(.key)  \(.fields.summary)  •  \(.fields.priority.name)  •  \(.fields.status.name)"
+  ')
+  [[ -n "$subtasks" ]] && printf "\nSubtasks\n%s\n" "$subtasks"
 }
