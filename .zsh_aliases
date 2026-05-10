@@ -65,33 +65,42 @@ alias twp='timew stop'
 alias twm='timew summary sunday - eod'
 
 twg() {
-  local tags
-  tags=$(
-    timew tags | tail -n +4 | awk '{print $1}' |
-    gum filter --no-limit |
-    tr '\n' ' '
-  )
+	local tags
+	tags=$(
+		timew tags | tail -n +4 | awk '{print $1}' |
+			gum filter --no-limit |
+			tr '\n' ' '
+	)
 
-  [[ -z "${tags//[[:space:]]/}" ]] && return 0
+	[[ -z "${tags//[[:space:]]/}" ]] && return 0
 
-  timew start ${=tags}
+	timew start ${=tags}
 }
 
 alias nwb='newsboat'
 alias cless='csvlens --color-columns'
 
-wcurl () { trafilatura -u "$1" --output-format txt 2>/dev/null | wc -w; }
+wcurl() { trafilatura -u "$1" --output-format txt 2>/dev/null | wc -w; }
 
 bjc() {
-  local url
-  url=$(bejw list --format jsonl --no-header | jq -r '.url' | gum choose)
-  [[ -n "$url" ]] && webread "$url" | glow -p || echo "No URL selected."
+	local url
+	url=$(bejw list --format jsonl --no-header | jq -r '.url' | gum choose)
+	[[ -n "$url" ]] && webread "$url" | glow -p || echo "No URL selected."
 }
 
 bj() {
-  local url
-  url=$(bejw list --format csv | gum table | awk -F',' '{print $NF}')
-  [[ -n "$url" ]] && webread "$url" | glow -p || echo "No URL selected."
+	local url
+	url=$(bejw list --format csv | gum table | awk -F',' '{print $NF}')
+	[[ -n "$url" ]] && webread "$url" | glow -p || echo "No URL selected."
+}
+
+bejwc() {
+	bejw list --format jsonl |
+		jq -r '[.url, .title] | @tsv' |
+		while IFS=$'\t' read -r url title; do
+			words=$(trafilatura -u "$url" --output-format txt 2>/dev/null | wc -w | tr -d ' ')
+			printf "%6s  %s\n" "$words" "$title"
+		done
 }
 
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
@@ -121,81 +130,81 @@ alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?fo
 alias vm='vibemark'
 
 graph() {
-  local wrap_cols pager_cmd
-  wrap_cols=$(( COLUMNS > 10 ? COLUMNS - 10 : 70 ))
+	local wrap_cols pager_cmd
+	wrap_cols=$((COLUMNS > 10 ? COLUMNS - 10 : 70))
 
-  if [[ -n "${PAGER:-}" ]]; then
-    pager_cmd="${PAGER}"
-  else
-    pager_cmd="less -R"
-  fi
+	if [[ -n "${PAGER:-}" ]]; then
+		pager_cmd="${PAGER}"
+	else
+		pager_cmd="less -R"
+	fi
 
-  git-graph --no-pager --color=always --wrap "$wrap_cols" 2>/dev/null | eval "$pager_cmd"
+	git-graph --no-pager --color=always --wrap "$wrap_cols" 2>/dev/null | eval "$pager_cmd"
 }
 
 # more versitle ls/eza version of the eza aliases
 function e() {
-  if [ -n "$1" ]; then
-    eza --sort=modified -r --icons=always --color=always | head -"$1"
-  else
-    eza --sort=modified -r --icons=always --color=always
-  fi
+	if [ -n "$1" ]; then
+		eza --sort=modified -r --icons=always --color=always | head -"$1"
+	else
+		eza --sort=modified -r --icons=always --color=always
+	fi
 }
 
 function el() {
-  if [ -n "$1" ]; then
-    eza -l --sort=modified -r --icons=always --color=always | head -"$1"
-  else
-    eza -l --sort=modified -r --icons=always --color=always
-  fi
+	if [ -n "$1" ]; then
+		eza -l --sort=modified -r --icons=always --color=always | head -"$1"
+	else
+		eza -l --sort=modified -r --icons=always --color=always
+	fi
 }
 
 # Simple mkdir-cd combo
 mkcd() {
-  mkdir -p "$1" && cd "$1"
+	mkdir -p "$1" && cd "$1"
 }
 
 # create and open daily files
 todaymd() {
-  file="$(date +%Y-%m-%d).md"
-  [ ! -f "$file" ] && touch "$file"
-  ${EDITOR:-vim} "$file"
+	file="$(date +%Y-%m-%d).md"
+	[ ! -f "$file" ] && touch "$file"
+	${EDITOR:-vim} "$file"
 }
 
 # My weather commands
 function weather() {
-  if [ "$1" = "-w" ]; then
-    curl "wttr.in/Herzliya?format=3"
-  elif [ "$1" = "-h" ]; then
-    curl "wttr.in/Yeruham?format=3"
-  elif [ -z "$1" ]; then
-    curl "wttr.in/?format=3"
-  else
-    echo "Usage: weather [-w|-h]"
-    echo "  -w: Get the weather for Herzliya"
-    echo "  -h: Get the weather for Yeruham"
-  fi
+	if [ "$1" = "-w" ]; then
+		curl "wttr.in/Herzliya?format=3"
+	elif [ "$1" = "-h" ]; then
+		curl "wttr.in/Yeruham?format=3"
+	elif [ -z "$1" ]; then
+		curl "wttr.in/?format=3"
+	else
+		echo "Usage: weather [-w|-h]"
+		echo "  -w: Get the weather for Herzliya"
+		echo "  -h: Get the weather for Yeruham"
+	fi
 }
 
 alias weathers="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
 function record() {
-  local default_file="record.log"
+	local default_file="record.log"
 
-  # Check if a command is provided
-  if [ -z "$1" ]; then
-    echo "No command provided. Usage: run_and_log 'command' [filename]"
-    return 1
-  fi
+	# Check if a command is provided
+	if [ -z "$1" ]; then
+		echo "No command provided. Usage: run_and_log 'command' [filename]"
+		return 1
+	fi
 
-  # Get the command to run
-  local command="$1"
+	# Get the command to run
+	local command="$1"
 
-  # Get the file name if provided, otherwise use the default
-  local filename="${2:-$default_file}"
+	# Get the file name if provided, otherwise use the default
+	local filename="${2:-$default_file}"
 
-  # Run the command and use tee to write to the file and output to terminal
-  eval "$command" | tee "$filename"
+	# Run the command and use tee to write to the file and output to terminal
+	eval "$command" | tee "$filename"
 }
 
 # yazi shell wrapper
@@ -209,30 +218,30 @@ function yy() {
 }
 
 cheat() {
-    curl "https://cheat.sh/$1"
+	curl "https://cheat.sh/$1"
 }
 
 nvim-health() {
-  local section="${1:-}"
-  nvim --headless \
-    +"checkhealth ${section}" \
-    +"lua for _,b in ipairs(vim.api.nvim_list_bufs()) do local n=vim.api.nvim_buf_get_name(b); if n:match('^health://') then for _,l in ipairs(vim.api.nvim_buf_get_lines(b,0,-1,false)) do print(l) end; break end end" \
-    +qall 2>&1
+	local section="${1:-}"
+	nvim --headless \
+		+"checkhealth ${section}" \
+		+"lua for _,b in ipairs(vim.api.nvim_list_bufs()) do local n=vim.api.nvim_buf_get_name(b); if n:match('^health://') then for _,l in ipairs(vim.api.nvim_buf_get_lines(b,0,-1,false)) do print(l) end; break end end" \
+		+qall 2>&1
 }
 
-topcmds () {
-  local n="${1:-20}"
-  fc -ln 1 \
-  | sed -E 's/^[[:space:]]*//' \
-  | awk 'NF{
+topcmds() {
+	local n="${1:-20}"
+	fc -ln 1 |
+		sed -E 's/^[[:space:]]*//' |
+		awk 'NF{
     cmd=$1
     if (cmd=="sudo") cmd=$2
     a[cmd]++
   } END{
     for (c in a) printf "%d\t%s\n", a[c], c
-  }' \
-  | sort -nr | head -n "$n" \
-  | gum table -p -s $'\t' -c Count -c Command \
+  }' |
+		sort -nr | head -n "$n" |
+		gum table -p -s $'\t' -c Count -c Command
 }
 
 export FZF_CTRL_R_OPTS=$'
@@ -252,76 +261,76 @@ export FZF_CTRL_R_OPTS=$'
 '
 
 llmshell() {
-  local cmd
-  cmd=$(llm -m gemini-2.5-flash-lite \
-    -s "Reply with the raw shell command only. No explanation, no commentary, no code fences, no backticks." \
-    -x \
-    "$@")
-  echo "Generated Command:"
-  echo "$cmd" | gum style --foreground 212 --padding "1 1" --italic
+	local cmd
+	cmd=$(llm -m gemini-2.5-flash-lite \
+		-s "Reply with the raw shell command only. No explanation, no commentary, no code fences, no backticks." \
+		-x \
+		"$@")
+	echo "Generated Command:"
+	echo "$cmd" | gum style --foreground 212 --padding "1 1" --italic
 
-  local choice
-  choice=$(gum choose "Run" "Copy" "Cancel")
+	local choice
+	choice=$(gum choose "Run" "Copy" "Cancel")
 
-  case $choice in
-  "Run")
-    eval "$cmd"
-    ;;
-  "Copy")
-    echo "$cmd" | pbcopy
-    echo "Command copied to clipboard."
-    ;;
-  "Cancel")
-    echo "Operation canceled."
-    ;;
-  esac
+	case $choice in
+	"Run")
+		eval "$cmd"
+		;;
+	"Copy")
+		echo "$cmd" | pbcopy
+		echo "Command copied to clipboard."
+		;;
+	"Cancel")
+		echo "Operation canceled."
+		;;
+	esac
 }
 
 llmsh() {
-  local cmd
-  cmd=$(llm -m gemini-2.5-flash \
-    -s "Reply with the raw shell command only. No explanation, no commentary, no code fences, no backticks." \
-    -x \
-    "$@")
-  echo "$ $cmd"
-  print -n "[e]xecute  [y]ank  [q]uit: "
-  read -rk 1 choice
-  echo
+	local cmd
+	cmd=$(llm -m gemini-2.5-flash \
+		-s "Reply with the raw shell command only. No explanation, no commentary, no code fences, no backticks." \
+		-x \
+		"$@")
+	echo "$ $cmd"
+	print -n "[e]xecute  [y]ank  [q]uit: "
+	read -rk 1 choice
+	echo
 
-  case $choice in
-  e) echo && eval "$cmd" ;;
-  y) echo "$cmd" | pbcopy && echo "Copied." ;;
-  *) echo "Canceled." ;;
-  esac
+	case $choice in
+	e) echo && eval "$cmd" ;;
+	y) echo "$cmd" | pbcopy && echo "Copied." ;;
+	*) echo "Canceled." ;;
+	esac
 }
 
 ask() { llm -t terse "$@"; }
 alias ai=llmsh
 
 jel() {
-  local parent="$1"
-  shift
-  local mode="open"
+	local parent="$1"
+	shift
+	local mode="open"
 
-  [[ "${1:-}" == "--all" ]] && mode="all"
+	[[ "${1:-}" == "--all" ]] && mode="all"
 
-  local status_flags=()
-  [[ "$mode" == "open" ]] && status_flags=(--status "To Do" --status "In Progress")
+	local status_flags=()
+	[[ "$mode" == "open" ]] && status_flags=(--status "To Do" --status "In Progress")
 
-  local selected
-  selected=$(jira issue list -P "$parent" "${status_flags[@]}" \
-    --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1 \
-  | gum table -s ',')
+	local selected
+	selected=$(jira issue list -P "$parent" "${status_flags[@]}" \
+		--csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1 |
+		gum table -s ',')
 
-  [[ -z "$selected" ]] && return 0
+	[[ -z "$selected" ]] && return 0
 
-  local key
-  key=$(echo "$selected" | cut -d',' -f1)
-  jv "$key"
+	local key
+	key=$(echo "$selected" | cut -d',' -f1)
+	jv "$key"
 }
 
 jv() {
-  jira issue view "$@" --plain 2>&1 | awk '
+	jira issue view "$@" --plain 2>&1 | awk '
     { gsub(/\033\[[0-9;]*m/, ""); sub(/[[:space:]]+$/, ""); sub(/^ +/, "") }
     /^-+.*Subtasks/ { if (line) print line; exit }
     /^$/ { if (line) { print line; line="" }; if (!blank) print; blank=1; next }
@@ -329,10 +338,10 @@ jv() {
     END { if (line) print line }
   '
 
-  local subtasks
-  subtasks=$(jira issue view "$@" --raw 2>&1 | jq -r '
+	local subtasks
+	subtasks=$(jira issue view "$@" --raw 2>&1 | jq -r '
     .fields.subtasks[] |
     "\(.key)  \(.fields.summary)  •  \(.fields.priority.name)  •  \(.fields.status.name)"
   ')
-  [[ -n "$subtasks" ]] && printf "\nSubtasks\n%s\n" "$subtasks"
+	[[ -n "$subtasks" ]] && printf "\nSubtasks\n%s\n" "$subtasks"
 }
