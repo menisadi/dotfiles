@@ -20,6 +20,7 @@ setopt EXTENDED_HISTORY
 
 export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.atuin/bin:$PATH"
 export PATH="/usr/local/opt/tcl-tk/bin:$PATH"
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 
 _zsh_cache_eval() {
   local key="$1"
