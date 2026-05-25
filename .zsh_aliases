@@ -297,9 +297,10 @@ llmshell() {
 	esac
 }
 
-llmsh() {
+_llmsh_impl() {
+	local model="$1"; shift
 	local cmd
-	cmd=$(llm -m gemini-2.5-flash \
+	cmd=$(llm -m "$model" \
 		-s "Reply with the raw shell command only. No explanation, no commentary, no code fences, no backticks." \
 		-x \
 		"$@")
@@ -315,8 +316,14 @@ llmsh() {
 	esac
 }
 
-ask() { llm -t terse "$@"; }
+llmsh()  { _llmsh_impl "gemini-2.5-flash" "$@"; }
+ollmsh() { _llmsh_impl "qwen2.5-coder:7b" "$@"; }
 alias ai=llmsh
+alias oai=ollmsh
+
+_ask_impl() { local model="$1"; shift; llm -m "$model" -t terse "$@"; }
+ask()  { _ask_impl "gemini-2.5-flash" "$@"; }
+oask() { _ask_impl "qwen3:4b-thinking-2507-q4_K_M" "$@"; }
 
 jel() {
 	local parent="$1"
