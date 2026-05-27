@@ -12,9 +12,10 @@ Use this skill after editing Python code in a repository that uses `uv`.
 1. Confirm the repo uses `uv` and identify the narrowest relevant test target if the change is scoped.
 2. Run formatting with `uv run ruff format .`.
 3. Run lint fixes with `uv run ruff check . --fix`.
-4. Run tests with `uv run -m pytest` or a narrower target when the request is intentionally scoped.
-5. If a step fails, inspect the failure, fix the issue, and rerun the sequence from the top.
-6. In the final response, state what was run and whether anything remains failing or unverified.
+4. Run type checks with `uv run ty check`.
+5. Run tests with `uv run -m pytest` or a narrower target when the request is intentionally scoped.
+6. If a step fails, inspect the failure, fix the issue, and rerun the sequence from the top.
+7. In the final response, state what was run and whether anything remains failing or unverified.
 
 ## Rules
 

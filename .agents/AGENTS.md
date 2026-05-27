@@ -8,10 +8,13 @@
 - When debugging or trying unfamiliar tools, read `--help` or `man` pages before repeated guesses.
 - Prefer `rg` for text search instead of `grep`.
 - Prefer `fd` for file discovery instead of `find` when available.
+- Both `rg` and `fd` respect `.gitignore` by default; pass `--no-ignore` when you need to search ignored or untracked paths.
+- Prefer `eza` for directory listing instead of `ls` when available.
 - In `uv`-managed Python projects, use `uv run` for Python commands.
 - Prefer running scripts as modules with `-m` when appropriate.
 - For inline Python snippets in `uv` projects, use `uv run python - <<'PY' ...` instead of bare `python`.
 - Install dependencies (including dev tools like `pytest`, `ruff`, or `ty`) with `uv sync`.
+- All new functions and classes must have type annotations.
 
 ## Quality Checks (run via CLI)
 - Format code with Ruff: `uv run ruff format .`
@@ -23,7 +26,15 @@
 Run in order, fix failures, and repeat until clean:
 1. `uv run ruff format .`
 2. `uv run ruff check . --fix`
-3. `uv run -m pytest`
+3. `uv run ty check`
+4. `uv run -m pytest`
+
+## Git Commits
+- Use Conventional Commits: `<type>(<scope>): <description>` (e.g., `fix(auth): handle expired tokens`).
+- Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`.
+- Keep the description under 72 characters; use imperative mood.
+- Do not commit without explicit user approval.
+- Commit `uv.lock` for applications; add it to `.gitignore` for libraries.
 
 ## Security
 - Never commit secrets or large proprietary data. Keep credentials in env vars or a private `.env` (add `.env.example` when needed) and extend `.gitignore` if new sensitive patterns appear.
