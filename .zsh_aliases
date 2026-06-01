@@ -155,18 +155,18 @@ graph() {
 
 # more versitle ls/eza version of the eza aliases
 function e() {
-	if [ -n "$1" ]; then
+	if [[ "$1" =~ ^[0-9]+$ ]]; then
 		eza --sort=modified -r --icons=always --color=always | head -"$1"
 	else
-		eza --sort=modified -r --icons=always --color=always
+		eza --sort=modified -r --icons=always --color=always "$@"
 	fi
 }
 
 function el() {
-	if [ -n "$1" ]; then
+	if [[ "$1" =~ ^[0-9]+$ ]]; then
 		eza -l --sort=modified -r --icons=always --color=always | head -"$1"
 	else
-		eza -l --sort=modified -r --icons=always --color=always
+		eza -l --sort=modified -r --icons=always --color=always "$@"
 	fi
 }
 
