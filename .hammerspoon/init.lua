@@ -85,7 +85,7 @@ hk.bind({ "ctrl", "shift" }, "4", function()
 	app.launchOrFocusByBundleID("com.anthropic.claudefordesktop")
 end)
 hk.bind({ "ctrl", "shift" }, "5", function()
-	app.launchOrFocusByBundleID("com.openai.codex")
+	app.launchOrFocusByBundleID("com.apple.mail")
 end)
 
 hk.bind({ "ctrl", "shift" }, "-", function()
@@ -144,7 +144,7 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Shift+2: Launch Kitty",
 		"Ctrl+Shift+3: Launch Slack",
 		"Ctrl+Shift+4: Launch Claude",
-		"Ctrl+Shift+5: Launch Codex",
+		"Ctrl+Shift+5: Launch Mail",
 		"Ctrl+Shift+6: Launch Spotify",
 		"Ctrl+Shift+7: Launch Todoist",
 		"Ctrl+Shift+8: Launch Whatsapp",
@@ -174,7 +174,7 @@ local cheatSheetData = {
 	{ text = "Launch Kitty", subText = "Ctrl + Shift + 2" },
 	{ text = "Launch Slack", subText = "Ctrl + Shift + 3" },
 	{ text = "Launch Claude", subText = "Ctrl + Shift + 4" },
-	{ text = "Launch Codex", subText = "Ctrl + Shift + 5" },
+	{ text = "Launch Mail", subText = "Ctrl + Shift + 5" },
 	{ text = "Launch Spotify", subText = "Ctrl + Shift + 6" },
 	{ text = "Launch Todoist", subText = "Ctrl + Shift + 7" },
 	{ text = "Launch Whatsapp", subText = "Ctrl + Shift + 8" },
