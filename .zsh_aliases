@@ -363,3 +363,58 @@ jv() {
   ')
 	[[ -n "$subtasks" ]] && printf "\nSubtasks\n%s\n" "$subtasks"
 }
+
+js() {
+	local mode="open"
+	[[ "${1:-}" == "--all" ]] && mode="all"
+
+	local jql="sprint in openSprints()"
+	[[ "$mode" == "open" ]] && jql="$jql AND status != Done"
+
+	local selected
+	selected=$(jira issue list --jql "$jql" \
+		--csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE,PRIORITY" 2>&1 |
+		gum table -s ',')
+
+	[[ -z "$selected" ]] && return 0
+
+	local key
+	key=$(echo "$selected" | cut -d',' -f1)
+	jv "$key"
+}
+
+jsm() {
+	local jql="sprint in openSprints() AND assignee = currentUser() AND status != Done"
+
+	local selected
+	selected=$(jira issue list --jql "$jql" \
+		--csv --columns "KEY,SUMMARY,STATUS,PRIORITY" 2>&1 |
+		gum table -s ',')
+
+	[[ -z "$selected" ]] && return 0
+
+	local key
+	key=$(echo "$selected" | cut -d',' -f1)
+	jv "$key"
+}
+
+jsa() {
+	local sprint_id="$1"
+	if [[ -z "$sprint_id" ]]; then
+		echo "Usage: jsa <SPRINT_ID> [--mine]"
+		return 1
+	fi
+
+	local assignee_filter=""
+	[[ "${2:-}" == "--mine" ]] && assignee_filter="-a $(jira me)"
+
+	local keys
+	keys=$(jira issue list -p DSI --status "To Do" $assignee_filter \
+		--csv --columns "KEY,SUMMARY,ASSIGNEE,PRIORITY" 2>&1 |
+		gum choose --no-limit --header "Pick tickets for sprint $sprint_id" |
+		cut -d',' -f1 |
+		tr '\n' ' ')
+
+	[[ -z "${keys//[[:space:]]/}" ]] && return 0
+	jira sprint add "$sprint_id" $keys
+}
