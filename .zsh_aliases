@@ -147,18 +147,7 @@ alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?fo
 
 alias vm='vibemark'
 
-graph() {
-	local wrap_cols pager_cmd
-	wrap_cols=$((COLUMNS > 10 ? COLUMNS - 10 : 70))
-
-	if [[ -n "${PAGER:-}" ]]; then
-		pager_cmd="${PAGER}"
-	else
-		pager_cmd="less -R"
-	fi
-
-	git-graph --no-pager --color=always --wrap "$wrap_cols" 2>/dev/null | eval "$pager_cmd"
-}
+alias graph='git-graph --no-pager --color=always 2>/dev/null | less -RS'
 
 # more versitle ls/eza version of the eza aliases
 function e() {
