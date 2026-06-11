@@ -16,6 +16,7 @@
 # - bat
 # - gum
 # - jq
+# - llm
 
 # Referred tools by me:
 # - bejw
@@ -81,6 +82,12 @@ alias nwb='newsboat'
 alias cless='csvlens --color-columns'
 
 wcurl() { trafilatura -u "$1" --output-format txt 2>/dev/null | wc -w; }
+
+websum() {
+	trafilatura --markdown -u "$1" \
+		| llm -m qwen3:4b-thinking-2507-q4_K_M "Summarize this article in markdown. Write one short overview paragraph, then 4-5 bullet points covering the key ideas. Be concise — the entire summary should fit in under 20 lines." \
+		| glow -
+}
 
 bjc() {
 	local url
