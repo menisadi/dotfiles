@@ -16,7 +16,9 @@
 [includeIf "gitdir:~/.config/nvim/"]
 	path = ~/.config/nvim/.gitconfig
 [core]
+	pager = delta
 	autocrlf = input
+	diffFilter = delta --color-only
 [http]
 	sslVersion = tlsv1.2
 	sslVerify = true
@@ -57,3 +59,11 @@
 	prompt = false
 [init]
 	defaultBranch = main
+
+[delta]
+    navigate = true
+    dark = true
+    syntax-theme = Catppuccin Mocha
+
+[merge]
+    conflictStyle = zdiff3
