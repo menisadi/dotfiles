@@ -3,7 +3,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Preventing vi-mode from overriding fzf's keybindings
-zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh')
+zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && bindkey -r "^r" && bindkey "^f" fzf-history-widget')
+zvm_after_init_commands+=('[ -f "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/navi-widget.zsh" ] && source "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/navi-widget.zsh"')
 
 source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
 antidote load
