@@ -85,7 +85,7 @@ wcurl() { trafilatura -u "$1" --output-format txt 2>/dev/null | wc -w; }
 
 websum() {
 	trafilatura --markdown -u "$1" \
-		| llm -m qwen3:4b-thinking-2507-q4_K_M "Summarize this article in markdown. Write one short overview paragraph, then 4-5 bullet points covering the key ideas. Be concise — the entire summary should fit in under 20 lines." \
+		| llm -m mlx-community/Qwen3-4B-4bit-DWQ-053125 "Summarize this article in markdown. Write one short overview paragraph, then 4-5 bullet points covering the key ideas. Be concise — the entire summary should fit in under 20 lines." \
 		| glow -
 }
 
@@ -313,13 +313,13 @@ _llmsh_impl() {
 }
 
 llmsh()  { _llmsh_impl "gemini-2.5-flash" "$@"; }
-ollmsh() { _llmsh_impl "qwen2.5-coder:7b" "$@"; }
+ollmsh() { _llmsh_impl "mlx-community/Qwen2.5-Coder-3B-Instruct-4bit" "$@"; }
 alias ai=llmsh
 alias oai=ollmsh
 
 _ask_impl() { local model="$1"; shift; llm -m "$model" -t terse "$@"; }
 ask()  { _ask_impl "gemini-2.5-flash" "$@"; }
-oask() { _ask_impl "qwen3:4b-thinking-2507-q4_K_M" "$@"; }
+oask() { _ask_impl "mlx-community/Qwen3-4B-4bit-DWQ-053125" "$@"; }
 
 jel() {
 	local parent="$1"
