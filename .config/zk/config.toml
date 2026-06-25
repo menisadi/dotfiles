@@ -1,0 +1,15 @@
+[notebook]
+dir = "~/Documents/notes"
+
+[extra]
+author = "Meni"
+
+[format.markdown]
+link-format = "wiki"
+hashtags = true
+colon-tags = true
+multiword-tags = true
+
+[lsp]
+[lsp.diagnostics]
+dead-link = "error"
