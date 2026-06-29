@@ -319,8 +319,8 @@ alias ai=llmsh
 alias oai=ollmsh
 
 ask() { llm -m "gemini-2.5-flash" -t terse "$@"; }
-oask() { gum spin --spinner dot --title "Thinking..." -- llm -m mlx-community/Qwen3-4B-4bit-DWQ-053125 -t terse "$@" | sed '/<think>/,/<\/think>/d' | sed '/./,$!d'; }
-oaskf() { gum spin --spinner dot --title "Thinking..." -- llm -m mlx-community/Qwen3-4B-4bit-DWQ-053125 -t terse "/no_think $*" | sed '/<think>/,/<\/think>/d' | sed '/./,$!d'; }
+oask() { gum spin --show-output --spinner dot --title "Thinking..." -- llm -m mlx-community/Qwen3-4B-4bit-DWQ-053125 -t terse -o max_tokens 4096 "$@" | sed '/<think>/,/<\/think>/d' | sed '/./,$!d'; }
+oaskf() { gum spin --show-output --spinner dot --title "Thinking..." -- llm -m mlx-community/Qwen3-4B-4bit-DWQ-053125 -t terse "/no_think $*" | sed '/<think>/,/<\/think>/d' | sed '/./,$!d'; }
 
 jel() {
  local parent="$1"
