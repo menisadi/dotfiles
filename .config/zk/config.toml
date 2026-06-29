@@ -14,6 +14,16 @@ multiword-tags = true
 [lsp.diagnostics]
 dead-link = "error"
 
+[group.paper]
+paths = ["papers"]
+
+[group.paper.note]
+filename = "{{slug title}}"
+template = "paper.md"
+
 [alias]
 rm = 'zk list --interactive --quiet --format "{{abs-path}}" --delimiter0 $@ | xargs -0 rm -vf --'
 edlast = "zk edit --limit 1 --sort modified- $@"
+paper   = 'zk new papers --title "$*"'
+to-read = 'zk list --tag "paper, to-read" --sort created- $@'
+reading = 'zk list --tag "paper, reading" $@'
