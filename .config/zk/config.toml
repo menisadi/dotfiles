@@ -13,3 +13,7 @@ multiword-tags = true
 [lsp]
 [lsp.diagnostics]
 dead-link = "error"
+
+[alias]
+rm = 'zk list --interactive --quiet --format "{{abs-path}}" --delimiter0 $@ | xargs -0 rm -vf --'
+edlast = "zk edit --limit 1 --sort modified- $@"
