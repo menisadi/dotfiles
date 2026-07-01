@@ -20,14 +20,14 @@
 ## Quality Checks (run via CLI)
 - Format code with Ruff: `uv run ruff format .`
 - Lint (and auto-fix safe issues) with Ruff: `uv run ruff check . --fix`
-- Type-check with ty: `uv run ty check`
+- Type-check with ty: `uv run ty check`. Before running, find PEP 723 inline scripts (`rg -l '^# /// script'`) and exclude them via `--exclude <file>` — ty can't resolve inline dependencies and will produce spurious import errors. Skip `ty check` entirely if all files are scripts.
 - Run tests with pytest: `uv run -m pytest` (add `-k` or `-s` for targeted/debug runs)
 
 ## Edit Loop (required after code changes)
 Run in order, fix failures, and repeat until clean:
 1. `uv run ruff format .`
 2. `uv run ruff check . --fix`
-3. `uv run ty check`
+3. `uv run ty check` (exclude PEP 723 inline scripts — see Quality Checks above)
 4. `uv run -m pytest`
 
 ## Git Commits
