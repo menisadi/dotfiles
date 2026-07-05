@@ -6,3 +6,24 @@ window-title-font-family = JetBrains Mono
 window-inherit-working-directory = false
 keybind = ctrl+shift+.=move_tab:1
 keybind = ctrl+shift+,=move_tab:-1
+
+# Initialize and isolate the custom key table
+keybind = scroll/
+keybind = scroll/catch_all=ignore
+
+keybind = scroll/j=scroll_page_lines:1
+keybind = scroll/k=scroll_page_lines:-1
+keybind = scroll/d=scroll_page_fractional:0.5
+keybind = scroll/ctrl+d=scroll_page_fractional:0.5
+keybind = scroll/u=scroll_page_fractional:-0.5
+keybind = scroll/ctrl+u=scroll_page_fractional:-0.5
+keybind = scroll/space=scroll_page_down
+keybind = scroll/b=scroll_page_up
+keybind = scroll/g>g=scroll_to_top
+keybind = scroll/shift+g=scroll_to_bottom
+
+keybind = scroll/escape=deactivate_key_table
+keybind = scroll/q=deactivate_key_table
+keybind = scroll/i=deactivate_key_table
+
+keybind = ctrl+shift+k=activate_key_table:scroll
