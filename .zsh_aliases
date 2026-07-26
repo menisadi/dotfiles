@@ -344,6 +344,46 @@ jel() {
  jv "$key"
 }
 
+jpw() {
+ local monday="" label="" mode="open"
+ while [[ $# -gt 0 ]]; do
+  case "$1" in
+   --label) label="$2"; shift 2 ;;
+   --all) mode="all"; shift ;;
+   --help|-h)
+    echo "Usage: jpw [YYYY-MM-DD] [--label <label>] [--all]"
+    echo "  YYYY-MM-DD   Monday of the desired week (default: this week)"
+    echo "  --label      Restrict to a given Jira label"
+    echo "  --all        Include all statuses (default: To Do, In Progress only)"
+    return 0
+    ;;
+   -*) shift ;;
+   *) monday="$1"; shift ;;
+  esac
+ done
+
+ [[ -z "$monday" ]] && monday=$(date -v-$(($(date +%u)-1))d +%Y-%m-%d)
+ local sunday
+ sunday=$(date -j -v+6d -f "%Y-%m-%d" "$monday" +%Y-%m-%d)
+
+ local jql="project IS NOT EMPTY AND assignee = currentUser() AND \"Planned Week\" >= \"$monday\" AND \"Planned Week\" <= \"$sunday\""
+ [[ -n "$label" ]] && jql="$jql AND labels = \"$label\""
+
+ local status_flags=()
+ [[ "$mode" == "open" ]] && status_flags=(--status "To Do" --status "In Progress")
+
+ local selected
+ selected=$(jira issue list -q "$jql" "${status_flags[@]}" \
+  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1 |
+  gum table -s ',')
+
+ [[ -z "$selected" ]] && return 0
+
+ local key
+ key=$(echo "$selected" | cut -d',' -f1)
+ jv "$key"
+}
+
 jv() {
  jira issue view "$@" --plain 2>&1 | awk '
     { gsub(/\033\[[0-9;]*m/, ""); sub(/[[:space:]]+$/, ""); sub(/^ +/, "") }
