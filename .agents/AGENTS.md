@@ -11,6 +11,7 @@
 - Both `rg` and `fd` respect `.gitignore` by default; pass `--no-ignore` when you need to search ignored or untracked paths.
 - Prefer `eza` for directory listing instead of `ls` when available.
 - Use `ast-grep` (`sg`) for structural code search when pattern-matching syntax or AST nodes is more precise than text search.
+- For large or unfamiliar Python files, prefer `logic_map <path>` to get a compact control-flow skeleton (classes/defs/if/for/while/try/match) before reading the full file; add `-x`/`-R`/`-c`/`-n` for exits/raises/calls/line numbers.
 - In `uv`-managed Python projects, use `uv run` for Python commands.
 - Prefer running scripts as modules with `-m` when appropriate.
 - For inline Python snippets in `uv` projects, use `uv run python - <<'PY' ...` instead of bare `python`.
