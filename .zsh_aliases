@@ -152,7 +152,7 @@ alias graph='git-graph --no-pager --color=always 2>/dev/null | less -RS'
 # more versitle ls/eza version of the eza aliases
 function e() {
  if [[ "$1" =~ ^[0-9]+$ ]]; then
-  eza --sort=modified -r --icons=always --color=always --group-directories-first | head -"$1"
+  eza --sort=modified -r --icons=always --color=always | head -"$1"
  else
   eza --sort=modified -r --icons=always --color=always --group-directories-first "$@"
  fi
@@ -160,7 +160,7 @@ function e() {
 
 function el() {
  if [[ "$1" =~ ^[0-9]+$ ]]; then
-  eza -l --sort=modified -r --icons=always --color=always --group-directories-first | head -"$1"
+  eza -l --sort=modified -r --icons=always --color=always | head -"$1"
  else
   eza -l --sort=modified -r --icons=always --color=always --group-directories-first "$@"
  fi
@@ -454,4 +454,17 @@ jsa() {
 
  [[ -z "${keys//[[:space:]]/}" ]] && return 0
  jira sprint add "$sprint_id" $keys
+}
+
+# Create a taskwarrior task for the current git branch.
+# project = repo name; tag = Jira key from the branch (hyphen -> underscore).
+# Usage: tnew ["description"]  (defaults to the branch name)
+tnew() {
+ local repo key
+ repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || {
+  echo "not in a git repo"
+  return 1
+ }
+ key=$(git symbolic-ref --short HEAD 2>/dev/null | grep -oE '^[A-Z]+-[0-9]+' | tr '-' '_')
+ task add "${*:-$(git symbolic-ref --short HEAD)}" project:"$repo" ${key:+ +"$key"}
 }
