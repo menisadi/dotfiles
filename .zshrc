@@ -18,6 +18,7 @@ export SAVEHIST=100000
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt EXTENDED_HISTORY
+export HISTORY_IGNORE="export *(*KEY*|*SECRET*|*TOKEN*|*PASSWORD*)=*"
 
 export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.atuin/bin:$PATH"
 export PATH="/usr/local/opt/tcl-tk/bin:$PATH"

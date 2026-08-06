@@ -40,6 +40,12 @@ alias lzg='lazygit'
 alias lzd='lazydocker'
 alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && docker rmi \$(docker images -q)"
 
+# refresh AWS SSO session and switch AWS_PROFILE without exporting raw creds
+awslogin() {
+ local profile="${1:-dev}"
+ aws sso login --profile "$profile" && export AWS_PROFILE="$profile"
+}
+
 alias ee='eza --sort=created --icons=auto --group-directories-first'
 alias ell='eza -l --sort=created --icons=auto --group-directories-first --git --git-repos'
 alias es='eza --sort=extension --icons=auto --group-directories-first'
