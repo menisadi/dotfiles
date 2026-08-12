@@ -153,7 +153,7 @@ alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?fo
 
 alias vm='vibemark'
 
-alias graph='git-graph --no-pager --color=always 2>/dev/null | less -RS'
+alias graph='git-graph --color=always | less -RS'
 
 # more versitle ls/eza version of the eza aliases
 function e() {
