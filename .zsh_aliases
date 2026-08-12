@@ -331,17 +331,30 @@ oaskf() { gum spin --show-output --spinner dot --title "Thinking..." -- llm -m m
 jel() {
  local parent="$1"
  shift
- local mode="open"
+ local mode="open" list=false
 
- [[ "${1:-}" == "--all" ]] && mode="all"
+ while [[ $# -gt 0 ]]; do
+  case "$1" in
+   --all) mode="all"; shift ;;
+   --list) list=true; shift ;;
+   *) shift ;;
+  esac
+ done
 
  local status_flags=()
  [[ "$mode" == "open" ]] && status_flags=(--status "To Do" --status "In Progress")
 
+ local output
+ output=$(jira issue list -P "$parent" "${status_flags[@]}" \
+  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1)
+
+ if [[ "$list" == true ]]; then
+  echo "$output" | column -t -s ','
+  return 0
+ fi
+
  local selected
- selected=$(jira issue list -P "$parent" "${status_flags[@]}" \
-  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1 |
-  gum table -s ',')
+ selected=$(echo "$output" | gum table -s ',')
 
  [[ -z "$selected" ]] && return 0
 
@@ -351,16 +364,18 @@ jel() {
 }
 
 jpw() {
- local monday="" label="" mode="open"
+ local monday="" label="" mode="open" list=false
  while [[ $# -gt 0 ]]; do
   case "$1" in
    --label) label="$2"; shift 2 ;;
    --all) mode="all"; shift ;;
+   --list) list=true; shift ;;
    --help|-h)
-    echo "Usage: jpw [YYYY-MM-DD] [--label <label>] [--all]"
+    echo "Usage: jpw [YYYY-MM-DD] [--label <label>] [--all] [--list]"
     echo "  YYYY-MM-DD   Monday of the desired week (default: this week)"
     echo "  --label      Restrict to a given Jira label"
     echo "  --all        Include all statuses (default: To Do, In Progress only)"
+    echo "  --list       Print results without the interactive picker"
     return 0
     ;;
    -*) shift ;;
@@ -378,10 +393,17 @@ jpw() {
  local status_flags=()
  [[ "$mode" == "open" ]] && status_flags=(--status "To Do" --status "In Progress")
 
+ local output
+ output=$(jira issue list -q "$jql" "${status_flags[@]}" \
+  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1)
+
+ if [[ "$list" == true ]]; then
+  echo "$output" | column -t -s ','
+  return 0
+ fi
+
  local selected
- selected=$(jira issue list -q "$jql" "${status_flags[@]}" \
-  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1 |
-  gum table -s ',')
+ selected=$(echo "$output" | gum table -s ',')
 
  [[ -z "$selected" ]] && return 0
 
@@ -408,16 +430,30 @@ jv() {
 }
 
 js() {
- local mode="open"
- [[ "${1:-}" == "--all" ]] && mode="all"
+ local mode="open" list=false
+
+ while [[ $# -gt 0 ]]; do
+  case "$1" in
+   --all) mode="all"; shift ;;
+   --list) list=true; shift ;;
+   *) shift ;;
+  esac
+ done
 
  local jql="sprint in openSprints()"
  [[ "$mode" == "open" ]] && jql="$jql AND status != Done"
 
+ local output
+ output=$(jira issue list --jql "$jql" \
+  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE,PRIORITY" 2>&1)
+
+ if [[ "$list" == true ]]; then
+  echo "$output" | column -t -s ','
+  return 0
+ fi
+
  local selected
- selected=$(jira issue list --jql "$jql" \
-  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE,PRIORITY" 2>&1 |
-  gum table -s ',')
+ selected=$(echo "$output" | gum table -s ',')
 
  [[ -z "$selected" ]] && return 0
 
