@@ -344,17 +344,18 @@ jel() {
  local status_flags=()
  [[ "$mode" == "open" ]] && status_flags=(--status "To Do" --status "In Progress")
 
- local output
- output=$(jira issue list -P "$parent" "${status_flags[@]}" \
-  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1)
-
  if [[ "$list" == true ]]; then
-  echo "$output" | column -t -s ','
+  jira issue list -P "$parent" "${status_flags[@]}" \
+   --csv --columns "KEY,STATUS,ASSIGNEE,SUMMARY" 2>&1 |
+   qsv table |
+   cut -c1-"${COLUMNS:-$(tput cols)}"
   return 0
  fi
 
  local selected
- selected=$(echo "$output" | gum table -s ',')
+ selected=$(jira issue list -P "$parent" "${status_flags[@]}" \
+  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1 |
+  gum table -s ',')
 
  [[ -z "$selected" ]] && return 0
 
@@ -393,17 +394,18 @@ jpw() {
  local status_flags=()
  [[ "$mode" == "open" ]] && status_flags=(--status "To Do" --status "In Progress")
 
- local output
- output=$(jira issue list -q "$jql" "${status_flags[@]}" \
-  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1)
-
  if [[ "$list" == true ]]; then
-  echo "$output" | column -t -s ','
+  jira issue list -q "$jql" "${status_flags[@]}" \
+   --csv --columns "KEY,STATUS,ASSIGNEE,SUMMARY" 2>&1 |
+   qsv table |
+   cut -c1-"${COLUMNS:-$(tput cols)}"
   return 0
  fi
 
  local selected
- selected=$(echo "$output" | gum table -s ',')
+ selected=$(jira issue list -q "$jql" "${status_flags[@]}" \
+  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE" 2>&1 |
+  gum table -s ',')
 
  [[ -z "$selected" ]] && return 0
 
@@ -443,17 +445,18 @@ js() {
  local jql="sprint in openSprints()"
  [[ "$mode" == "open" ]] && jql="$jql AND status != Done"
 
- local output
- output=$(jira issue list --jql "$jql" \
-  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE,PRIORITY" 2>&1)
-
  if [[ "$list" == true ]]; then
-  echo "$output" | column -t -s ','
+  jira issue list --jql "$jql" \
+   --csv --columns "KEY,STATUS,ASSIGNEE,PRIORITY,SUMMARY" 2>&1 |
+   qsv table |
+   cut -c1-"${COLUMNS:-$(tput cols)}"
   return 0
  fi
 
  local selected
- selected=$(echo "$output" | gum table -s ',')
+ selected=$(jira issue list --jql "$jql" \
+  --csv --columns "KEY,SUMMARY,STATUS,ASSIGNEE,PRIORITY" 2>&1 |
+  gum table -s ',')
 
  [[ -z "$selected" ]] && return 0
 
