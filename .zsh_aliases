@@ -151,8 +151,6 @@ bj() {
  fi
 }
 
-alias bjc='bj --list'
-
 bejwc() {
  bejw list --format jsonl |
   jq -r '[.url, .title] | @tsv' |
