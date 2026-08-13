@@ -95,17 +95,52 @@ websum() {
   glow -
 }
 
-bjc() {
- local url
- url=$(bejw list --format jsonl --no-header | jq -r '.url' | gum choose)
- [[ -n "$url" ]] && webread "$url" | glow -p || echo "No URL selected."
+# Pick a link from the bejw reading list and read it.
+# Usage: bj [-t|--table] [-l|--list] [-f|--filter] [--read] [query]
+bj() {
+ local mode="table" include=() url
+
+ while [[ $# -gt 0 ]]; do
+  case "$1" in
+   -t | --table) mode="table" && shift ;;
+   -l | --list) mode="list" && shift ;;
+   -f | --filter) mode="filter" && shift ;;
+   --read) include=(--include-read) && shift ;;
+   -h | --help)
+    echo "Usage: bj [-t|--table] [-l|--list] [-f|--filter] [--read] [query]"
+    echo "  -t, --table   Pick from a column table (default)"
+    echo "  -l, --list    Pick from a plain title list"
+    echo "  -f, --filter  Fuzzy-filter by title; [query] pre-fills the search"
+    echo "      --read    Include links already marked as read"
+    return 0
+    ;;
+   *) break ;;
+  esac
+ done
+
+ case "$mode" in
+ table)
+  url=$(bejw list "${include[@]}" --format csv | gum table | awk -F',' '{print $NF}')
+  ;;
+ list | filter)
+  local picker=(gum choose)
+  [[ "$mode" == "filter" ]] && picker=(gum filter --value "$*")
+  url=$(bejw list "${include[@]}" --format jsonl |
+   jq -r '[.title, .url] | @tsv' |
+   "${picker[@]}" |
+   cut -f2)
+  ;;
+ esac
+
+ if [[ -z "$url" ]]; then
+  echo "No URL selected."
+  return 1
+ fi
+
+ webread "$url" | glow -p
 }
 
-bj() {
- local url
- url=$(bejw list --format csv | gum table | awk -F',' '{print $NF}')
- [[ -n "$url" ]] && webread "$url" | glow -p || echo "No URL selected."
-}
+alias bjc='bj --list'
 
 bejwc() {
  bejw list --format jsonl |
