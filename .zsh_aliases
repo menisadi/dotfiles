@@ -191,7 +191,7 @@ alias unused="unused_files"
 alias nowp="nowplaying"
 alias analyze="pgn_analyze"
 
-alias please="gum input --password | sudo -nS"
+alias please="gum input --password | sudo -Sp ''"
 alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du -h {} | sort -rh | head -n 10"
 alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
@@ -531,29 +531,30 @@ jsa() {
   return 1
  fi
 
- local assignee_filter=""
- [[ "${2:-}" == "--mine" ]] && assignee_filter="-a $(jira me)"
+ local assignee_filter=()
+ [[ "${2:-}" == "--mine" ]] && assignee_filter=(-a "$(jira me)")
 
  local keys
- keys=$(jira issue list -p DSI --status "To Do" $assignee_filter \
+ keys=$(jira issue list -p DSI --status "To Do" "${assignee_filter[@]}" \
   --csv --columns "KEY,SUMMARY,ASSIGNEE,PRIORITY" 2>&1 |
   gum choose --no-limit --header "Pick tickets for sprint $sprint_id" |
   cut -d',' -f1 |
   tr '\n' ' ')
 
  [[ -z "${keys//[[:space:]]/}" ]] && return 0
- jira sprint add "$sprint_id" $keys
+ jira sprint add "$sprint_id" ${=keys}
 }
 
 # Create a taskwarrior task for the current git branch.
 # project = repo name; tag = Jira key from the branch (hyphen -> underscore).
 # Usage: tnew ["description"]  (defaults to the branch name)
 tnew() {
- local repo key
- repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || {
+ local root repo key
+ root=$(git rev-parse --show-toplevel 2>/dev/null) || {
   echo "not in a git repo"
   return 1
  }
+ repo=$(basename "$root")
  key=$(git symbolic-ref --short HEAD 2>/dev/null | grep -oE '^[A-Z]+-[0-9]+' | tr '-' '_')
  task add "${*:-$(git symbolic-ref --short HEAD)}" project:"$repo" ${key:+ +"$key"}
 }
