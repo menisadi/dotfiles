@@ -96,22 +96,29 @@ websum() {
 }
 
 # Pick a link from the bejw reading list and read it.
-# Usage: bj [-t|--table] [-l|--list] [-f|--filter] [--read] [query]
+# Usage: bj [-f|--filter] [-l|--list] [-t|--table] [-P|--pager] [-T|--tui] [--read] [query]
 bj() {
- local mode="table" include=() url
+ local mode="filter" view="pager" include=() url
 
  while [[ $# -gt 0 ]]; do
   case "$1" in
-   -t | --table) mode="table" && shift ;;
-   -l | --list) mode="list" && shift ;;
    -f | --filter) mode="filter" && shift ;;
+   -l | --list) mode="list" && shift ;;
+   -t | --table) mode="table" && shift ;;
+   -P | --pager) view="pager" && shift ;;
+   -T | --tui) view="tui" && shift ;;
    --read) include=(--include-read) && shift ;;
    -h | --help)
-    echo "Usage: bj [-t|--table] [-l|--list] [-f|--filter] [--read] [query]"
-    echo "  -t, --table   Pick from a column table (default)"
-    echo "  -l, --list    Pick from a plain title list"
-    echo "  -f, --filter  Fuzzy-filter by title; [query] pre-fills the search"
-    echo "      --read    Include links already marked as read"
+    echo "Usage: bj [-f|--filter] [-l|--list] [-t|--table] [-P|--pager] [-T|--tui] [--read] [query]"
+    echo "  Pick:"
+    echo "    -f, --filter  Fuzzy-filter by title; [query] pre-fills the search (default)"
+    echo "    -l, --list    Pick from a plain title list"
+    echo "    -t, --table   Pick from a column table"
+    echo "  View:"
+    echo "    -P, --pager   Read in the glow pager (default)"
+    echo "    -T, --tui     Read in the glow TUI, with line numbers"
+    echo "  Other:"
+    echo "        --read    Include links already marked as read"
     return 0
     ;;
    *) break ;;
@@ -137,7 +144,11 @@ bj() {
   return 1
  fi
 
- webread "$url" | glow -p
+ if [[ "$view" == "tui" ]]; then
+  webread "$url" | glow -t -l
+ else
+  webread "$url" | glow -p
+ fi
 }
 
 alias bjc='bj --list'
