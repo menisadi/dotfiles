@@ -11,8 +11,9 @@
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true
   },
+  "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
   "editorMode": "vim",
   "voiceEnabled": true,
-  "tui": "fullscreen"
+  "agentPushNotifEnabled": true
 }
