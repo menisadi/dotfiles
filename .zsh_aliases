@@ -558,3 +558,28 @@ tnew() {
  key=$(git symbolic-ref --short HEAD 2>/dev/null | grep -oE '^[A-Z]+-[0-9]+' | tr '-' '_')
  task add "${*:-$(git symbolic-ref --short HEAD)}" project:"$repo" ${key:+ +"$key"}
 }
+
+# Copy an HTML file into the html-dump repo, rebuild the index, and publish it via GitHub Pages.
+# Usage: publish_html <path-to-html-file>
+publish_html() {
+ local repo="$HOME/Code/personal/html-dump"
+ local src="$1"
+
+ if [[ -z "$src" || ! -f "$src" ]]; then
+  echo "Usage: publish_html <path-to-html-file>"
+  return 1
+ fi
+
+ local name
+ name="$(basename "$src")"
+
+ cp "$src" "$repo/$name" &&
+  (
+   cd "$repo" &&
+    ./generate_index.sh &&
+    git add "$name" index.html &&
+    git commit -m "Add $name" &&
+    git push origin main
+  ) &&
+  echo "https://menisadi.github.io/html-dump/$name"
+}
