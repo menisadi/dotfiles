@@ -17,6 +17,9 @@
 # - gum
 # - jq
 # - llm
+# - fzf
+# - jira
+# - qsv
 
 # Referred tools by me:
 # - bejw
@@ -36,22 +39,45 @@
 # - nowplaying
 # - pgn_analyze
 
+# --- git / docker ---
 alias lzg='lazygit'
 alias lzd='lazydocker'
 alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && docker rmi \$(docker images -q)"
+alias gitc="git_compress"
+alias graph='git-graph --color=always | less -RS'
 
+# --- AWS ---
 # refresh AWS SSO session and switch AWS_PROFILE without exporting raw creds
 awslogin() {
  local profile="${1:-dev}"
  aws sso login --profile "$profile" && export AWS_PROFILE="$profile"
 }
 
+# --- eza / file listing ---
 alias ee='eza --sort=created --icons=auto --group-directories-first'
 alias ell='eza -l --sort=created --icons=auto --group-directories-first --git --git-repos'
 alias es='eza --sort=extension --icons=auto --group-directories-first'
 alias esa='eza -a --sort=extension --icons=auto --group-directories-first'
 alias eea='eza -a --sort=created --icons=auto --group-directories-first'
 
+# more versitle ls/eza version of the eza aliases
+function e() {
+ if [[ "$1" =~ ^[0-9]+$ ]]; then
+  eza --sort=modified -r --icons=always --color=always | head -"$1"
+ else
+  eza --sort=modified -r --icons=always --color=always --group-directories-first "$@"
+ fi
+}
+
+function el() {
+ if [[ "$1" =~ ^[0-9]+$ ]]; then
+  eza -l --sort=modified -r --icons=always --color=always | head -"$1"
+ else
+  eza -l --sort=modified -r --icons=always --color=always --group-directories-first "$@"
+ fi
+}
+
+# --- neovim ---
 alias avim='NVIM_APPNAME=astronvim nvim'
 alias gvim='NVIM_APPNAME=nvim-legacy nvim'
 alias lvim='NVIM_APPNAME=lazyvim nvim'
@@ -61,10 +87,26 @@ alias avide='NVIM_APPNAME=astronvim neovide'
 
 alias nvims='NVIM_APPNAME=$(find ~/.config -maxdepth 2 -type f -name "init.lua" -exec dirname {} \; | xargs -I {} basename {} | gum choose) nvim'
 
+nvim-health() {
+ local section="${1:-}"
+ nvim --headless \
+  +"checkhealth ${section}" \
+  +"lua for _,b in ipairs(vim.api.nvim_list_bufs()) do local n=vim.api.nvim_buf_get_name(b); if n:match('^health://') then for _,l in ipairs(vim.api.nvim_buf_get_lines(b,0,-1,false)) do print(l) end; break end end" \
+  +qall 2>&1
+}
+
+# --- system info ---
 alias sysinfo='neofetch'
 alias systeminfo='neofetch'
+
+# --- search / lookup ---
 alias igrep="fzf --bind 'change:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true' --ansi --layout=reverse --header 'Search in files' --delimiter : --preview 'bat --color=always {1} --highlight-line {2}' --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'"
 
+cheat() {
+ curl "https://cheat.sh/$1"
+}
+
+# --- time tracking ---
 alias tw='timew'
 alias twt='timew start'
 alias twc='timew continue'
@@ -84,6 +126,10 @@ twg() {
  timew start ${=tags}
 }
 
+alias pom='pomo -w $(( $(tput cols) * 80 / 100 ))'
+alias tpm='timew_pom'
+
+# --- reading list / web ---
 alias nwb='newsboat'
 alias cless='csvlens --color-columns'
 
@@ -160,6 +206,24 @@ bejwc() {
   done
 }
 
+# --- weather ---
+alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
+
+function weather() {
+ if [ "$1" = "-w" ]; then
+  curl "wttr.in/Herzliya?format=3"
+ elif [ "$1" = "-h" ]; then
+  curl "wttr.in/Yeruham?format=3"
+ elif [ -z "$1" ]; then
+  curl "wttr.in/?format=3"
+ else
+  echo "Usage: weather [-w|-h]"
+  echo "  -w: Get the weather for Herzliya"
+  echo "  -h: Get the weather for Yeruham"
+ fi
+}
+
+# --- network ---
 alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
 
 pgc() {
@@ -177,44 +241,23 @@ pgc() {
 
 alias pgtime="ping --apple-time -i 2 8.8.8.8"
 
+# --- media ---
 alias spp='spotify_player'
 
 # alias to love
 alias love="/Applications/love.app/Contents/MacOS/love"
 
-alias pom='pomo -w $(( $(tput cols) * 80 / 100 ))'
-alias tpm='timew_pom'
-
-alias gitc="git_compress"
+# --- misc scripts (mine) ---
 alias missdoc="missing_docstrings"
 alias unused="unused_files"
 alias nowp="nowplaying"
 alias analyze="pgn_analyze"
 
+# --- misc utilities ---
 alias please="gum input --password | sudo -Sp ''"
 alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du -h {} | sort -rh | head -n 10"
-alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
 alias vm='vibemark'
-
-alias graph='git-graph --color=always | less -RS'
-
-# more versitle ls/eza version of the eza aliases
-function e() {
- if [[ "$1" =~ ^[0-9]+$ ]]; then
-  eza --sort=modified -r --icons=always --color=always | head -"$1"
- else
-  eza --sort=modified -r --icons=always --color=always --group-directories-first "$@"
- fi
-}
-
-function el() {
- if [[ "$1" =~ ^[0-9]+$ ]]; then
-  eza -l --sort=modified -r --icons=always --color=always | head -"$1"
- else
-  eza -l --sort=modified -r --icons=always --color=always --group-directories-first "$@"
- fi
-}
 
 # Simple mkdir-cd combo
 mkcd() {
@@ -228,24 +271,7 @@ todaymd() {
  ${EDITOR:-vim} "$file"
 }
 
-# My weather commands
-function weather() {
- if [ "$1" = "-w" ]; then
-  curl "wttr.in/Herzliya?format=3"
- elif [ "$1" = "-h" ]; then
-  curl "wttr.in/Yeruham?format=3"
- elif [ -z "$1" ]; then
-  curl "wttr.in/?format=3"
- else
-  echo "Usage: weather [-w|-h]"
-  echo "  -w: Get the weather for Herzliya"
-  echo "  -h: Get the weather for Yeruham"
- fi
-}
-
-alias weathers="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
-
-function record() {
+record() {
  local default_file="record.log"
 
  # Check if a command is provided
@@ -274,18 +300,6 @@ function yy() {
  rm -f -- "$tmp"
 }
 
-cheat() {
- curl "https://cheat.sh/$1"
-}
-
-nvim-health() {
- local section="${1:-}"
- nvim --headless \
-  +"checkhealth ${section}" \
-  +"lua for _,b in ipairs(vim.api.nvim_list_bufs()) do local n=vim.api.nvim_buf_get_name(b); if n:match('^health://') then for _,l in ipairs(vim.api.nvim_buf_get_lines(b,0,-1,false)) do print(l) end; break end end" \
-  +qall 2>&1
-}
-
 topcmds() {
  local n="${1:-20}"
  fc -ln 1 |
@@ -301,22 +315,7 @@ topcmds() {
   gum table -p -s $'\t' -c Count -c Command
 }
 
-export FZF_CTRL_R_OPTS=$'
-  --no-multi-line
-  # only 5 lines height
-  --height=15
-  --layout=reverse
-  --border=rounded
-  --info=inline-right
-  --prompt="󰋚 history ❯ "
-  --pointer="▶ "
-  --marker="󰄬 "
-  --header="enter: paste • ctrl-/: preview • esc: cancel"
-  --bind=ctrl-/:toggle-preview,alt-/:toggle-wrap
-  --preview-window=down:80%:wrap:hidden
-  --preview=\'echo {} | bat --language=bash --style=plain --color=always\'
-'
-
+# --- LLM helpers ---
 llmshell() {
  local cmd
  cmd=$(llm -m gemini-2.5-flash-lite \
@@ -372,6 +371,7 @@ ask() { llm -m "gemini-3.5-flash" -t terse "$@"; }
 oask() { gum spin --show-output --spinner dot --title "Thinking..." -- llm -m mlx-community/Qwen3-4B-Instruct-2507-4bit -t terse -o max_tokens 4096 "$@"; }
 oaskf() { gum spin --show-output --spinner dot --title "Thinking..." -- llm -m mlx-community/Qwen3-4B-Instruct-2507-4bit -t terse "$@"; }
 
+# --- jira ---
 jel() {
  local parent="$1"
  shift
@@ -545,6 +545,7 @@ jsa() {
  jira sprint add "$sprint_id" ${=keys}
 }
 
+# --- task / publishing ---
 # Create a taskwarrior task for the current git branch.
 # project = repo name; tag = Jira key from the branch (hyphen -> underscore).
 # Usage: tnew ["description"]  (defaults to the branch name)
@@ -583,3 +584,20 @@ publish_html() {
   ) &&
   echo "https://menisadi.github.io/html-dump/$name"
 }
+
+# --- fzf config ---
+export FZF_CTRL_R_OPTS=$'
+  --no-multi-line
+  # only 5 lines height
+  --height=15
+  --layout=reverse
+  --border=rounded
+  --info=inline-right
+  --prompt="󰋚 history ❯ "
+  --pointer="▶ "
+  --marker="󰄬 "
+  --header="enter: paste • ctrl-/: preview • esc: cancel"
+  --bind=ctrl-/:toggle-preview,alt-/:toggle-wrap
+  --preview-window=down:80%:wrap:hidden
+  --preview=\'echo {} | bat --language=bash --style=plain --color=always\'
+'
