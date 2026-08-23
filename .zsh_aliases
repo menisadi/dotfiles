@@ -46,18 +46,9 @@ alias dclean="docker stop \$(docker ps -aq) && docker rm \$(docker ps -aq) && do
 alias gitc="git_compress"
 alias graph='git-graph --color=always | less -RS'
 
-# --- AWS ---
-# refresh AWS SSO session and switch AWS_PROFILE without exporting raw creds
-awslogin() {
- local profile="${1:-dev}"
- aws sso login --profile "$profile" && export AWS_PROFILE="$profile"
-}
-
 # --- eza / file listing ---
 alias ee='eza --sort=created --icons=auto --group-directories-first'
-alias ell='eza -l --sort=created --icons=auto --group-directories-first --git --git-repos'
 alias es='eza --sort=extension --icons=auto --group-directories-first'
-alias esa='eza -a --sort=extension --icons=auto --group-directories-first'
 alias eea='eza -a --sort=created --icons=auto --group-directories-first'
 
 # more versitle ls/eza version of the eza aliases
@@ -79,11 +70,7 @@ function el() {
 
 # --- neovim ---
 alias avim='NVIM_APPNAME=astronvim nvim'
-alias gvim='NVIM_APPNAME=nvim-legacy nvim'
-alias lvim='NVIM_APPNAME=lazyvim nvim'
 alias kvim='NVIM_APPNAME=kvim nvim'
-alias nvide='neovide'
-alias avide='NVIM_APPNAME=astronvim neovide'
 
 alias nvims='NVIM_APPNAME=$(find ~/.config -maxdepth 2 -type f -name "init.lua" -exec dirname {} \; | xargs -I {} basename {} | gum choose) nvim'
 
@@ -94,10 +81,6 @@ nvim-health() {
   +"lua for _,b in ipairs(vim.api.nvim_list_bufs()) do local n=vim.api.nvim_buf_get_name(b); if n:match('^health://') then for _,l in ipairs(vim.api.nvim_buf_get_lines(b,0,-1,false)) do print(l) end; break end end" \
   +qall 2>&1
 }
-
-# --- system info ---
-alias sysinfo='neofetch'
-alias systeminfo='neofetch'
 
 # --- search / lookup ---
 alias igrep="fzf --bind 'change:reload:rg --column --line-number --no-heading --color=always --smart-case {q} || true' --ansi --layout=reverse --header 'Search in files' --delimiter : --preview 'bat --color=always {1} --highlight-line {2}' --preview-window 'up,60%,border-bottom,+{2}+3/3,~3'"
@@ -224,8 +207,6 @@ function weather() {
 }
 
 # --- network ---
-alias gpng='gping 1.1.1.1 8.8.8.8 -c red,green --clear'
-
 pgc() {
  ping -i 1 google.com | awk -F'time=' '{
 		if ($2 ~ /ms/) {
@@ -239,8 +220,6 @@ pgc() {
 	}'
 }
 
-alias pgtime="ping --apple-time -i 2 8.8.8.8"
-
 # --- media ---
 alias spp='spotify_player'
 
@@ -248,27 +227,15 @@ alias spp='spotify_player'
 alias love="/Applications/love.app/Contents/MacOS/love"
 
 # --- misc scripts (mine) ---
-alias missdoc="missing_docstrings"
-alias unused="unused_files"
 alias nowp="nowplaying"
 alias analyze="pgn_analyze"
 
 # --- misc utilities ---
-alias please="gum input --password | sudo -Sp ''"
-alias du10="gum spin --spinner dot --title 'Scanning...' -- fd -t f . --exec du -h {} | sort -rh | head -n 10"
-
 alias vm='vibemark'
 
 # Simple mkdir-cd combo
 mkcd() {
  mkdir -p "$1" && cd "$1"
-}
-
-# create and open daily files
-todaymd() {
- file="$(date +%Y-%m-%d).md"
- [ ! -f "$file" ] && touch "$file"
- ${EDITOR:-vim} "$file"
 }
 
 record() {
