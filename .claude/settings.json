@@ -13,7 +13,11 @@
   },
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
+  "theme": "auto",
   "editorMode": "vim",
+  "agentPushNotifEnabled": true,
   "voiceEnabled": true,
-  "agentPushNotifEnabled": true
+  "permissions": {
+    "defaultMode": "manual"
+  }
 }
