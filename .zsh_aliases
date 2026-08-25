@@ -192,20 +192,6 @@ bejwc() {
 # --- weather ---
 alias wth="curl -s 'wttr.in/{Yeruham,Tel+Aviv,Ein+Hacarmel,Chicago,Baltimore}?format=%l:+%c+%t++⏰+%T\n' | sed 's/.....$//'"
 
-function weather() {
- if [ "$1" = "-w" ]; then
-  curl "wttr.in/Herzliya?format=3"
- elif [ "$1" = "-h" ]; then
-  curl "wttr.in/Yeruham?format=3"
- elif [ -z "$1" ]; then
-  curl "wttr.in/?format=3"
- else
-  echo "Usage: weather [-w|-h]"
-  echo "  -w: Get the weather for Herzliya"
-  echo "  -h: Get the weather for Yeruham"
- fi
-}
-
 # --- network ---
 pgc() {
  ping -i 1 google.com | awk -F'time=' '{
