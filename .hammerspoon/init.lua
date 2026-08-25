@@ -120,6 +120,17 @@ local function centerAlmostFullAll()
 	end
 end
 
+-- Toggle system light/dark mode
+hk.bind({ "ctrl", "alt", "cmd" }, "D", function()
+	hs.osascript.applescript([[
+		tell application "System Events"
+			tell appearance preferences
+				set dark mode to not dark mode
+			end tell
+		end tell
+	]])
+end)
+
 hk.bind({ "ctrl", "alt", "cmd" }, "B", centerAlmostFull)
 hk.bind({ "ctrl", "alt", "cmd" }, "N", centerAlmostFullAll)
 hk.bind({ "ctrl", "alt", "cmd" }, "M", maximizeAll)
