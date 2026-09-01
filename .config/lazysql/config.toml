@@ -1,0 +1,6 @@
+[[database]]
+Name = "bid-flooring (prod)"
+Provider = "mysql"
+DBName = "bid-flooring"
+URL = "mysql://${env:BF_PROD_DB_USER}:${env:BF_PROD_DB_PASSWORD}@${env:BF_PROD_DB_HOST}:3306/bid-flooring?tls=skip-verify"
+ReadOnly = true
