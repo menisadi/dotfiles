@@ -412,6 +412,19 @@ jpw() {
  jv "$key"
 }
 
+jpws() {
+ local key="$1" date="$2"
+ if [[ -z "$key" || -z "$date" ]]; then
+  echo "Usage: jpws <KEY> <YYYY-MM-DD>"
+  return 1
+ fi
+ curl -s -o /dev/null -w "%{http_code}\n" -X PUT \
+  -H "Content-Type: application/json" \
+  --user "menis@intentiq.com:$JIRA_API_TOKEN" \
+  -d "{\"fields\": {\"customfield_10772\": \"$date\"}}" \
+  "https://iiq.atlassian.net/rest/api/3/issue/$key"
+}
+
 jv() {
  jira issue view "$@" --plain 2>&1 | awk '
     { gsub(/\033\[[0-9;]*m/, ""); sub(/[[:space:]]+$/, ""); sub(/^ +/, "") }
