@@ -1,5 +1,6 @@
 *.log
 .config/yazi/flavors/kanagawa.yazi
+.crush/
 
 # ignore everything in .vim
 /.vim/*
