@@ -321,9 +321,11 @@ alias ai=llmsh
 alias oai=ollmsh
 
 ask() { llm -m "gemini-3.5-flash" -t terse "$@"; }
-# TODO: gum spin leaks terminal capability-query escape sequences (e.g. /2026;2$y[?2027;1$y[?1u_) after it exits — revisit
-oask() { gum spin --show-output --spinner dot --title "Thinking..." -- llm -m mlx-community/Qwen2.5-3B-Instruct-4bit -t terse -o max_tokens 4096 "$@"; }
-oaskf() { gum spin --show-output --spinner dot --title "Thinking..." -- llm -m mlx-community/Qwen2.5-3B-Instruct-4bit -t terse "$@"; }
+# gum spin leaks terminal capability-query escape sequences (e.g. /2026;2$y[?2027;1$y[?1u_) after it exits.
+# Spinner temporarily removed until that's fixed; restore by wrapping with:
+# gum spin --show-output --spinner dot --title "Thinking..." -- ...
+oask() { llm -m mlx-community/Qwen2.5-3B-Instruct-4bit -t terse -o max_tokens 4096 "$@"; }
+oaskf() { llm -m mlx-community/Qwen2.5-3B-Instruct-4bit -t terse "$@"; }
 
 # --- jira ---
 jel() {
