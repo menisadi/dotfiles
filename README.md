@@ -53,14 +53,28 @@ ln -sf ~/.config/nushell ~/Library/Application\ Support/nushell
 > ```
 > Then commit the updated `zoxide.nu` from `dotfiles/.config/nushell/`.
 
-6. Install vim-plug (Vim plugin manager):
+6. **(Lazygit and lazysql only)** Both apps look in `~/Library/Application Support/<app>/` on macOS rather than `~/.config/<app>/`, and both keep runtime state alongside their config that shouldn't be tracked in git. Bridge each one after stowing, moving the untracked state out of the way first:
+```bash
+mv ~/Library/Application\ Support/lazygit/state.yml ~/Library/Application\ Support/lazygit/github_pull_requests.json /tmp/
+rm -rf ~/Library/Application\ Support/lazygit
+ln -sf ~/.config/lazygit ~/Library/Application\ Support/lazygit
+mv /tmp/state.yml /tmp/github_pull_requests.json ~/Library/Application\ Support/lazygit/
+
+mv ~/Library/Application\ Support/lazysql/saved_queries /tmp/
+rm -rf ~/Library/Application\ Support/lazysql
+ln -sf ~/.config/lazysql ~/Library/Application\ Support/lazysql
+mv /tmp/saved_queries ~/Library/Application\ Support/lazysql/
+```
+> lazysql's `config.toml` references DB credentials (and the prod host) via `${env:VAR}` placeholders — see `.zsh_keys` (untracked, not in this repo) for the actual values.
+
+7. Install vim-plug (Vim plugin manager):
 ```bash
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 ```
 Then open Vim and run `:PlugInstall`.
 
-7. Install TPM (Tmux Plugin Manager):
+8. Install TPM (Tmux Plugin Manager):
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
