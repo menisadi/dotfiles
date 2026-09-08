@@ -579,3 +579,14 @@ export FZF_CTRL_R_OPTS=$'
   --preview-window=down:80%:wrap:hidden
   --preview=\'echo {} | bat --language=bash --style=plain --color=always\'
 '
+
+# --- calls ---
+callfzf() {
+ local hash
+ hash=$(call index -l --color always --limit 1000 "$@" \
+  | fzf --ansi --no-sort \
+   --preview 'call show --color always $(grep -oE "#[0-9a-f]+" <<< {} | tr -d "#") | bat --paging=never --color=never --style=plain --wrap=character' \
+   --preview-window 'right,65%,border-left,wrap' \
+  | grep -oE '#[0-9a-f]+' | tr -d '#')
+ [[ -n "$hash" ]] && call show --color always "$hash" | bat --paging=always --color=never --style=plain
+}
