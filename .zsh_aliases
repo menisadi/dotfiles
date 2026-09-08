@@ -533,15 +533,24 @@ tnew() {
 # Usage: publish_html <path-to-html-file>
 publish_html() {
  local repo="$HOME/Code/personal/html-dump"
- local src="$1"
+ local unlisted=false
+ local src=""
+
+ while [[ $# -gt 0 ]]; do
+  case "$1" in
+   --unlisted) unlisted=true; shift ;;
+   *) src="$1"; shift ;;
+  esac
+ done
 
  if [[ -z "$src" || ! -f "$src" ]]; then
-  echo "Usage: publish_html <path-to-html-file>"
+  echo "Usage: publish_html [--unlisted] <path-to-html-file>"
   return 1
  fi
 
  local name
  name="$(basename "$src")"
+ [[ "$unlisted" == true ]] && name="${name%.html}.unlisted.html"
 
  cp "$src" "$repo/$name" &&
   (
