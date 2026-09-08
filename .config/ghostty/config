@@ -3,6 +3,8 @@ theme = dark:Kanagawa Wave,light:Catppuccin Latte
 macos-titlebar-style = transparent
 macos-option-as-alt = left
 window-title-font-family = JetBrains Mono
+# Hebrew Unicode block (U+0590-U+05FF)
+font-codepoint-map = U+0590-U+05FF=Noto Sans Mono
 window-inherit-working-directory = false
 keybind = ctrl+shift+.=move_tab:1
 keybind = ctrl+shift+,=move_tab:-1
