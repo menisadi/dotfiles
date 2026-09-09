@@ -581,12 +581,16 @@ export FZF_CTRL_R_OPTS=$'
 '
 
 # --- calls ---
+callidx() {
+ call index -l --color always "$@" | bidi_fix
+}
+
 callfzf() {
  local hash
  hash=$(call index -l --color always --limit 1000 "$@" \
   | fzf --ansi --no-sort \
-   --preview 'call show --color always $(grep -oE "#[0-9a-f]+" <<< {} | tr -d "#") | bat --paging=never --color=never --style=plain --wrap=character' \
-   --preview-window 'right,65%,border-left,wrap' \
+   --preview 'call show --color always $(grep -oE "#[0-9a-f]+" <<< {} | tr -d "#") | bidi_fix | bat --paging=never --color=never --style=plain' \
+   --preview-window 'down,65%,border-top,wrap' \
   | grep -oE '#[0-9a-f]+' | tr -d '#')
- [[ -n "$hash" ]] && call show --color always "$hash" | bat --paging=always --color=never --style=plain
+ [[ -n "$hash" ]] && call show --color always "$hash" | bidi_fix | bat --paging=always --color=never --style=plain
 }
