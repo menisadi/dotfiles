@@ -4,3 +4,5 @@
 
 # ignore everything in .vim
 /.vim/*
+/.agents/skills/graphify
+/.agents/skills/synced
