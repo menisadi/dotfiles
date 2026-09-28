@@ -135,6 +135,116 @@ hk.bind({ "ctrl", "alt", "cmd" }, "B", centerAlmostFull)
 hk.bind({ "ctrl", "alt", "cmd" }, "N", centerAlmostFullAll)
 hk.bind({ "ctrl", "alt", "cmd" }, "M", maximizeAll)
 
+-- Spotify controls
+hk.bind({ "ctrl", "alt", "cmd" }, "P", hs.spotify.playpause)
+hk.bind({ "ctrl", "alt", "cmd" }, "]", hs.spotify.next)
+hk.bind({ "ctrl", "alt", "cmd" }, "[", hs.spotify.previous)
+
+-- Now Playing HUD (canvas popup with album art)
+local nowPlayingCanvas = nil
+local nowPlayingTimer = nil
+
+local function hideNowPlayingHUD()
+	if nowPlayingTimer then
+		nowPlayingTimer:stop()
+		nowPlayingTimer = nil
+	end
+	if nowPlayingCanvas then
+		nowPlayingCanvas:delete()
+		nowPlayingCanvas = nil
+	end
+end
+
+local function buildNowPlayingHUD(artwork)
+	hideNowPlayingHUD()
+
+	local track = hs.spotify.getCurrentTrack() or "Unknown Track"
+	local artist = hs.spotify.getCurrentArtist() or "Unknown Artist"
+	local album = hs.spotify.getCurrentAlbum() or ""
+
+	local w, h, pad, art = 475, 125, 15, 95
+	local screenFrame = screen.mainScreen():frame()
+	local x = screenFrame.x + (screenFrame.w - w) / 2
+	local y = screenFrame.y + 80
+
+	local c = hs.canvas.new({ x = x, y = y, w = w, h = h })
+	c:level(hs.canvas.windowLevels.floating)
+	c:behavior(hs.canvas.windowBehaviors.canJoinAllSpaces)
+
+	c:insertElement({
+		type = "rectangle",
+		action = "fill",
+		fillColor = { red = 0.08, green = 0.08, blue = 0.08, alpha = 0.92 },
+		roundedRectRadii = { xRadius = 18, yRadius = 18 },
+		frame = { x = 0, y = 0, w = w, h = h },
+	})
+
+	if artwork then
+		c:insertElement({
+			type = "image",
+			image = artwork,
+			frame = { x = pad, y = pad, w = art, h = art },
+			imageScaling = "scaleProportionally",
+			roundedRectRadii = { xRadius = 8, yRadius = 8 },
+			clipToPath = true,
+		})
+	end
+
+	local textX = pad + (artwork and (art + pad) or 0)
+	local textW = w - textX - pad
+
+	c:insertElement({
+		type = "text",
+		text = track,
+		textFont = ".AppleSystemUIFontBold",
+		textSize = 20,
+		textColor = { white = 1 },
+		frame = { x = textX, y = pad, w = textW, h = 28 },
+	})
+	c:insertElement({
+		type = "text",
+		text = artist,
+		textFont = ".AppleSystemUIFont",
+		textSize = 16,
+		textColor = { white = 0.85 },
+		frame = { x = textX, y = pad + 30, w = textW, h = 25 },
+	})
+	if album ~= "" then
+		c:insertElement({
+			type = "text",
+			text = album,
+			textFont = ".AppleSystemUIFont",
+			textSize = 15,
+			textColor = { white = 0.6 },
+			frame = { x = textX, y = pad + 58, w = textW, h = 25 },
+		})
+	end
+
+	nowPlayingCanvas = c
+	c:show(0.15)
+	nowPlayingTimer = hs.timer.doAfter(4, function()
+		if nowPlayingCanvas == c then
+			c:hide(0.4)
+			hs.timer.doAfter(0.4, hideNowPlayingHUD)
+		end
+	end)
+end
+
+local function showNowPlayingHUD()
+	if not hs.spotify.isRunning() then
+		hs.alert.show("Spotify is not running")
+		return
+	end
+	local artworkURL = hs.spotify.getCurrentTrackArtworkURL()
+	if artworkURL and artworkURL ~= "" then
+		hs.image.imageFromURL(artworkURL, buildNowPlayingHUD)
+	else
+		buildNowPlayingHUD(nil)
+	end
+end
+
+hk.bind({ "ctrl", "alt", "cmd" }, "O", showNowPlayingHUD)
+
 -- Little utility to get app IDs
 hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "I", function()
 	local id = hs.application.frontmostApplication():bundleID()
@@ -166,6 +276,10 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Alt+Cmd+G: Center all visible windows",
 		"Ctrl+Alt+Cmd+M: Maximize all visible windows",
 		"Ctrl+Alt+Cmd+I: Show frontmost app bundle ID\n",
+		"Ctrl+Alt+Cmd+P: Spotify play/pause",
+		"Ctrl+Alt+Cmd+]: Spotify next track",
+		"Ctrl+Alt+Cmd+[: Spotify previous track",
+		"Ctrl+Alt+Cmd+O: Show current Spotify track\n",
 		"Ctrl+Alt+Cmd+H: Show this help message",
 		"Ctrl+Alt+Cmd+K: Show cheat sheet",
 	}
@@ -197,6 +311,10 @@ local cheatSheetData = {
 	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + J" },
 	{ text = "Maximize all visible windows", subText = "Ctrl + Alt + Cmd + M" },
 	{ text = "Show frontmost app bundle ID", subText = "Ctrl + Alt + Cmd + I" },
+	{ text = "Spotify play/pause", subText = "Ctrl + Alt + Cmd + P" },
+	{ text = "Spotify next track", subText = "Ctrl + Alt + Cmd + ]" },
+	{ text = "Spotify previous track", subText = "Ctrl + Alt + Cmd + [" },
+	{ text = "Show current Spotify track", subText = "Ctrl + Alt + Cmd + O" },
 }
 
 -- Create the chooser object
