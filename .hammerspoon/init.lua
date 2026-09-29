@@ -280,6 +280,7 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Alt+Cmd+]: Spotify next track",
 		"Ctrl+Alt+Cmd+[: Spotify previous track",
 		"Ctrl+Alt+Cmd+O: Show current Spotify track\n",
+		"Ctrl+Alt+Cmd+A: Keep the Mac awake for a chosen duration\n",
 		"Ctrl+Alt+Cmd+H: Show this help message",
 		"Ctrl+Alt+Cmd+K: Show cheat sheet",
 	}
@@ -315,6 +316,7 @@ local cheatSheetData = {
 	{ text = "Spotify next track", subText = "Ctrl + Alt + Cmd + ]" },
 	{ text = "Spotify previous track", subText = "Ctrl + Alt + Cmd + [" },
 	{ text = "Show current Spotify track", subText = "Ctrl + Alt + Cmd + O" },
+	{ text = "Keep the Mac awake", subText = "Ctrl + Alt + Cmd + A" },
 }
 
 -- Create the chooser object
@@ -329,4 +331,51 @@ end)
 cheatSheetChooser:choices(cheatSheetData)
 hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "K", function()
 	cheatSheetChooser:show()
+end)
+
+-- Keep the Mac awake for a chosen duration, driven by Amphetamine
+local function amphetamine(command)
+	local ok, _, err = hs.osascript.applescript('tell application "Amphetamine" to ' .. command)
+	if not ok then
+		hs.alert.show("Amphetamine: command failed")
+		print("Amphetamine error: " .. hs.inspect(err))
+	end
+	return ok
+end
+
+local keepAwakeChoices = {
+	{ text = "15 minutes", subText = "Keep awake for 15 minutes", duration = 15, interval = "minutes" },
+	{ text = "30 minutes", subText = "Keep awake for 30 minutes", duration = 30, interval = "minutes" },
+	{ text = "1 hour", subText = "Keep awake for 1 hour", duration = 1, interval = "hours" },
+	{ text = "3 hours", subText = "Keep awake for 3 hours", duration = 3, interval = "hours" },
+	-- Amphetamine treats duration 0 / interval 0 as an infinite session
+	{ text = "Indefinitely", subText = "Keep awake until turned off", duration = 0, interval = "0" },
+	{ text = "Off", subText = "End the current session", off = true },
+}
+
+local keepAwakeChooser = hs.chooser.new(function(choice)
+	if not choice then
+		return
+	end
+	if choice.off then
+		if amphetamine("end session") then
+			hs.alert.show("Awake: off")
+		end
+		return
+	end
+	local options = string.format(
+		"{duration:%d, interval:%s, displaySleepAllowed:false}",
+		choice.duration,
+		choice.interval
+	)
+	if amphetamine("start new session with options " .. options) then
+		hs.alert.show("Awake: " .. choice.text)
+	end
+end)
+keepAwakeChooser:choices(keepAwakeChoices)
+keepAwakeChooser:rows(#keepAwakeChoices)
+keepAwakeChooser:placeholderText("Keep awake for…")
+
+hk.bind({ "ctrl", "alt", "cmd" }, "A", function()
+	keepAwakeChooser:show()
 end)
