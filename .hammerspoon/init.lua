@@ -95,14 +95,14 @@ end)
 -- Helpers for sizing
 local function centerAlmostFull(w, m)
 	w = w or win.focusedWindow()
-	if isExcluded(w) then return end
+	if not w or isExcluded(w) then return end
 	m = m or 48
 	local f = w:screen():frame()
 	w:setFrame({ x = f.x + m, y = f.y + m, w = f.w - 2 * m, h = f.h - 2 * m })
 end
 local function maximize(w)
 	w = w or win.focusedWindow()
-	if isExcluded(w) then return end
+	if not w or isExcluded(w) then return end
 	w:maximize()
 end
 
