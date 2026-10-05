@@ -322,11 +322,10 @@ local cheatSheetData = {
 -- Create the chooser object
 local cheatSheetChooser = hs.chooser.new(function(choice)
 	if not choice then
-		hs.alert.show("")
-	else
-		local choice_title_text = choice.text .. " (" .. choice.subText .. ")"
-		hs.alert.show(choice_title_text)
+		return
 	end
+	local choice_title_text = choice.text .. " (" .. choice.subText .. ")"
+	hs.alert.show(choice_title_text)
 end)
 cheatSheetChooser:choices(cheatSheetData)
 hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "K", function()
