@@ -106,7 +106,7 @@ local function maximize(w)
 	w:maximize()
 end
 
--- 2) Apply profile on display changes: external -> center w/ gaps; laptop -> maximize
+-- Apply a sizing profile to all visible windows: center w/ gaps or maximize
 local function maximizeAll()
 	hs.alert.show("Applying - Maximize")
 	for _, w in ipairs(win.visibleWindows()) do
