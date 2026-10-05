@@ -310,7 +310,6 @@ local cheatSheetData = {
 	{ text = "Center focused window almost full", subText = "Ctrl + Alt + Cmd + B" },
 	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + N" },
 	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + G" },
-	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + J" },
 	{ text = "Maximize all visible windows", subText = "Ctrl + Alt + Cmd + M" },
 	{ text = "Show frontmost app bundle ID", subText = "Ctrl + Alt + Cmd + I" },
 	{ text = "Spotify play/pause", subText = "Ctrl + Alt + Cmd + P" },
