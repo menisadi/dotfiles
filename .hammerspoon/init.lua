@@ -276,7 +276,8 @@ hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
 		"Ctrl+Alt+Cmd+N: Center all visible windows almost full",
 		"Ctrl+Alt+Cmd+G: Center all visible windows",
 		"Ctrl+Alt+Cmd+M: Maximize all visible windows",
-		"Ctrl+Alt+Cmd+I: Show frontmost app bundle ID\n",
+		"Ctrl+Alt+Cmd+I: Show frontmost app bundle ID",
+		"Ctrl+Alt+Cmd+D: Toggle light/dark mode\n",
 		"Ctrl+Alt+Cmd+P: Spotify play/pause",
 		"Ctrl+Alt+Cmd+]: Spotify next track",
 		"Ctrl+Alt+Cmd+[: Spotify previous track",
@@ -312,11 +313,14 @@ local cheatSheetData = {
 	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + G" },
 	{ text = "Maximize all visible windows", subText = "Ctrl + Alt + Cmd + M" },
 	{ text = "Show frontmost app bundle ID", subText = "Ctrl + Alt + Cmd + I" },
+	{ text = "Toggle light/dark mode", subText = "Ctrl + Alt + Cmd + D" },
 	{ text = "Spotify play/pause", subText = "Ctrl + Alt + Cmd + P" },
 	{ text = "Spotify next track", subText = "Ctrl + Alt + Cmd + ]" },
 	{ text = "Spotify previous track", subText = "Ctrl + Alt + Cmd + [" },
 	{ text = "Show current Spotify track", subText = "Ctrl + Alt + Cmd + O" },
 	{ text = "Keep the Mac awake", subText = "Ctrl + Alt + Cmd + A" },
+	{ text = "Show help message", subText = "Ctrl + Alt + Cmd + H" },
+	{ text = "Show cheat sheet", subText = "Ctrl + Alt + Cmd + K" },
 }
 
 -- Create the chooser object
