@@ -8,23 +8,23 @@ local function isExcluded(w)
 	return a and excludedBundleIDs[a:bundleID()]
 end
 
-hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "W", function()
+hk.bind({ "cmd", "alt", "ctrl" }, "W", function()
 	hs.alert.show("Hello World!")
 end)
 
 -- Move mouse to screen center / upper-left
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "C", function()
+hk.bind({ "ctrl", "alt", "cmd" }, "C", function()
 	local f = screen.mainScreen():fullFrame()
 	hs.mouse.setAbsolutePosition({ x = f.x + f.w / 2, y = f.y + f.h / 2 })
 end)
 
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "U", function()
+hk.bind({ "ctrl", "alt", "cmd" }, "U", function()
 	local f = screen.mainScreen():fullFrame()
 	hs.mouse.setAbsolutePosition({ x = f.x, y = f.y })
 end)
 
 -- Center all visible windows
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "G", function()
+hk.bind({ "ctrl", "alt", "cmd" }, "G", function()
 	for _, w in ipairs(win.visibleWindows()) do
 		if not isExcluded(w) then
 			local frame = w:frame()
@@ -245,14 +245,14 @@ end
 hk.bind({ "ctrl", "alt", "cmd" }, "O", showNowPlayingHUD)
 
 -- Little utility to get app IDs
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "I", function()
-	local id = hs.application.frontmostApplication():bundleID()
+hk.bind({ "ctrl", "alt", "cmd" }, "I", function()
+	local id = app.frontmostApplication():bundleID()
 	hs.alert.show(id) -- pops a toast on screen
 	hs.pasteboard.setContents(id) -- also copies it to the clipboard
 end)
 
 -- Add a keymap to show on screen all aveilable hammerspoon hotkeys
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "H", function()
+hk.bind({ "ctrl", "alt", "cmd" }, "H", function()
 	-- For now we will just show all hotkeys in an alert
 	-- We also, for now, will simply list the hotkeys defined in this init.lua file
 	-- We will improve this later
@@ -330,7 +330,7 @@ local cheatSheetChooser = hs.chooser.new(function(choice)
 	hs.alert.show(choice_title_text)
 end)
 cheatSheetChooser:choices(cheatSheetData)
-hs.hotkey.bind({ "ctrl", "alt", "cmd" }, "K", function()
+hk.bind({ "ctrl", "alt", "cmd" }, "K", function()
 	cheatSheetChooser:show()
 end)
 
