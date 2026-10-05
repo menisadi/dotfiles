@@ -224,8 +224,9 @@ local function buildNowPlayingHUD(artwork)
 	c:show(0.15)
 	nowPlayingTimer = hs.timer.doAfter(4, function()
 		if nowPlayingCanvas == c then
-			c:hide(0.4)
-			hs.timer.doAfter(0.4, hideNowPlayingHUD)
+			nowPlayingTimer = nil
+			nowPlayingCanvas = nil
+			c:delete(0.4)
 		end
 	end)
 end
