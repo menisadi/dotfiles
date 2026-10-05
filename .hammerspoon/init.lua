@@ -134,9 +134,18 @@ hk.bind({ "ctrl", "alt", "cmd" }, "N", centerAlmostFullAll)
 hk.bind({ "ctrl", "alt", "cmd" }, "M", maximizeAll)
 
 -- Spotify controls
-hk.bind({ "ctrl", "alt", "cmd" }, "P", hs.spotify.playpause)
-hk.bind({ "ctrl", "alt", "cmd" }, "]", hs.spotify.next)
-hk.bind({ "ctrl", "alt", "cmd" }, "[", hs.spotify.previous)
+local function ifSpotifyRunning(fn)
+	return function()
+		if hs.spotify.isRunning() then
+			fn()
+		else
+			hs.alert.show("Spotify is not running")
+		end
+	end
+end
+hk.bind({ "ctrl", "alt", "cmd" }, "P", ifSpotifyRunning(hs.spotify.playpause))
+hk.bind({ "ctrl", "alt", "cmd" }, "]", ifSpotifyRunning(hs.spotify.next))
+hk.bind({ "ctrl", "alt", "cmd" }, "[", ifSpotifyRunning(hs.spotify.previous))
 
 -- Now Playing HUD (canvas popup with album art)
 local nowPlayingCanvas = nil
