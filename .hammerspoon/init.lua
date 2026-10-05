@@ -1,5 +1,25 @@
 local hk, app, win, screen = hs.hotkey, hs.application, hs.window, hs.screen
 
+-- Every hotkey is registered through bind() so the cheat sheet stays in sync
+local bindings = {}
+local modOrder = { ctrl = 1, alt = 2, shift = 3, cmd = 4 }
+local modSymbol = { ctrl = "⌃", alt = "⌥", shift = "⇧", cmd = "⌘" }
+local function label(mods, key)
+	local sorted = { table.unpack(mods) }
+	table.sort(sorted, function(a, b)
+		return modOrder[a] < modOrder[b]
+	end)
+	local s = ""
+	for _, m in ipairs(sorted) do
+		s = s .. modSymbol[m]
+	end
+	return s .. key:upper()
+end
+local function bind(mods, key, desc, fn)
+	hk.bind(mods, key, fn)
+	table.insert(bindings, { text = desc, subText = label(mods, key) })
+end
+
 local excludedBundleIDs = {
 	["com.martinfekete.tuneful"] = true,
 }
@@ -8,23 +28,23 @@ local function isExcluded(w)
 	return a and excludedBundleIDs[a:bundleID()]
 end
 
-hk.bind({ "cmd", "alt", "ctrl" }, "W", function()
+bind({ "cmd", "alt", "ctrl" }, "W", "Show Hello World alert", function()
 	hs.alert.show("Hello World!")
 end)
 
 -- Move mouse to screen center / upper-left
-hk.bind({ "ctrl", "alt", "cmd" }, "C", function()
+bind({ "ctrl", "alt", "cmd" }, "C", "Move mouse to screen center", function()
 	local f = screen.mainScreen():fullFrame()
 	hs.mouse.setAbsolutePosition({ x = f.x + f.w / 2, y = f.y + f.h / 2 })
 end)
 
-hk.bind({ "ctrl", "alt", "cmd" }, "U", function()
+bind({ "ctrl", "alt", "cmd" }, "U", "Move mouse to screen upper-left", function()
 	local f = screen.mainScreen():fullFrame()
 	hs.mouse.setAbsolutePosition({ x = f.x, y = f.y })
 end)
 
 -- Center all visible windows
-hk.bind({ "ctrl", "alt", "cmd" }, "G", function()
+bind({ "ctrl", "alt", "cmd" }, "G", "Center all visible windows", function()
 	for _, w in ipairs(win.visibleWindows()) do
 		if not isExcluded(w) then
 			local frame = w:frame()
@@ -55,38 +75,25 @@ end)
 -- 	app.launchOrFocusByBundleID("com.spotify.client")
 -- end)
 
-hk.bind({ "ctrl", "shift" }, "1", function()
-	app.launchOrFocusByBundleID("com.apple.Safari")
-end)
-hk.bind({ "ctrl", "shift" }, "2", function()
-	app.launchOrFocusByBundleID("net.kovidgoyal.kitty")
-end)
-hk.bind({ "ctrl", "shift" }, "3", function()
-	app.launchOrFocusByBundleID("com.tinyspeck.slackmacgap")
-end)
-hk.bind({ "ctrl", "shift" }, "0", function()
-	app.launchOrFocusByBundleID("org.mozilla.firefox")
-end)
-hk.bind({ "ctrl", "shift" }, "9", function()
-	app.launchOrFocusByBundleID("com.mitchellh.ghostty")
-end)
-hk.bind({ "ctrl", "shift" }, "8", function()
-	app.launchOrFocusByBundleID("net.whatsapp.WhatsApp")
-end)
-hk.bind({ "ctrl", "shift" }, "7", function()
-	app.launchOrFocusByBundleID("com.todoist.mac.Todoist")
-end)
-hk.bind({ "ctrl", "shift" }, "6", function()
-	app.launchOrFocusByBundleID("com.spotify.client")
-end)
-hk.bind({ "ctrl", "shift" }, "4", function()
-	app.launchOrFocusByBundleID("com.anthropic.claudefordesktop")
-end)
-hk.bind({ "ctrl", "shift" }, "5", function()
-	app.launchOrFocusByBundleID("com.apple.mail")
-end)
+local launchers = {
+	{ key = "1", name = "Safari", id = "com.apple.Safari" },
+	{ key = "2", name = "Kitty", id = "net.kovidgoyal.kitty" },
+	{ key = "3", name = "Slack", id = "com.tinyspeck.slackmacgap" },
+	{ key = "4", name = "Claude", id = "com.anthropic.claudefordesktop" },
+	{ key = "5", name = "Mail", id = "com.apple.mail" },
+	{ key = "6", name = "Spotify", id = "com.spotify.client" },
+	{ key = "7", name = "Todoist", id = "com.todoist.mac.Todoist" },
+	{ key = "8", name = "WhatsApp", id = "net.whatsapp.WhatsApp" },
+	{ key = "9", name = "Ghostty", id = "com.mitchellh.ghostty" },
+	{ key = "0", name = "Firefox", id = "org.mozilla.firefox" },
+}
+for _, l in ipairs(launchers) do
+	bind({ "ctrl", "shift" }, l.key, "Launch " .. l.name, function()
+		app.launchOrFocusByBundleID(l.id)
+	end)
+end
 
-hk.bind({ "ctrl", "shift" }, "-", function()
+bind({ "ctrl", "shift" }, "-", "Wrong key", function()
 	hs.alert.show("Oh dear, that's the wrong key!")
 end)
 
@@ -119,7 +126,7 @@ local function centerAlmostFullAll()
 end
 
 -- Toggle system light/dark mode
-hk.bind({ "ctrl", "alt", "cmd" }, "D", function()
+bind({ "ctrl", "alt", "cmd" }, "D", "Toggle light/dark mode", function()
 	hs.osascript.applescript([[
 		tell application "System Events"
 			tell appearance preferences
@@ -129,9 +136,9 @@ hk.bind({ "ctrl", "alt", "cmd" }, "D", function()
 	]])
 end)
 
-hk.bind({ "ctrl", "alt", "cmd" }, "B", centerAlmostFull)
-hk.bind({ "ctrl", "alt", "cmd" }, "N", centerAlmostFullAll)
-hk.bind({ "ctrl", "alt", "cmd" }, "M", maximizeAll)
+bind({ "ctrl", "alt", "cmd" }, "B", "Center focused window almost full", centerAlmostFull)
+bind({ "ctrl", "alt", "cmd" }, "N", "Center all visible windows almost full", centerAlmostFullAll)
+bind({ "ctrl", "alt", "cmd" }, "M", "Maximize all visible windows", maximizeAll)
 
 -- Spotify controls
 local function ifSpotifyRunning(fn)
@@ -143,9 +150,9 @@ local function ifSpotifyRunning(fn)
 		end
 	end
 end
-hk.bind({ "ctrl", "alt", "cmd" }, "P", ifSpotifyRunning(hs.spotify.playpause))
-hk.bind({ "ctrl", "alt", "cmd" }, "]", ifSpotifyRunning(hs.spotify.next))
-hk.bind({ "ctrl", "alt", "cmd" }, "[", ifSpotifyRunning(hs.spotify.previous))
+bind({ "ctrl", "alt", "cmd" }, "P", "Spotify play/pause", ifSpotifyRunning(hs.spotify.playpause))
+bind({ "ctrl", "alt", "cmd" }, "]", "Spotify next track", ifSpotifyRunning(hs.spotify.next))
+bind({ "ctrl", "alt", "cmd" }, "[", "Spotify previous track", ifSpotifyRunning(hs.spotify.previous))
 
 -- Now Playing HUD (canvas popup with album art)
 local nowPlayingCanvas = nil
@@ -251,96 +258,13 @@ local function showNowPlayingHUD()
 	end
 end
 
-hk.bind({ "ctrl", "alt", "cmd" }, "O", showNowPlayingHUD)
+bind({ "ctrl", "alt", "cmd" }, "O", "Show current Spotify track", showNowPlayingHUD)
 
 -- Little utility to get app IDs
-hk.bind({ "ctrl", "alt", "cmd" }, "I", function()
+bind({ "ctrl", "alt", "cmd" }, "I", "Show frontmost app bundle ID", function()
 	local id = app.frontmostApplication():bundleID()
 	hs.alert.show(id) -- pops a toast on screen
 	hs.pasteboard.setContents(id) -- also copies it to the clipboard
-end)
-
--- Add a keymap to show on screen all aveilable hammerspoon hotkeys
-hk.bind({ "ctrl", "alt", "cmd" }, "H", function()
-	-- For now we will just show all hotkeys in an alert
-	-- We also, for now, will simply list the hotkeys defined in this init.lua file
-	-- We will improve this later
-	local hotkeys = {
-		"Cmd+Alt+Ctrl+W: Show Hello World alert",
-		"Ctrl+Alt+Cmd+C: Move mouse to screen center",
-		"Ctrl+Alt+Cmd+U: Move mouse to screen upper-left\n",
-		"Ctrl+Shift+1: Launch Safari",
-		"Ctrl+Shift+2: Launch Kitty",
-		"Ctrl+Shift+3: Launch Slack",
-		"Ctrl+Shift+4: Launch Claude",
-		"Ctrl+Shift+5: Launch Mail",
-		"Ctrl+Shift+6: Launch Spotify",
-		"Ctrl+Shift+7: Launch Todoist",
-		"Ctrl+Shift+8: Launch Whatsapp",
-		"Ctrl+Shift+9: Launch Ghostty",
-		"Ctrl+Shift+0: Launch Firefox\n",
-		"Ctrl+Alt+Cmd+B: Center focused window almost full",
-		"Ctrl+Alt+Cmd+N: Center all visible windows almost full",
-		"Ctrl+Alt+Cmd+G: Center all visible windows",
-		"Ctrl+Alt+Cmd+M: Maximize all visible windows",
-		"Ctrl+Alt+Cmd+I: Show frontmost app bundle ID",
-		"Ctrl+Alt+Cmd+D: Toggle light/dark mode\n",
-		"Ctrl+Alt+Cmd+P: Spotify play/pause",
-		"Ctrl+Alt+Cmd+]: Spotify next track",
-		"Ctrl+Alt+Cmd+[: Spotify previous track",
-		"Ctrl+Alt+Cmd+O: Show current Spotify track\n",
-		"Ctrl+Alt+Cmd+A: Keep the Mac awake for a chosen duration\n",
-		"Ctrl+Alt+Cmd+H: Show this help message",
-		"Ctrl+Alt+Cmd+K: Show cheat sheet",
-	}
-	-- hs.alert.show(table.concat(hotkeys, "\n"), 10) -- show for 10 seconds
-	hs.alert.show(table.concat(hotkeys, "\n"), {
-		atScreenEdge = 1,
-		padding = 35,
-	}, 5)
-end)
-
--- A better cheat sheet using hs.chooser
-local cheatSheetData = {
-	{ text = "Show Hello World alert", subText = "Cmd + Alt + Ctrl + W" },
-	{ text = "Move mouse to screen center", subText = "Ctrl + Alt + Cmd + C" },
-	{ text = "Move mouse to screen upper-left", subText = "Ctrl + Alt + Cmd + U" },
-	{ text = "Launch Safari", subText = "Ctrl + Shift + 1" },
-	{ text = "Launch Kitty", subText = "Ctrl + Shift + 2" },
-	{ text = "Launch Slack", subText = "Ctrl + Shift + 3" },
-	{ text = "Launch Claude", subText = "Ctrl + Shift + 4" },
-	{ text = "Launch Mail", subText = "Ctrl + Shift + 5" },
-	{ text = "Launch Spotify", subText = "Ctrl + Shift + 6" },
-	{ text = "Launch Todoist", subText = "Ctrl + Shift + 7" },
-	{ text = "Launch Whatsapp", subText = "Ctrl + Shift + 8" },
-	{ text = "Launch Ghostty", subText = "Ctrl + Shift + 9" },
-	{ text = "Launch Firefox", subText = "Ctrl + Shift + 0" },
-	{ text = "Center focused window almost full", subText = "Ctrl + Alt + Cmd + B" },
-	{ text = "Center all visible windows almost full", subText = "Ctrl + Alt + Cmd + N" },
-	{ text = "Center all visible windows", subText = "Ctrl + Alt + Cmd + G" },
-	{ text = "Maximize all visible windows", subText = "Ctrl + Alt + Cmd + M" },
-	{ text = "Show frontmost app bundle ID", subText = "Ctrl + Alt + Cmd + I" },
-	{ text = "Toggle light/dark mode", subText = "Ctrl + Alt + Cmd + D" },
-	{ text = "Spotify play/pause", subText = "Ctrl + Alt + Cmd + P" },
-	{ text = "Spotify next track", subText = "Ctrl + Alt + Cmd + ]" },
-	{ text = "Spotify previous track", subText = "Ctrl + Alt + Cmd + [" },
-	{ text = "Show current Spotify track", subText = "Ctrl + Alt + Cmd + O" },
-	{ text = "Keep the Mac awake", subText = "Ctrl + Alt + Cmd + A" },
-	{ text = "Show help message", subText = "Ctrl + Alt + Cmd + H" },
-	{ text = "Show cheat sheet", subText = "Ctrl + Alt + Cmd + K" },
-}
-
--- Create the chooser object
-local cheatSheetChooser = hs.chooser.new(function(choice)
-	if not choice then
-		return
-	end
-	local choice_title_text = choice.text .. " (" .. choice.subText .. ")"
-	hs.alert.show(choice_title_text)
-end)
-cheatSheetChooser:choices(cheatSheetData)
-hk.bind({ "ctrl", "alt", "cmd" }, "K", function()
-	cheatSheetChooser:show()
 end)
 
 -- Keep the Mac awake for a chosen duration, driven by Amphetamine
@@ -386,6 +310,18 @@ keepAwakeChooser:choices(keepAwakeChoices)
 keepAwakeChooser:rows(#keepAwakeChoices)
 keepAwakeChooser:placeholderText("Keep awake for…")
 
-hk.bind({ "ctrl", "alt", "cmd" }, "A", function()
+bind({ "ctrl", "alt", "cmd" }, "A", "Keep the Mac awake", function()
 	keepAwakeChooser:show()
+end)
+
+-- Searchable cheat sheet of every hotkey registered through bind()
+local cheatSheetChooser = hs.chooser.new(function(choice)
+	if not choice then
+		return
+	end
+	hs.alert.show(choice.text .. " (" .. choice.subText .. ")")
+end)
+bind({ "ctrl", "alt", "cmd" }, "K", "Show cheat sheet", function()
+	cheatSheetChooser:choices(bindings)
+	cheatSheetChooser:show()
 end)
