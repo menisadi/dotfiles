@@ -287,6 +287,30 @@ local keepAwakeChoices = {
 	{ text = "Off", subText = "End the current session", off = true },
 }
 
+-- Ctrl-J / Ctrl-K move the selection while a chooser is visible
+local function vimNav(chooser, count)
+	local function step(delta)
+		return function()
+			local n = count()
+			chooser:selectedRow((chooser:selectedRow() - 1 + delta) % n + 1)
+		end
+	end
+	local keys = {}
+	for key, delta in pairs({ j = 1, k = -1 }) do
+		keys[#keys + 1] = hk.new({ "ctrl" }, key, step(delta), nil, step(delta))
+	end
+	chooser:showCallback(function()
+		for _, k in ipairs(keys) do
+			k:enable()
+		end
+	end)
+	chooser:hideCallback(function()
+		for _, k in ipairs(keys) do
+			k:disable()
+		end
+	end)
+end
+
 local keepAwakeChooser = hs.chooser.new(function(choice)
 	if not choice then
 		return
@@ -309,6 +333,9 @@ end)
 keepAwakeChooser:choices(keepAwakeChoices)
 keepAwakeChooser:rows(#keepAwakeChoices)
 keepAwakeChooser:placeholderText("Keep awake for…")
+vimNav(keepAwakeChooser, function()
+	return #keepAwakeChoices
+end)
 
 bind({ "ctrl", "alt", "cmd" }, "A", "Keep the Mac awake", function()
 	keepAwakeChooser:show()
@@ -320,6 +347,9 @@ local cheatSheetChooser = hs.chooser.new(function(choice)
 		return
 	end
 	hs.alert.show(choice.text .. " (" .. choice.subText .. ")")
+end)
+vimNav(cheatSheetChooser, function()
+	return #bindings
 end)
 bind({ "ctrl", "alt", "cmd" }, "K", "Show cheat sheet", function()
 	cheatSheetChooser:choices(bindings)
