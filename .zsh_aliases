@@ -585,12 +585,21 @@ callidx() {
  call index -l --color always "$@" | bidi_fix
 }
 
+# Pick a call with fzf: enter shows it, ctrl-y copies its hash to the clipboard.
 callfzf() {
- local hash
- hash=$(call index -l --color always --limit 1000 "$@" \
-  | fzf --ansi --no-sort \
+ local out key hash
+ out=$(call index -l --color always --limit 1000 "$@" \
+  | fzf --ansi --no-sort --expect=ctrl-y \
+   --header 'enter: show • ctrl-y: copy id' \
    --preview 'call show --color always $(grep -oE "#[0-9a-f]+" <<< {} | tr -d "#") | bidi_fix | bat --paging=never --color=never --style=plain' \
-   --preview-window 'down,65%,border-top,wrap' \
-  | grep -oE '#[0-9a-f]+' | tr -d '#')
- [[ -n "$hash" ]] && call show --color always "$hash" | bidi_fix | bat --paging=always --color=never --style=plain
+   --preview-window 'down,65%,border-top,wrap') || return
+ key=$(head -1 <<< "$out")
+ hash=$(tail -n +2 <<< "$out" | grep -oE '#[0-9a-f]+' | tr -d '#')
+ [[ -z "$hash" ]] && return
+
+ if [[ "$key" == "ctrl-y" ]]; then
+  printf %s "$hash" | pbcopy && echo "Copied $hash"
+ else
+  call show --color always "$hash" | bidi_fix | bat --paging=always --color=never --style=plain
+ fi
 }
