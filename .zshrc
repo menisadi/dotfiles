@@ -3,10 +3,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Preventing vi-mode from overriding fzf's keybindings
-zvm_after_init_commands+=('[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && bindkey -r "^r" && bindkey "^f" fzf-history-widget')
+# (zvm runs these with a local `commands` shadowing zsh's $commands, so use whence)
+zvm_after_init_commands+=('fzf_bin="$(whence -p fzf)" && _zsh_cache_eval "fzf-init" "fzf --zsh" "$fzf_bin" && bindkey -r "^r" && bindkey "^f" fzf-history-widget')
 zvm_after_init_commands+=('[ -f "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/navi-widget.zsh" ] && source "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/navi-widget.zsh"')
 
-source $(brew --prefix)/opt/antidote/share/antidote/antidote.zsh
+source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
 antidote load
 autoload -Uz promptinit && promptinit && prompt powerlevel10k 
 
@@ -39,7 +40,7 @@ _zsh_cache_eval() {
   [[ -s "$cache_file" ]] && source "$cache_file"
 }
 
-if npm_bin="$(command -v npm 2>/dev/null)"; then
+if npm_bin="${commands[npm]}"; [[ -n "$npm_bin" ]]; then
   npm_cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
   npm_prefix_cache="$npm_cache_dir/npm-prefix"
   mkdir -p "$npm_cache_dir"
@@ -54,19 +55,19 @@ if npm_bin="$(command -v npm 2>/dev/null)"; then
   fi
 fi
 
-if zoxide_bin="$(command -v zoxide 2>/dev/null)"; then
+if zoxide_bin="${commands[zoxide]}"; [[ -n "$zoxide_bin" ]]; then
   _zsh_cache_eval "zoxide-init" "zoxide init --cmd cd zsh" "$zoxide_bin"
 fi
-if uv_bin="$(command -v uv 2>/dev/null)"; then
+if uv_bin="${commands[uv]}"; [[ -n "$uv_bin" ]]; then
   _zsh_cache_eval "uv-completion" "uv generate-shell-completion zsh" "$uv_bin"
 fi
-if atuin_bin="$(command -v atuin 2>/dev/null)"; then
+if atuin_bin="${commands[atuin]}"; [[ -n "$atuin_bin" ]]; then
   _zsh_cache_eval "atuin-init" "atuin init zsh" "$atuin_bin"
 fi
-if rbenv_bin="$(command -v rbenv 2>/dev/null)"; then
-  _zsh_cache_eval "rbenv-init" "rbenv init - zsh" "$rbenv_bin"
+if rbenv_bin="${commands[rbenv]}"; [[ -n "$rbenv_bin" ]]; then
+  _zsh_cache_eval "rbenv-init-norehash" "rbenv init - --no-rehash zsh" "$rbenv_bin"
 fi
-if navi_bin="$(command -v navi 2>/dev/null)"; then
+if navi_bin="${commands[navi]}"; [[ -n "$navi_bin" ]]; then
   _zsh_cache_eval "navi-widget" "navi widget zsh" "$navi_bin"
 fi
 
@@ -84,7 +85,5 @@ fi
 
 # export BAT_THEME="Catppuccin Mocha"
 
-# source <(fzf --zsh)
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zsh_keys ] && source ~/.zsh_keys
 [[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
