@@ -184,8 +184,16 @@ bejwc() {
  bejw list --format jsonl |
   jq -r '[.url, .title] | @tsv' |
   while IFS=$'\t' read -r url title; do
-   words=$(trafilatura -u "$url" --output-format txt 2>/dev/null | wc -w | tr -d ' ')
+   words=$(webread "$url" 2>/dev/null | wc -w | tr -d ' ')
    printf "%6s  %s\n" "$words" "$title"
+  done
+}
+
+# Cache unread bejw articles (up to 15) for offline reading via webread.
+bjsync() {
+ bejw list --format jsonl | jq -r .url | head -n 15 |
+  while read -r url; do
+   webread --quiet "$url" && echo "✓ $url" || echo "✗ $url"
   done
 }
 
