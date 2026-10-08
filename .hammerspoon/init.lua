@@ -267,6 +267,17 @@ bind({ "ctrl", "alt", "cmd" }, "I", "Show frontmost app bundle ID", function()
 	hs.pasteboard.setContents(id) -- also copies it to the clipboard
 end)
 
+-- OCR a screen region with macOCR (result goes to the clipboard)
+bind({ "ctrl", "alt", "cmd" }, "R", "OCR screen region to clipboard", function()
+	hs.task
+		.new("/opt/homebrew/bin/ocr", function(code, out)
+			if code == 0 and out ~= "" then
+				hs.alert.show("OCR → clipboard")
+			end
+		end)
+		:start()
+end)
+
 -- Keep the Mac awake for a chosen duration, driven by Amphetamine
 local function amphetamine(command)
 	local ok, _, err = hs.osascript.applescript('tell application "Amphetamine" to ' .. command)
