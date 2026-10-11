@@ -352,6 +352,27 @@ bind({ "ctrl", "alt", "cmd" }, "A", "Keep the Mac awake", function()
 	keepAwakeChooser:show()
 end)
 
+-- Show how much of the current keep-awake session is left
+local function amphetamineGet(property)
+	local ok, result = hs.osascript.applescript('tell application "Amphetamine" to get ' .. property)
+	return ok and result or nil
+end
+
+bind({ "ctrl", "alt", "cmd" }, "T", "Show keep-awake time left", function()
+	if not amphetamineGet("session is active") then
+		hs.alert.show("Awake: off")
+		return
+	end
+	local secs = amphetamineGet("session time remaining") or 0
+	if secs <= 0 then
+		hs.alert.show("Awake: indefinitely")
+		return
+	end
+	local h, m = secs // 3600, (secs % 3600) // 60
+	local text = h > 0 and string.format("%dh %dm", h, m) or string.format("%dm", math.max(m, 1))
+	hs.alert.show("Awake: " .. text .. " left")
+end)
+
 -- Searchable cheat sheet of every hotkey registered through bind()
 local cheatSheetChooser = hs.chooser.new(function(choice)
 	if not choice then
