@@ -590,13 +590,13 @@ export FZF_CTRL_R_OPTS=$'
 
 # --- calls ---
 callidx() {
- call index -l --color always "$@" | bidi_fix
+ call ls --color always "$@" | bidi_fix | less -RSFX
 }
 
 # Pick a call with fzf: enter shows it, ctrl-y copies its hash to the clipboard.
 callfzf() {
  local out key hash
- out=$(call index -l --color always --limit 1000 "$@" \
+ out=$(call ls --color always --limit 1000 "$@" \
   | fzf --ansi --no-sort --expect=ctrl-y \
    --header 'enter: show • ctrl-y: copy id' \
    --preview 'call show --color always $(grep -oE "#[0-9a-f]+" <<< {} | tr -d "#") | bidi_fix | bat --paging=never --color=never --style=plain' \
