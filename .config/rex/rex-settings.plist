@@ -1070,7 +1070,7 @@
 	<key>Workspace.inactivePaneFadeMode</key>
 	<string>both</string>
 	<key>Workspace.interfaceStyle</key>
-	<string>blendTheme</string>
+	<string>useTheme</string>
 	<key>Workspace.lightThemeID</key>
 	<string>custom-C26A9746-8F7A-4FB6-8407-C5F715D94C52</string>
 	<key>Workspace.terminalFallbackFontNames</key>
