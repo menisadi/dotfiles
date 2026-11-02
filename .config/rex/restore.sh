@@ -11,7 +11,7 @@ if pgrep -x Rex >/dev/null; then
   exit 1
 fi
 
-for key in $(plutil -convert json -o - "$src" | python3 -c 'import json,sys; print(*json.load(sys.stdin))'); do
+for key in $(python3 -I -c 'import plistlib,sys; print(*plistlib.load(open(sys.argv[1], "rb")))' "$src"); do
   type=$(plutil -type "${key//./\\.}" "$src")
   if [[ $type == array ]]; then
     items=("${(@f)$(plutil -extract "${key//./\\.}" json -o - "$src" | python3 -c 'import json,sys; print(*json.load(sys.stdin), sep="\n")')}")
