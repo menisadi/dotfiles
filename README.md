@@ -80,6 +80,12 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 Then open Tmux and press `prefix + I` to install plugins.
 
+9. **(Rex only)** Rex keeps font, theme and option-key settings in macOS preferences, not in `init.lua`. After `stow .`, quit Rex and restore them:
+```bash
+~/.config/rex/restore.sh
+```
+> After changing settings in Rex, run `~/.config/rex/backup.sh` and commit the updated `rex-settings.plist`.
+
 ## AI Agents Configuration
 
 The `.agents/` directory is managed by Stow and contains shared configuration for AI coding agents:
