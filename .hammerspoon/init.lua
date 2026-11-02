@@ -86,6 +86,8 @@ local launchers = {
 	{ key = "8", name = "WhatsApp", id = "net.whatsapp.WhatsApp" },
 	{ key = "9", name = "Ghostty", id = "com.mitchellh.ghostty" },
 	{ key = "0", name = "Firefox", id = "org.mozilla.firefox" },
+	-- Temporary: trying out the new Rex terminal
+	{ key = "=", name = "Rex", id = "com.superlogical.rex" },
 }
 for _, l in ipairs(launchers) do
 	bind({ "ctrl", "shift" }, l.key, "Launch " .. l.name, function()
