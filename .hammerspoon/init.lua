@@ -136,6 +136,10 @@ bind({ "ctrl", "alt", "cmd" }, "D", "Toggle light/dark mode", function()
 	]])
 end)
 
+bind({ "ctrl", "alt", "cmd" }, "L", "Set brightness to max", function()
+	hs.brightness.set(100)
+end)
+
 bind({ "ctrl", "alt", "cmd" }, "B", "Center focused window almost full", centerAlmostFull)
 bind({ "ctrl", "alt", "cmd" }, "N", "Center all visible windows almost full", centerAlmostFullAll)
 bind({ "ctrl", "alt", "cmd" }, "M", "Maximize all visible windows", maximizeAll)
