@@ -611,3 +611,12 @@ callfzf() {
   call show --color always "$hash" | bidi_fix | bat --paging=always --color=never --style=plain
  fi
 }
+
+# --- git ---
+# Create a PR from the current branch, squash-merge it, then update main.
+shipit() {
+ local pr
+ pr=$(gh pr create --fill) || return 1
+ gh pr merge "$pr" --squash || return 1
+ git switch main && git pull origin main
+}
