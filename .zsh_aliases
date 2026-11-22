@@ -303,7 +303,7 @@ _llmsh_impl() {
 }
 
 llmsh() { _llmsh_impl "gemini-3.8-flash" "$@"; }
-ollmsh() { _llmsh_impl "mlx-community/Qwen2.5-Coder-3B-Instruct-4bit" "$@"; }
+ollmsh() { _llmsh_impl "mlx-community/Qwen3-4B-Instruct-2507-4bit" "$@"; }
 alias ai=llmsh
 alias oai=ollmsh
 
@@ -311,8 +311,8 @@ ask() { llm -m "gemini-3.8-flash" -t terse "$@"; }
 # gum spin leaks terminal capability-query escape sequences (e.g. /2026;2$y[?2027;1$y[?1u_) after it exits.
 # Spinner temporarily removed until that's fixed; restore by wrapping with:
 # gum spin --show-output --spinner dot --title "Thinking..." -- ...
-oask() { llm -m mlx-community/Qwen2.5-3B-Instruct-4bit -t terse -o max_tokens 4096 "$@"; }
-oaskf() { llm -m mlx-community/Qwen2.5-3B-Instruct-4bit -t terse "$@"; }
+oask() { llm -m mlx-community/Qwen3-4B-Instruct-2507-4bit -t terse -o max_tokens 4096 "$@"; }
+oaskf() { llm -m mlx-community/Qwen3-4B-Instruct-2507-4bit -t terse "$@"; }
 
 # --- jira ---
 jel() {
